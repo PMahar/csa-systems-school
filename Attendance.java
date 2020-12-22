@@ -10,7 +10,7 @@ public class Attendance {
    * This is to be used at the beginning of a class to show which students are absent and those who are not
    * */
   public void Attendance(){
-    int[] ids;
+    int[] ids = new int[10];
     Scanner scan = new Scanner(System.in);
     System.out.println("What are the id's of the tardy students?");
     int i = 0;

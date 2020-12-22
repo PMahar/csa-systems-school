@@ -39,5 +39,5 @@ public class Student {
 //    for (int i = 0; i < st.studClasses.length; i++) {
 //      System.out.println(st.studClasses[i]);
 //    }
-  }
+//  }
 }
