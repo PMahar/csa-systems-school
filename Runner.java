@@ -10,56 +10,45 @@ public class Runner{
     String[] courses = new String[1];
     String[] expand = new String[courses.length + 1];
     Grades grades = new Grades();
-    Attendance attend = new Attendance();
     Student st = new Student();
     int studentCount = 0;
     Scanner scan = new Scanner(System.in);
     System.out.println();
-    System.out.println("Edit attendance - 1 | Edit grades - 2 | Modify student information - 3 | Quit - 4");
+    System.out.println("Edit grades - 1 | Modify student information - 2 | Quit - 3");
     System.out.print("Please select an option: ");
-      switch(scan.nextInt()) {
-        // TODO: add code here to continue to attendance prompt
-        case 1:
-          attend.Attendance();
-
-        case 2:
-          System.out.println("Do you want to change students grade or view their grades");
-          if (scan.next().contains("iew")) {
-            System.out.println("What is the id of the student you would like to view");
-            grades.checkGrades(scan.nextInt());
-          } else if (scan.next().contains("hange")) {
-            grades.gradeStuds();
-          }
-        case 3:
-          System.out.println("View Roster - 1 | Modify roster - 2 | Back - 3");
-          System.out.print("Please select an option: ");
-          String[] classes = new String[5];
-          int cindex = classes.length;
-          switch (scan.nextInt()) {
-            case 1:
-              st.printRoster();
-
-            case 2:
-              System.out.println("ADD STUDENT:");
-              System.out.print("Student IDs (Enter '0' to complete)");
-              //System.out.println(scan.nextLine().length());
-              while (true) {
-                int id = scan.nextInt();
-                while (id != 0) {
-                  st.newStudent(id);
-                  id = scan.nextInt();
-                }
-                break;
+    switch(scan.nextInt()) {
+      case 1: // Edit grades
+        grades.useGrades(); // Send the user to the grade use prompt
+        break;
+      case 2: // Modify student info
+        System.out.println("View Roster - 1 | Modify roster - 2 | Back - 3");
+        System.out.print("Please select an option: ");
+        String[] classes = new String[5];
+        int cindex = classes.length;
+        switch (scan.nextInt()) {
+          case 1: // View class roster
+            st.printRoster();
+ 	    break;
+          case 2: // Modify class roster
+            System.out.println("ADD STUDENT:");
+            System.out.print("Student IDs (Enter '0' to complete)");
+            //System.out.println(scan.nextLine().length());
+            while (true) { // while true add given student id's to roster
+              int id = scan.nextInt();
+              while (id != 0) {
+                st.newStudent(id);
+                id = scan.nextInt();
               }
-              st.printRoster();
-              String[] courseList = st.addCourses();
-              main(args);
-
-            default:
-              main(args);
-          }
-
-
+              break;
+            }
+            st.printRoster(); // Print the new roster
+            String[] courseList = st.addCourses();
+            main(args);
+          default:
+            main(args);
+        }
+	break;
+          
 /*        case 3:
           System.out.println("View Roster - 1 | Modify roster - 2 | Modify enrolled courses - 3 | Back - 4");
           System.out.print("Please select an option: ");
@@ -100,28 +89,21 @@ public class Runner{
               main(cliArgs);
           }
           */
-
         default:
           System.out.println();
           System.exit(0);
       }
-      System.out.println("Would you like to continue?");
-      if (scan.next().contains("es")) {
-        System.out.println("Are you conducting attendance, or are you dealing with grades?");
-        if (scan.next().contains("ttendance")) {
-          // TODO: add code here to continue to attendance prompt
-          attend.Attendance();
-        } else /*if(scan.next().contains("rades"))*/ {
-          System.out.println("Do you want to change students grade or view their grades");
-          if (scan.next().contains("iew")) {
-            System.out.println("What is the id of the student you would like to view");
-            grades.checkGrades(scan.nextInt());
-          } else if (scan.next().contains("hange")) {
-            grades.gradeStuds();
-          }
-        }
-      } else {
-        System.exit(0);
-      }
+      System.out.println("Continue - 1 | Quit - 2");
+      switch(scan.nextInt()) {
+	case 1:
+
+	  break;
+	default: 
+	System.exit(0);
+ 	  break;
+	default:
+	  System.exit(0);
+	  break;
+	}
   }
 }

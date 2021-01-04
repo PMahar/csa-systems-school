@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 /**
  * This will be used to get/ set and interface with grades
  * */
@@ -17,7 +18,22 @@ public class Grades {
     // TODO: get the students grades from somewhere
     printGrades();
   }
-  
+  public void gradeUse(){
+    Scanner scan = new Scanner(System.in);
+    System.out.println("Change grades - 1 | View grades - 2");
+    switch(scan.nextInt()) {
+      case 1:
+        grades.gradeStuds();
+        break;
+      case 2:
+	System.out.println("What is the student id to view");
+	grades.checkGrades(scan.nextInt());
+	break;
+      default:
+	      break;
+		  }
+}  
+
   /**
    * This is the method used for a teacher to change a students grade
    * */
