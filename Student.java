@@ -25,7 +25,7 @@ public class Student {
     for (int i = 0; i < students.length; i++) {
       studBackup[i] = students[i];
     }
-//debug:
+// debug:
 //    for (int x = 0; x < backup.length; x++) {
 //      System.out.println("BACKUP: " + backup[x]);
 //    }
@@ -35,8 +35,8 @@ public class Student {
   }
 
   public String[] addCourses() {
-    Scanner cst = new Scanner(System.in); //token-based
-    Scanner csl = new Scanner(System.in); //line-based
+    Scanner cst = new Scanner(System.in); // token-based
+    Scanner csl = new Scanner(System.in); // line-based
     String course = "";
     String[] enrollments = new String[students.length];
     for (int i = 0; i < students.length; i++) {
