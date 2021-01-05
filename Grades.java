@@ -10,6 +10,7 @@ public class Grades {
   // calc grade, quarter1, quarter2, quarter3,quarter4}
   int[] grades = new int[8]; // TODO: Figure out what we want the "example"/ default grades to be
   private Runner run = new Runner();
+  private Scanner scan = new Scanner(System.in);
   
   /**
    * This is the method to check a student's grades
@@ -24,8 +25,8 @@ public class Grades {
       gradeUse();
     } else {
       printGrades();
-      run.main(null);
     }
+    run.main(null);
   }
   
   /**
@@ -49,8 +50,8 @@ public class Grades {
           printQuarterGrades();
           break;
       }
-      run.main(null);
     }
+    run.main(null);
   }
   
   /** 
@@ -76,10 +77,8 @@ public class Grades {
             break;
         }
         break;
-      default:
-        run.main(null);
-        break;
     }
+    run.main(null);
 }  
 
   /**
@@ -125,7 +124,7 @@ public class Grades {
             gradeQuarter(3);
             break;
           case 4:
-            gradeQuarter;
+            gradeQuarter(4);
             break;
           default:
             System.out.println("Invalid response. Quiting");
@@ -202,6 +201,7 @@ public class Grades {
         System.out.println(class1 + " grade is: " + grades[i]);
       }
     }
+    run.main(null);
   }
   
   /**
