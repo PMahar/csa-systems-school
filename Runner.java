@@ -18,7 +18,7 @@ public class Runner{
     System.out.print("Please select an option: ");
     switch(scan.nextInt()) {
       case 1: // Edit grades
-        //grades.useGrades(); // Send the user to the grade use prompt
+        grades.gradeUse(); // Send the user to the grade use prompt
         break;
       case 2: // Modify student info
         System.out.println();
