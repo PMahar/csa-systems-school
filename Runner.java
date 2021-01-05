@@ -3,7 +3,6 @@ import java.util.Scanner;
 /**
  * The "starter" of this program
  * */
-
 public class Runner{
   public static Student st = new Student();
   public static Grades grades = new Grades(); // Declare these here so we don't overwrite them

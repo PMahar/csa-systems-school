@@ -1,4 +1,4 @@
- import java.util.Scanner;
+import java.util.Scanner;
 
 /**
  * This will be used to get/ set and interface with grades
@@ -9,13 +9,13 @@ public class Grades {
   // grades = {Anthro grade, compsci grade, chem grade, 
   // calc grade, quarter1, quarter2, quarter3,quarter4}
   int[] grades = new int[8]; // TODO: Figure out what we want the "example"/ default grades to be
+  private Runner run = new Runner();
   
   /**
    * This is the method to check a student's grades
    * @param id the id of the student to check grades of
    * */
   public void checkGrades(int id){
-    Runner run = new Runner();
     // TODO: get the students grades from somewhere
     int[] zeros = {0,0,0,0,0,0,0,0};
     // TODO: Add a check to see if the student already exists
@@ -28,11 +28,35 @@ public class Grades {
     }
   }
   
+  /**
+   *  This is the method to check a student's grades
+   * @param id the id of the student to check grades of
+   * @param type is 'c' if wanted to print the class grades, is 'q' if you want the quarter grades to be printed
+   * */
+  public void checkGrades(int id, char type){
+    // TODO: get the students grades from somewhere
+    int[] zeros = {0,0,0,0,0,0,0,0};
+    // TODO: Add a check to see if the student already exists
+    if (grades == null){
+      System.out.println("Please add grades first"); 
+      gradeUse();
+    } else {
+      switch (type){
+        case 'c':
+          printClassGrades();
+          break;
+        case 'q':
+          printQuarterGrades();
+          break;
+      }
+      run.main(null);
+    }
+  }
+  
   /** 
    * This is the main interface for grading/ checking grades
    * */
   public void gradeUse(){
-    Runner run = new Runner();
     Scanner scan = new Scanner(System.in);
     System.out.println("Change grades - 1 | View grades - 2");
     switch(scan.nextInt()) {
@@ -40,8 +64,17 @@ public class Grades {
         gradeStuds();
         break;
       case 2: // If the user decides to  view grades
-        System.out.println("What is the student id to view");
-        checkGrades(scan.nextInt());
+        System.out.println(" Class Grades - 1 | Quarter Grades - 2");
+        switch (scan.nextInt()){
+          case 1: // Class grades
+            checkGrades(scan.nextInt(),'c');
+            break;
+          case 2: // Quarter grades
+            checkGrades(scan.nextInt(),'q');
+            break;
+          default:
+            break;
+        }
         break;
       default:
         run.main(null);
@@ -53,7 +86,6 @@ public class Grades {
    * This is the method used for a teacher to change a students grade
    * */
   public void gradeStuds(){
-    Scanner scan = new Scanner(System.in);
     System.out.println("Please enter which of the following you are grading");
     System.out.println(" Anthropology - 1 | Computer Science - 2 | Chemistry - 3 | Calculus - 4 | Quit - 5 |");
     int choice = scan.nextInt(); // This is the choice of the user
@@ -76,27 +108,35 @@ public class Grades {
         
         break;
     }
-    System.out.println("WOuld you like the quarter grade to be graded for you?");
-    if(scan.next().contains("es")){
-      System.out.println("Is it the first, second, third, or fourth quarter?");
-      if(scan.next().contains("irst")){
-        
-      }
+    System.out.println("Would you like the quarter to be graded for you?");
+    System.out.println("Yes - 1 | No - 2");
+    switch (scan.nextInt()){
+      case 1: // Yes
+        System.out.println("Is it the 1st, 2nd, 3rd, 4th quarter?");
+        System.out.println("First Quarter - 1 | Second Quarter - 2 | Third Quarter - 3 | Fourth Quarter - 4");
+        switch (scan.nextInt()){
+          case 1:
+            gradeQuarter(1);
+            break;
+          case 2:
+            gradeQuarter(2);
+            break;
+          case 3:
+            gradeQuarter(3);
+            break;
+          case 4:
+            gradeQuarter;
+            break;
+          default:
+            System.out.println("Invalid response. Quiting");
+            System.exit(0);
+            break;
     }
+      case 2: // No
+        break;
   }
-   
-  /**
-   * Set a quarter grade based upon given information
-   * @param quarter the quarter currently in session
-   * */
-  private void setQuarterGrade(int quarter){
-    int anthro = grades[0];
-    int compSci = grades[1];
-    int chem = grades[2];
-    int calc = grades[3];
-    int avg = ((anthro + compSci) + (chem + calc)) / 4;
-    setGrade(avg, (quarter + 3));
-  }
+    run.main(null);
+}
   
   /**
    * Prints the students grades
@@ -105,35 +145,91 @@ public class Grades {
     for(int i = 0; i < grades.length; i++){
       // Switch statement to add information to the output of grades
       switch(i){
-      case 0:
+      case 0: // Print the Anthropology grade
         System.out.print("Anthropology grade is ");
         break;
-      case 1:
+      case 1: // Print the Computer Science grade
         System.out.print("Computer Science grade is ");
         break;
-      case 2:
+      case 2: // Print the Chemistry grade
         System.out.print("Chemistry grade is ");
         break;
-      case 3:
+      case 3: // Print the Calulus grade
         System.out.print("Calculus grade is ");
         break;
-      case 4:
+      case 4: // Print the first quarter grade
         System.out.print("Quarter 1 grade is ");
         break;
-      case 5:
+      case 5: // Print the second quarter grade
         System.out.print("Quarter 2 grade is ");
         break;
-      case 6:
+      case 6: // Print the third quarter grade
         System.out.print("Quarter 3 grade is ");
         break;
-      case 7:
-        System.out.print("Quarter 4 grade is ");
+      case 7: // Print the fourth quarter grade
+        System.out.print("Quarter 4 grade is: ");
         break;
         default:
           break;
       }
       System.out.println(grades[i]);
     }
+  }
+ 
+  /**
+   * Prints the class grades of the student
+   * */
+  public void printClassGrades(){
+    String class1 = ""; // This is used as a filler
+    for(int i = 0; i < grades.length; i++){
+      switch (i) {
+        case 0: // Anthropology
+          class1 = "Anthropology";
+          break;
+        case 1: // Comp Sci
+          class1 = "Computer Science";
+          break;
+        case 2: // Chemistry
+          class1 = "Chemistry";
+          break;
+        case 3: // Calculus
+          class1 = "Calculus";
+          break;
+        default:
+          break;
+      }
+      if (i < 4){
+        System.out.println(class1 + " grade is: " + grades[i]);
+      }
+    }
+  }
+  
+  /**
+   * 
+   * */
+  public void printQuarterGrades(){
+   String class1 = ""; // This is used as a filler
+   for(int i = 0; i < grades.length; i++){
+     switch (i) {
+       case 4: // First quarter
+         class1 = "Quarter one";
+         break;
+       case 5: // Second quarter
+         class1 = "Quarter two";
+         break;
+       case 6: // Third quarter
+         class1 = "Quarter three";
+         break;
+       case 7: // Fourth quarter
+         class1 = "Quarter four";
+         break;
+       default:
+         break;
+     }
+     if (i > 3){
+      System.out.println(class1 + " grade is: " + grades[i]); 
+     }
+   }
   }
 
   /**
@@ -144,4 +240,17 @@ public class Grades {
   private void setGrade(int grade, int index){
     grades[index] = grade;
   } 
+     
+  /**
+   * Set a quarter grade based upon given information
+   * @param quarter the quarter currently in session
+   * */
+  private void gradeQuarter(int quarter){
+    int anthro = grades[0];
+    int compSci = grades[1];
+    int chem = grades[2];
+    int calc = grades[3];
+    int avg = ((anthro + compSci) + (chem + calc)) / 4;
+    setGrade(avg, (quarter + 3));
+  }
 }
