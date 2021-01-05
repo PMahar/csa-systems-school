@@ -1,4 +1,4 @@
-/* import java.util.Scanner;
+ import java.util.Scanner;
 
 /**
  * This will be used to get/ set and interface with grades
@@ -14,7 +14,7 @@ public class Grades {
    * This is the method to check a student's grades
    * @param id the id of the student to check grades of
    * */
-  /*
+  
   public void checkGrades(int id){
     // TODO: get the students grades from somewhere
     printGrades();
@@ -24,22 +24,22 @@ public class Grades {
     System.out.println("Change grades - 1 | View grades - 2");
     switch(scan.nextInt()) {
       case 1:
-        grades.gradeStuds();
+        gradeStuds();
         break;
       case 2:
-	System.out.println("What is the student id to view");
-	grades.checkGrades(scan.nextInt());
-	break;
+ System.out.println("What is the student id to view");
+ checkGrades(scan.nextInt());
+ break;
       default:
-	      break;
-		  }
+       break;
+    }
 }  
-*/
+
   /**
    * This is the method used for a teacher to change a students grade
    * */
 
-  /*
+  
   public void gradeStuds(){
     Scanner scan = new Scanner(System.in);
     System.out.println("Are you grading Anthropology, Computer Science, Chemistry, or Calculus?");
@@ -66,13 +66,13 @@ public class Grades {
   }
 
 
-   */
+   
   /**
    * Set a quarter grade based upon given information
    * @param quarter the quarter currently in session
    * */
 
-  /*
+  
   private void setQuarterGrade(int quarter){
     int anthro = grades[0];
     int compSci = grades[1];
@@ -81,11 +81,11 @@ public class Grades {
     int avg = ((anthro + compSci) + (chem + calc)) / 4;
     setGrade(avg, (quarter + 3));
   }
-  */
+  
   /**
    * Prints the students grades
    * */
-  /*
+  
   public void printGrades(){
     for(int i = 0; i < grades.length; i++){
       // Switch statement to add information to the output of grades
@@ -121,17 +121,17 @@ public class Grades {
     }
   }
 
-  */
+  
   /**
    * Sets a value of grades[]
    * @param grade the value to change to
    * @param index the index of the value to change
    * */
 
-  /*
+  
   private void setGrade(int grade, int index){
     grades[index] = grade;
   }
 
-   */
+   
 }

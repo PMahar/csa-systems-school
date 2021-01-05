@@ -14,7 +14,6 @@ public class Runner{
     String[] expand = new String[courses.length + 1];
     int studentCount = 0;
     Scanner scan = new Scanner(System.in);
-    System.out.println();
     System.out.println("Edit grades - 1 | Modify student information - 2 | Quit - 3");
     System.out.print("Please select an option: ");
     switch(scan.nextInt()) {
