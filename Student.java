@@ -2,11 +2,10 @@ import java.util.Scanner;
 
 public class Student {
   private int sID;
-  private String[] sClasses;
-  int studentCount = 0;
-  String[] students = new String[studentCount];
-  String[] studBackup;
-  String[] classBackup;
+  private int studentCount = 0;
+  private String[] students = new String[studentCount];
+  private String[] studBackup;
+  private String[] enrollments;
 
   public Student() {
 
@@ -38,7 +37,7 @@ public class Student {
     Scanner cst = new Scanner(System.in); // token-based
     Scanner csl = new Scanner(System.in); // line-based
     String course = "";
-    String[] enrollments = new String[students.length];
+    this.enrollments = new String[students.length];
     for (int i = 0; i < students.length; i++) {
       System.out.print("ID " + students[i] + "- Number of enlisted courses: ");
       int enlist = cst.nextInt() - 1;
@@ -50,13 +49,13 @@ public class Student {
           course += csl.nextLine();
         }
       }
-      enrollments[i] = course;
+      this.enrollments[i] = course;
       course = "";
     }
 //    for (int x = 0; x < enrollments.length; x++) {
 //      System.out.println("enrollments: " + enrollments[x]);  debug
 //    }
-    return enrollments;
+    return this.enrollments;
   }
 
   public void printRoster(String[] enrollments) {
