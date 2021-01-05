@@ -35,26 +35,35 @@ public class Student {
   }
 
   public String[] addCourses() {
-    Scanner cs = new Scanner(System.in);
+    Scanner cst = new Scanner(System.in); //token-based
+    Scanner csl = new Scanner(System.in); //line-based
     String course = "";
     String[] enrollments = new String[students.length];
     for (int i = 0; i < students.length; i++) {
-      System.out.println("ID " + students[i] + "- Number of enlisted courses : ");
-      int enlist = cs.nextInt();
-      for (int j = 0; j < enlist; j++) {
+      System.out.print("ID " + students[i] + "- Number of enlisted courses: ");
+      int enlist = cst.nextInt() - 1;
+      for (int j = 0; j <= enlist; j++) {
         System.out.print("Course " + (j + 1) + " for student " + students[i] + ": ");
-        course += cs.nextLine() + ", ";
+        if (j != enlist) {
+          course += csl.nextLine() + ", ";
+        } else {
+          course += csl.nextLine();
+        }
       }
       enrollments[i] = course;
-      course = null;
+      course = "";
     }
+//    for (int x = 0; x < enrollments.length; x++) {
+//      System.out.println("enrollments: " + enrollments[x]);  debug
+//    }
     return enrollments;
   }
 
-  public void printRoster() {
+  public void printRoster(String[] enrollments) {
     System.out.println();
     for (int i = 0; i < students.length; i++) {
-      System.out.println("[" + students[i] + "]");
+      System.out.println("[" + students[i] + "]    " + "[" + enrollments[i] + "]");
     }
   }
+
 }
