@@ -5,13 +5,10 @@ import java.util.Scanner;
  * */
 public class Runner{
   public static Student st = new Student();
-  public static Grades grades = new Grades(); // Declare these here so we don't overwrite them
+  public static Grades grades = new Grades();        // Declare these here so we don't overwrite them
   public static String[] courseList = new String[0]; // when we call main(args) again
 
   public static void main(String[] args){
-    String[] courses = new String[1];
-    String[] expand = new String[courses.length + 1];
-    int studentCount = 0;
     Scanner scan = new Scanner(System.in);
     System.out.println();
     System.out.println("Edit grades - 1 | Modify student information - 2 | Quit - 3"); // Prompt the user
