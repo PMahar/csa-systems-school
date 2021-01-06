@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * The Student class will contain behaviors for accessing and setting values for course enrollments
+ * and the attendance roster. printRoster is also available to access and display the current roster.
+ */
+
 public class Student {
   private int sID;
   private int studentCount = 0;
@@ -7,9 +12,20 @@ public class Student {
   private String[] studBackup;
   private String[] enrollments;
 
+  /**
+   * No-arg constructor for class Student
+   */
+
   public Student() {
 
   }
+
+  /**
+   * Adds a student to the current roster. This is intended to be called multiple times
+   * over a while loop.
+   *
+   * @param id Integer id of each student
+   */
 
   public void newStudent(int id) {
     this.students = new String[studentCount + 1];
@@ -20,18 +36,18 @@ public class Student {
     }
     studentCount++;
     students[studentCount - 1] = "" + id;
-    this.studBackup = new String[students.length + 1];
+    studBackup = new String[students.length + 1];
     for (int i = 0; i < students.length; i++) {
       studBackup[i] = students[i];
     }
-// debug:
-//    for (int x = 0; x < backup.length; x++) {
-//      System.out.println("BACKUP: " + backup[x]);
-//    }
-//    for (int x = 0; x < students.length; x++) {
-//      System.out.println("STUDENTS: " + students[x]);
-//    }
   }
+
+  /**
+   * Submenu for adding courses per each student. Courses are concatenated into comma-separated
+   * strings in an array for each student.
+   *
+   * @return Array of enlisted courses, indexed by student
+   */
 
   public String[] addCourses() {
     Scanner cst = new Scanner(System.in); // token-based
@@ -52,11 +68,13 @@ public class Student {
       this.enrollments[i] = course;
       course = "";
     }
-//    for (int x = 0; x < enrollments.length; x++) {
-//      System.out.println("enrollments: " + enrollments[x]);  debug
-//    }
     return this.enrollments;
   }
+
+  /**
+   * Prints the current roster with course enrollments
+   * @param enrollments String array of courses (defined as this.enrollments)
+   */
 
   public void printRoster(String[] enrollments) {
     System.out.println();

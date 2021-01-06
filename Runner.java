@@ -1,12 +1,17 @@
 import java.util.Scanner;
 
 /**
- * The "starter" of this program
+ * Class Runner acts as a user interface, accessing and setting values from other classes
  * */
 public class Runner{
   public static Student st = new Student();
   public static Grades grades = new Grades();        // Declare these here so we don't overwrite them
   public static String[] courseList = new String[0]; // when we call main(args) again
+
+  /**
+   * Main
+   * @param args Command-line arguments
+   */
 
   public static void main(String[] args){
     Scanner scan = new Scanner(System.in);
@@ -21,8 +26,6 @@ public class Runner{
         System.out.println();
         System.out.println("View Roster - 1 | Modify roster - 2 | Back - 3"); // Prompt the user
         System.out.print("Please select an option: ");
-        String[] classes = new String[5];
-        int cindex = classes.length;
         switch (scan.nextInt()) {
           case 1: // View class roster
             if (courseList.length != 0) {
@@ -35,7 +38,6 @@ public class Runner{
           case 2: // Modify class roster
             System.out.println("ADD STUDENT:");
             System.out.println("Student IDs (Enter '0' to complete)");
-            // System.out.println(scan.nextLine().length());
             while (true) { // while true add given student id's to roster
               int id = scan.nextInt();
               while (id != 0) {

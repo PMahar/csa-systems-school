@@ -11,7 +11,7 @@ public class Grades {
   int[] grades = new int[8]; // TODO: Figure out what we want the "example"/ default grades to be
   private Runner run = new Runner();
   private Scanner scan = new Scanner(System.in);
-  
+
   /**
    * This is the method to check a student's grades
    * @param id the id of the student to check grades of
