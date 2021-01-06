@@ -14,6 +14,7 @@ public class Grades extends Student {
   private String[] gradeBack;
   private String[] avgGrade = new String[0];
   private int gradeCount = 0;
+  private int quarter = 0;
 
 
   public String[] getGrades() {
@@ -22,7 +23,7 @@ public class Grades extends Student {
 
   /**
    * Sets a students grades
-   * @param gradeSet 
+   * @param gradeSet The set of grades?
    * */
   public void setGrades(int[] gradeSet) {
     this.gradeBook = new String[gradeCount + 1]; // Create a String with grades
@@ -33,7 +34,7 @@ public class Grades extends Student {
     }
     gradeCount++;
     for (int i = 0; i < gradeSet.length - 1; i++) {
-      gradeBook[gradeCount - 1] = "" + gradeSet[i];
+      gradeBook[gradeCount - 1] = " " + gradeSet[i];
     }
     gradeBack = new String[gradeBook.length + 1];
     for (int i = 0; i < gradeBook.length; i++) {
@@ -72,6 +73,21 @@ public class Grades extends Student {
       }
     }
     return courseCount;
+  }
+  
+  /**
+   * Views grades?
+   * */
+  public void viewGrades(){
+    System.out.println();
+//    System.out.println("Gradebook: " + gradeBook);
+//    System.out.println("Gradeback: " + gradeBack);
+    for (int i = 0; i < gradeBook.length; i++) {
+      System.out.println("gradebook" + i + gradeBook[i]);
+    }
+    for (int i = 0; i < gradeBack.length; i++) {
+      System.out.println("gradeBack" + i + gradeBack[i]);
+    }
   }
 
 /*

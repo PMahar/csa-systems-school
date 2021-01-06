@@ -14,6 +14,7 @@ public class Runner{
    */
   public static void main(String[] args){
     Scanner scan = new Scanner(System.in);
+    System.out.println();
     System.out.println("WIP please be patient, some features might not work");
     System.out.println();
     System.out.println("Edit grades - 1 | Modify student information - 2 | Quit - 3"); // Prompt the user
@@ -21,7 +22,7 @@ public class Runner{
     switch(scan.nextInt()) {
       case 1: // Edit grades
         if (courseList.length != 0) { // If there is a list of courses
-        System.out.println("Edit Grades - 1 | View Grades - 2");
+        System.out.println("Edit Grades - 1 | *WIP* View Grades - 2");
         switch(scan.nextInt()){
           case 1: // Edit grades
             System.out.println();
@@ -37,15 +38,12 @@ public class Runner{
               grades.setGrades(qGrade); // Set the grades accordingly to values of qGrade
             }
             break;
-          case 2: // View grades
-            System.out.println("This feature is not yet functioning properly, hopefully this will work soon");
-           /*
-            System.out.println();
+          case 2: // View grades           
             st.printRoster(courseList); // Print the roster
             System.out.println();
             System.out.println("Student ID to view: ");
             idGrade = scan.nextInt();
-            */
+            grades.viewGrades();
             break;
         }
           } else { // If there aren't any courses listed
