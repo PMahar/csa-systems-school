@@ -3,19 +3,73 @@ import java.util.Scanner;
 /**
  * This will be used to get/ set and interface with grades
  * */
-public class Grades {
+public class Grades extends Student{
   
-  // int[] grades will be used to pass along grade value from 
+  // int[] grades will be used to pass along grade value from
   // grades = {Anthro grade, compsci grade, chem grade, 
   // calc grade, quarter1, quarter2, quarter3,quarter4}
-  int[] grades = new int[8]; // TODO: Figure out what we want the "example"/ default grades to be
-  private Runner run = new Runner();
-  private Scanner scan = new Scanner(System.in);
+  int[] grades = new int[0];
+  private String[] gradeBook;
+  private String[] gradeback;
+  private String[] avgGrade = new String[0];
+  private int gradeCount = 0;
 
+
+  public String[] getGrades() {
+    return this.gradeBook;
+  }
+
+  public void setGrades(int[] gradeSet) {
+    this.gradeBook = new String[gradeCount + 1];
+    if (!(gradeback == null)) {
+      for (int i = 0; i < gradeBook.length; i++) {
+        gradeBook[i] = gradeback[i];
+      }
+    }
+    gradeCount++;
+    for (int i = 0; i < gradeSet.length - 1; i++) {
+      gradeBook[gradeCount - 1] = "" + gradeSet[i];
+    }
+    gradeback = new String[gradeBook.length + 1];
+    for (int i = 0; i < gradeBook.length; i++) {
+      gradeback[i] = gradeBook[i];
+    }
+    for (int i = 0; i < gradeBook.length; i++) {
+      System.out.println("gradebook" + i + gradeBook[i]);
+    }
+    for (int i = 0; i < gradeback.length; i++) {
+      System.out.println("gradeback" + i + gradeback[i]);
+    }
+  }
+
+
+  public int courseCount(String[] courses, int id) {
+    int courseCount = 1;
+    int sIndex = 0;
+    for (int i = 0; i < students.length; i++) {
+      int stud = Integer.parseInt(students[i]);
+      if (stud == id) {
+        sIndex = i;
+      } else {
+        continue;
+      }
+    }
+    String clist = courses[sIndex];
+    int clen = courses[sIndex].length();
+    for (int i = 0; i < clen; i++) {
+      if (clist.charAt(i) == ',') {
+        courseCount++;
+      }
+    }
+    return courseCount;
+  }
+
+/*
   /**
    * This is the method to check a student's grades
    * @param id the id of the student to check grades of
    * */
+  /*
   public void checkGrades(int id){
     // TODO: get the students grades from somewhere
     int[] zeros = {0,0,0,0,0,0,0,0};
@@ -28,12 +82,14 @@ public class Grades {
     }
     run.main(null);
   }
-  
+  */
+  /*
   /**
    *  This is the method to check a student's grades
    * @param id the id of the student to check grades of
    * @param type is 'c' if wanted to print the class grades, is 'q' if you want the quarter grades to be printed
    * */
+  /*
   public void checkGrades(int id, char type){
     // TODO: get the students grades from somewhere
     int[] zeros = {0,0,0,0,0,0,0,0};
@@ -53,10 +109,11 @@ public class Grades {
     }
     run.main(null);
   }
-  
+
   /** 
    * This is the main interface for grading/ checking grades
    * */
+  /*
   public void gradeUse(){
     Scanner scan = new Scanner(System.in);
     System.out.println("Change grades - 1 | View grades - 2");
@@ -84,6 +141,7 @@ public class Grades {
   /**
    * This is the method used for a teacher to change a students grade
    * */
+  /*
   public void gradeStuds(){
     System.out.println("Please enter which of the following you are grading");
     System.out.println(" Anthropology - 1 | Computer Science - 2 | Chemistry - 3 | Calculus - 4 | Quit - 5 |");
@@ -140,6 +198,7 @@ public class Grades {
   /**
    * Prints the students grades
    * */
+  /*
   public void printGrades(){
     for(int i = 0; i < grades.length; i++){
       // Switch statement to add information to the output of grades
@@ -178,6 +237,7 @@ public class Grades {
   /**
    * Prints the class grades of the student
    * */
+  /*
   public void printClassGrades(){
     String class1 = ""; // This is used as a filler
     for(int i = 0; i < grades.length; i++){
@@ -207,6 +267,7 @@ public class Grades {
   /**
    * 
    * */
+  /*
   public void printQuarterGrades(){
    String class1 = ""; // This is used as a filler
    for(int i = 0; i < grades.length; i++){
@@ -237,6 +298,7 @@ public class Grades {
    * @param grade the value to change to
    * @param index the index of the value to change
    * */
+  /*
   private void setGrade(int grade, int index){
     grades[index] = grade;
   } 
@@ -245,6 +307,8 @@ public class Grades {
    * Set a quarter grade based upon given information
    * @param quarter the quarter currently in session
    * */
+
+  /*
   private void gradeQuarter(int quarter){
     int anthro = grades[0];
     int compSci = grades[1];
@@ -253,4 +317,5 @@ public class Grades {
     int avg = ((anthro + compSci) + (chem + calc)) / 4;
     setGrade(avg, (quarter + 3));
   }
+   */
 }

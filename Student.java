@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 public class Student {
   private int sID;
-  private int studentCount = 0;
-  private String[] students = new String[studentCount];
+  public int studentCount = 0;
+  public String[] students = new String[studentCount];
   private String[] studBackup;
-  private String[] enrollments;
+  public String[] enrollments;
 
   /**
    * No-arg constructor for class Student

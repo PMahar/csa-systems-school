@@ -20,8 +20,24 @@ public class Runner{
     System.out.print("Please select an option: ");
     switch(scan.nextInt()) {
       case 1: // Edit grades
-        grades.gradeUse(); // Send the user to the grade use prompt
-        break;
+        if (courseList.length != 0) {
+        System.out.println();
+        st.printRoster(courseList);
+        System.out.println();
+        System.out.print("Student ID to grade: ");
+        int idGrade = scan.nextInt();
+        int cCount = grades.courseCount(courseList, idGrade);
+        int[] qGrade = new int[cCount];
+          for (int i = 0; i < cCount; i++) {
+          System.out.println("Quarter grade for student " + idGrade + ", course " + (i + 1) + ": ");
+          qGrade[i] = scan.nextInt();
+          grades.setGrades(qGrade);
+        }
+        } else {
+          System.out.println("Please add a roster under 'Modify Roster.'");
+          main(args);
+        }
+        main(args);
       case 2: // Modify student info
         System.out.println();
         System.out.println("View Roster - 1 | Modify roster - 2 | Back - 3"); // Prompt the user
