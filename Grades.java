@@ -1,16 +1,17 @@
 import java.util.Scanner;
 
 /**
- * This will be used to get/ set and interface with grades
+ * This will be used to get / set and interface with grades
  * */
-public class Grades extends Student{
+public class Grades extends Student {
   
   // int[] grades will be used to pass along grade value from
   // grades = {Anthro grade, compsci grade, chem grade, 
   // calc grade, quarter1, quarter2, quarter3,quarter4}
   int[] grades = new int[0];
+  // TODO: comment and describe what these things are
   private String[] gradeBook;
-  private String[] gradeback;
+  private String[] gradeBack;
   private String[] avgGrade = new String[0];
   private int gradeCount = 0;
 
@@ -19,34 +20,43 @@ public class Grades extends Student{
     return this.gradeBook;
   }
 
+  /**
+   * Sets a students grades
+   * @param gradeSet 
+   * */
   public void setGrades(int[] gradeSet) {
-    this.gradeBook = new String[gradeCount + 1];
-    if (!(gradeback == null)) {
-      for (int i = 0; i < gradeBook.length; i++) {
-        gradeBook[i] = gradeback[i];
+    this.gradeBook = new String[gradeCount + 1]; // Create a String with grades
+    if (!(gradeBack == null)) {
+      for (int i = 0; i < gradeBook.length; i++) { // while i < gradeBook length assign gradeBook to the value of gradeBack
+        gradeBook[i] = gradeBack[i]; 
       }
     }
     gradeCount++;
     for (int i = 0; i < gradeSet.length - 1; i++) {
       gradeBook[gradeCount - 1] = "" + gradeSet[i];
     }
-    gradeback = new String[gradeBook.length + 1];
+    gradeBack = new String[gradeBook.length + 1];
     for (int i = 0; i < gradeBook.length; i++) {
-      gradeback[i] = gradeBook[i];
+      gradeBack[i] = gradeBook[i];
     }
     for (int i = 0; i < gradeBook.length; i++) {
       System.out.println("gradebook" + i + gradeBook[i]);
     }
-    for (int i = 0; i < gradeback.length; i++) {
-      System.out.println("gradeback" + i + gradeback[i]);
+    for (int i = 0; i < gradeBack.length; i++) {
+      System.out.println("gradeBack" + i + gradeBack[i]);
     }
   }
 
-
+  /**
+   * Gets the amount of course that a student is in?
+   * @param courses
+   * @param id the student id?
+   * @return amount of courses
+   * */
   public int courseCount(String[] courses, int id) {
     int courseCount = 1;
     int sIndex = 0;
-    for (int i = 0; i < students.length; i++) {
+    for (int i = 0; i < students.length; i++) { 
       int stud = Integer.parseInt(students[i]);
       if (stud == id) {
         sIndex = i;
