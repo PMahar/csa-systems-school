@@ -15,8 +15,6 @@ public class Runner{
   public static void main(String[] args){
     Scanner scan = new Scanner(System.in);
     System.out.println();
-    System.out.println("WIP please be patient, some features might not work");
-    System.out.println();
     System.out.println("Edit grades - 1 | Modify student information - 2 | Quit - 3"); // Prompt the user
     System.out.print("Please select an option: ");
     switch(scan.nextInt()) {

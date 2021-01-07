@@ -13,14 +13,6 @@ public class Student {
   public String[] enrollments;
 
   /**
-   * No-arg constructor for class Student
-   */
-
-  public Student() {
-
-  }
-
-  /**
    * Adds a student to the current roster. This is intended to be called multiple times
    * over a while loop.
    *
@@ -28,7 +20,10 @@ public class Student {
    */
 
   public void newStudent(int id) {
+    //Create an array, and procedurally back it up by copying its contents to
+    //another array of greater size after each iteration
     this.students = new String[studentCount + 1];
+    //If the backup exists, use it
     if (!(studBackup == null)) {
       for (int i = 0; i < students.length; i++) {
         students[i] = studBackup[i];
@@ -54,6 +49,8 @@ public class Student {
     Scanner csl = new Scanner(System.in); // line-based
     String course = "";
     this.enrollments = new String[students.length];
+    //For every student, prompt for classes to concatenate to a
+    //string array
     for (int i = 0; i < students.length; i++) {
       System.out.print("ID " + students[i] + "- Number of enlisted courses: ");
       int enlist = cst.nextInt() - 1;
