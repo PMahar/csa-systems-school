@@ -17,20 +17,21 @@ public class Student {
    * over a while loop.
    *
    * @param id Integer id of each student
+   * @param name Name of student to create
    */
 
-  public void newStudent(int id) {
-    //Create an array, and procedurally back it up by copying its contents to
-    //another array of greater size after each iteration
+  public void newStudent(int id, String name) {
+    // Create an array, and procedurally back it up by copying its contents to
+    // another array of greater size after each iteration
     this.students = new String[studentCount + 1];
-    //If the backup exists, use it
+    // If the backup exists, use it
     if (!(studBackup == null)) {
       for (int i = 0; i < students.length; i++) {
         students[i] = studBackup[i];
       }
     }
     studentCount++;
-    students[studentCount - 1] = "" + id;
+    students[studentCount - 1] = "" + id + "" + name;
     studBackup = new String[students.length + 1];
     for (int i = 0; i < students.length; i++) {
       studBackup[i] = students[i];

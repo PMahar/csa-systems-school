@@ -5,7 +5,7 @@ import java.util.Scanner;
  * */
 public class Runner{
   public static Student st = new Student();
-  public static Grades grades = new Grades();        // Declare these here so we don't overwrite them
+  public static Grades grades = new Grades();       // Declare these here so we don't overwrite them
   public static String[] courseList = new String[0]; // When we call main(args) again
 
   /**
@@ -26,9 +26,11 @@ public class Runner{
             System.out.println();
             st.printRoster(courseList); // Print the roster
             System.out.println();
+            // TODO: Add ability to use student name instead of ID
             System.out.print("Student ID to grade: "); // Ask for an ID
             int idGrade = scan.nextInt(); // Retain the ID
-            int cCount = grades.courseCount(courseList, idGrade); // Get and retain the amount of courses a student has
+            int cCount = grades.courseCount(courseList, idGrade); // Get and retain the amount of courses 
+                                                                                              // a student has
             int[] qGrade = new int[cCount]; // Make a new int[] with a length of the amount of courses taken
             for (int i = 0; i < cCount; i++) { // While i < amount of courses
               System.out.println("Quarter grade for student " + idGrade + ", course " + (i + 1) + ": ");
@@ -65,14 +67,40 @@ public class Runner{
             main(args);
           case 2: // Modify class roster
             System.out.println("ADD STUDENT:");
-            System.out.println("Student IDs (Enter '0' to complete)");
-            while (true) { // while true add given student id's to roster
-              int id = scan.nextInt();
-              while (id != 0) {
-                st.newStudent(id);
-                id = scan.nextInt();
+            System.out.println("How many students do you plan on adding?");
+            int studentNum = scan.nextInt();
+            if(studentNum > 0){ // Make sure that the user can't break the program
+              int[] studentID = new int[studentNum]; // This will be used to "hold" multiple students ID's
+              String[] studentName = new String[studentNum]; // This will be used to hold multiple student names
+              while (true) { // while true add given student id's to roster
+                  for(int i = 0; i < studentNum; i ++){
+                    if(i < studentNum){
+                      System.out.println("Student " + (i+1) + "'s ID");
+                      studentID[i] = Integer.parseInt(scan.next()); // Add the students ID
+                      System.out.println("Student " + (i+1) + "'s name");
+                      studentName[i] = scan.next(); // Add student name
+                    } 
+                  }
+                  for(int j = 0; j < studentNum; j++){
+                  st.newStudent(studentID[j], studentName[j]); // Create a new student
+                  }
+                    /*
+                      if(!scan.next().contains("0") && studentID.length == studentNum) { // While there are still id's left to process
+                        System.out.println("Student Names (Enter '0' to complete)");
+                        studentName[i] = scan.next(); // Set the value of the students name
+                        if(scan.next().contains("0")){ // While there are still names left to process
+                          st.newStudent(studentID[i], studentName[i]); // Create a new student
+                        }
+//                    id = scan.nextInt();
+                      } else if (studentID.length > studentNum){ // If recieved too much info
+                        System.out.println("Got too many id's");
+                      }
+                      */
+                  
+                break;
               }
-              break;
+            } else { // If they don't add any users then return to main prompt
+              main(args);
             }
             courseList = st.addCourses();
             main(args);
