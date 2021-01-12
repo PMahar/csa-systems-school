@@ -84,19 +84,6 @@ public class Runner{
                   for(int j = 0; j < studentNum; j++){
                   st.newStudent(studentID[j], studentName[j]); // Create a new student
                   }
-                    /*
-                      if(!scan.next().contains("0") && studentID.length == studentNum) { // While there are still id's left to process
-                        System.out.println("Student Names (Enter '0' to complete)");
-                        studentName[i] = scan.next(); // Set the value of the students name
-                        if(scan.next().contains("0")){ // While there are still names left to process
-                          st.newStudent(studentID[i], studentName[i]); // Create a new student
-                        }
-//                    id = scan.nextInt();
-                      } else if (studentID.length > studentNum){ // If recieved too much info
-                        System.out.println("Got too many id's");
-                      }
-                      */
-                  
                 break;
               }
             } else { // If they don't add any users then return to main prompt

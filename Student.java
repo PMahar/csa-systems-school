@@ -31,7 +31,7 @@ public class Student {
       }
     }
     studentCount++;
-    students[studentCount - 1] = "" + id + "" + name;
+    students[studentCount - 1] = "" + id + " " + name;
     studBackup = new String[students.length + 1];
     for (int i = 0; i < students.length; i++) {
       studBackup[i] = students[i];
