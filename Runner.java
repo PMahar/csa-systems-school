@@ -42,7 +42,6 @@ public class Runner{
             st.printRoster(courseList); // Print the roster
             System.out.println();
             System.out.println("Student ID to view: ");
-            idGrade = scan.nextInt();
             grades.viewGrades();
             break;
         }
@@ -72,20 +71,18 @@ public class Runner{
             if(studentNum > 0){ // Make sure that the user can't break the program
               int[] studentID = new int[studentNum]; // This will be used to "hold" multiple students ID's
               String[] studentName = new String[studentNum]; // This will be used to hold multiple student names
-              while (true) { // while true add given student id's to roster
+              // Add given student id's to roster
                   for(int i = 0; i < studentNum; i ++){
-                    if(i < studentNum){
                       System.out.println("Student " + (i+1) + "'s ID");
                       studentID[i] = Integer.parseInt(scan.next()); // Add the students ID
                       System.out.println("Student " + (i+1) + "'s name");
                       studentName[i] = scan.next(); // Add student name
-                    } 
                   }
                   for(int j = 0; j < studentNum; j++){
                   st.newStudent(studentID[j], studentName[j]); // Create a new student
                   }
                 break;
-              }
+
             } else { // If they don't add any users then return to main prompt
               main(args);
             }

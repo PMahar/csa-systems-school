@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 /**
  * The Grades class contains accessor and setter methods for grade-related data, as well as a
  * print function similar to Student's
@@ -7,23 +5,12 @@ import java.util.Scanner;
 public class Grades extends Student {
   
   // int[] grades will be used to pass along grade value from
-  // grades = {Anthro grade, compsci grade, chem grade, 
+  // grades = {Anthro grade, compsci grade, chem grade,
   // calc grade, quarter1, quarter2, quarter3,quarter4}
-  int[] grades = new int[0];
   // TODO: comment and describe what these things are
   private String[] gradeBook;
   private String[] gradeBack;
-  private String[] avgGrade = new String[0];
   private int gradeCount = 0;
-  private int quarter = 0;
-
-  /**
-   * Accessor for gradeBook array
-   * @return Array of string-formatted grades
-   */
-  public String[] getGrades() {
-    return this.gradeBook;
-  }
 
   /**
    * Setter for string-formatted grades
@@ -61,16 +48,14 @@ public class Grades extends Student {
       int stud = Integer.parseInt(students[i]);
       if (stud == id) {
         sIndex = i;
-      } else {
-        continue;
       }
     }
     //Pull a course list by taking the element at the found index, then over
     //every character in its contents, count its commas to derive number of courses
-    String clist = courses[sIndex];
-    int clen = courses[sIndex].length();
-    for (int i = 0; i < clen; i++) {
-      if (clist.charAt(i) == ',') {
+    String cList = courses[sIndex];
+    int cLen = courses[sIndex].length();
+    for (int i = 0; i < cLen; i++) {
+      if (cList.charAt(i) == ',') {
         courseCount++;
       }
     }
