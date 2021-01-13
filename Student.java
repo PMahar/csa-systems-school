@@ -13,6 +13,34 @@ public class Student {
   public String[] enrollments;
 
   /**
+   * This is the code to add students, taken from Runner
+   * @param args allows for restarting at main prompt
+   */
+  public void addStudents(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    System.out.println("ADD STUDENT:\n");
+    System.out.println("How many students do you plan on adding?");
+    int studentNum = scan.nextInt();
+    if (studentNum > 0) { // Make sure that the user can't break the program
+      int[] studentID = new int[studentNum]; // This will be used to "hold" multiple students ID's
+      String[] studentName = new String[studentNum]; // This will be used to hold multiple student names
+      // Add given student id's to roster
+      for (int i = 0; i < studentNum; i++) {
+        System.out.println("Student " + (i + 1) + "'s ID");
+        studentID[i] = Integer.parseInt(scan.next()); // Add the students ID
+        System.out.println("Student " + (i + 1) + "'s name");
+        studentName[i] = scan.next(); // Add student name
+      }
+      // For every student there is, create a new student with given info
+      for (int j = 0; j < studentNum; j++) {
+        newStudent(studentID[j], studentName[j]); // Create a new student
+      }
+    } else {
+      Runner.main(args);
+    }
+  }
+
+  /**
    * Adds a student to the current roster. This is intended to be called multiple times
    * over a while loop.
    *
@@ -20,7 +48,7 @@ public class Student {
    * @param name Name of student to create
    */
 
-  public void newStudent(int id, String name) {
+  private void newStudent(int id, String name) {
     // Create an array, and procedurally back it up by copying its contents to
     // another array of greater size after each iteration
     this.students = new String[studentCount + 1];
@@ -52,7 +80,7 @@ public class Student {
     this.enrollments = new String[students.length];
     //For every student, prompt for classes to concatenate to a
     //string array
-    for (int i = 0; i < students.length; i++) {
+    for (int i = 0; i < students.length; i++) { // For i < amount of students, increase
       System.out.print("ID " + students[i] + "- Number of enlisted courses: ");
       int enlist = cst.nextInt() - 1;
       for (int j = 0; j <= enlist; j++) {

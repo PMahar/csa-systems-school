@@ -18,9 +18,9 @@ public class Grades extends Student {
    * */
   public void setGrades(int[] gradeSet) {
     this.gradeBook = new String[gradeCount + 1]; // Create a String with grades
-    if (!(gradeBack == null)) {
+    if (!(gradeBack == null)) { // If there aren't any grades? // TODO: Patrick is this correct
       for (int i = 0; i < gradeBook.length; i++) { // while i < gradeBook length assign gradeBook to the value of gradeBack
-        gradeBook[i] = gradeBack[i]; 
+        gradeBook[i] = gradeBack[i];
       }
     }
     gradeCount++;
@@ -28,9 +28,9 @@ public class Grades extends Student {
       gradeBook[gradeCount - 1] = " " + gradeSet[i];
     }
     gradeBack = new String[gradeBook.length + 1];
-    for (int i = 0; i < gradeBook.length; i++) {
-      gradeBack[i] = gradeBook[i];
-    }
+//    for (int i = 0; i < gradeBook.length; i++) {
+//      gradeBack[i] = gradeBook[i];
+//    }
   }
 
   /**
@@ -67,11 +67,20 @@ public class Grades extends Student {
    * */
   public void viewGrades(){
     System.out.println();
-    for (int i = 0; i < gradeBook.length; i++) {
-      System.out.println("gradebook" + i + gradeBook[i]);
+    // TODO: Figure out how to chose specific student
+    for (int i = 1; i == gradeBook.length; i++) {
+      System.out.println("Grade " + i + " " +gradeBook[i]);
     }
-    for (int i = 0; i < gradeBack.length; i++) {
-      System.out.println("gradeBack" + i + gradeBack[i]);
+  }
+
+  /**
+   * Checks to see if any grades have been added
+   * @return Return true if the student has valid grades
+   */
+  public boolean validGrades() {
+    if(gradeBook != null && gradeBack != null){
+      return true;
     }
+    return false;
   }
 }
