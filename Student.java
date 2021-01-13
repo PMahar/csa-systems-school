@@ -11,6 +11,8 @@ public class Student {
   public String[] students = new String[studentCount];
   private String[] studBackup;
   public String[] enrollments;
+  private int[] studentID;
+  private String[] studentName;
 
   /**
    * This is the code to add students, taken from Runner
@@ -22,8 +24,8 @@ public class Student {
     System.out.println("How many students do you plan on adding?");
     int studentNum = scan.nextInt();
     if (studentNum > 0) { // Make sure that the user can't break the program
-      int[] studentID = new int[studentNum]; // This will be used to "hold" multiple students ID's
-      String[] studentName = new String[studentNum]; // This will be used to hold multiple student names
+      studentID = new int[studentNum]; // This will be used to "hold" multiple students ID's
+      studentName = new String[studentNum]; // This will be used to hold multiple student names
       // Add given student id's to roster
       for (int i = 0; i < studentNum; i++) {
         System.out.println("Student " + (i + 1) + "'s ID");
@@ -77,14 +79,16 @@ public class Student {
     Scanner cst = new Scanner(System.in); // token-based
     Scanner csl = new Scanner(System.in); // line-based
     String course = "";
-    this.enrollments = new String[students.length];
+    Grades grade = new Grades();
+    this.enrollments = new String[studentName.length];
     //For every student, prompt for classes to concatenate to a
     //string array
-    for (int i = 0; i < students.length; i++) { // For i < amount of students, increase
-      System.out.print("ID " + students[i] + "- Number of enlisted courses: ");
+    for (int i = 0; i < studentName.length; i++) { // For i < amount of students, increase
+      System.out.print("ID " + studentID[i] + "- Number of enlisted courses: ");
       int enlist = cst.nextInt() - 1;
+      grade.initGrades(studentID[i]);
       for (int j = 0; j <= enlist; j++) {
-        System.out.print("Course " + (j + 1) + " for student " + students[i] + ": ");
+        System.out.print("Course " + (j + 1) + " for student " + studentName[i] + ": ");
         if (j != enlist) {
           course += csl.nextLine() + ", ";
         } else {
@@ -101,12 +105,42 @@ public class Student {
    * Prints the current roster with course enrollments
    * @param enrollments String array of courses (defined as this.enrollments)
    */
-
   public void printRoster(String[] enrollments) {
     System.out.println();
-    for (int i = 0; i < students.length; i++) {
-      System.out.println("[" + students[i] + "]    " + "[" + enrollments[i] + "]");
+    for (int i = 0; i < studentName.length; i++) {
+      System.out.println("[" + studentName[i] + " ID: " + getStudentID(studentName[i]) + "]    " + "[" + enrollments[i] + "]");
     }
   }
 
-}
+  /**
+   * Self explanatory
+   * @param name The name to find the corresponding ID of
+   * @return the ID that corresponds to the given name
+   */
+  public int getStudentID(String name) {
+    if (!name.isEmpty()) {
+      for (int i = 0; i < studentName.length; i++) {
+        if (studentName[i].equalsIgnoreCase(name)) {
+          return i;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Self explanatory
+   * @param id The id to find the corresponding name of
+   * @return returns the name of the student with given ID
+   */
+  public String getStudentName(int id){
+    if(id > 0) {
+      for (int i = 0; i < studentID.length; i++) {
+        if (studentID[i] == id) {
+          return studentName[i];
+        }
+      }
+    }
+    return null;
+    }
+  }

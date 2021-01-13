@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * The Grades class contains accessor and setter methods for grade-related data, as well as a
  * print function similar to Student's
@@ -8,29 +10,25 @@ public class Grades extends Student {
   // grades = {Anthro grade, compsci grade, chem grade,
   // calc grade, quarter1, quarter2, quarter3,quarter4}
   // TODO: comment and describe what these things are
-  private String[] gradeBook;
-  private String[] gradeBack;
+  private ArrayList<String> gradeCourse = new ArrayList<>();
+  private ArrayList<Integer> studentGrades = new ArrayList<>();
+  private ArrayList<Integer> studentID = new ArrayList<>();
   private int gradeCount = 0;
+  private Student st = new Student();
+
+  public void initGrades(int id) {
+    studentID.add(id);
+    // TODO: Add students enrolled courses to gradeCourse
+  }
 
   /**
    * Setter for string-formatted grades
-   * @param gradeSet Int[] of grade values, passed from interface
+   * @param grade Int of grade, passed from interface
+   * @param course The name of the course to grade
    * */
-  public void setGrades(int[] gradeSet) {
-    this.gradeBook = new String[gradeCount + 1]; // Create a String with grades
-    if (!(gradeBack == null)) { // If there aren't any grades? // TODO: Patrick is this correct
-      for (int i = 0; i < gradeBook.length; i++) { // while i < gradeBook length assign gradeBook to the value of gradeBack
-        gradeBook[i] = gradeBack[i];
-      }
-    }
-    gradeCount++;
-    for (int i = 0; i < gradeSet.length - 1; i++) {
-      gradeBook[gradeCount - 1] = " " + gradeSet[i];
-    }
-    gradeBack = new String[gradeBook.length + 1];
-//    for (int i = 0; i < gradeBook.length; i++) {
-//      gradeBack[i] = gradeBook[i];
-//    }
+  public void setGrades(int grade, String course) {
+    gradeCourse.add(course);
+    studentGrades.add(grade);
   }
 
   /**
@@ -63,13 +61,26 @@ public class Grades extends Student {
   }
   
   /**
-   * (Intended to) Print current grade list
+   * View the students grades
+   * @param id The id of the student who's grades are to be viewed
    * */
-  public void viewGrades(){
+  public void viewGrades(int id){
     System.out.println();
     // TODO: Figure out how to chose specific student
-    for (int i = 1; i == gradeBook.length; i++) {
-      System.out.println("Grade " + i + " " +gradeBook[i]);
+    for (int i = 0; i == studentGrades.size(); i++) {
+      System.out.println("Grade " + i + " " + studentGrades.get(i));
+    }
+  }
+
+  /**
+   * View the students grades
+   * @param name The name of the student who's grades are to be viewed
+   */
+  public void viewGrades(String name){
+    System.out.println();
+    // TODO: Figure out how to chose specific student
+    for (int i = 0; i == studentGrades.size(); i++) {
+      System.out.println("Grade " + i + " " + studentGrades.get(i));
     }
   }
 
@@ -78,7 +89,7 @@ public class Grades extends Student {
    * @return Return true if the student has valid grades
    */
   public boolean validGrades() {
-    if(gradeBook != null && gradeBack != null){
+    if(!studentGrades.isEmpty()){
       return true;
     }
     return false;
