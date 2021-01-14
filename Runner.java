@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -9,6 +10,7 @@ public class Runner{
   public static Student st = new Student();
   public static Grades grades = new Grades();
   public static String[] courseList = new String[0];
+  private static final Attendance attend = new Attendance();
 
   /**
    * Main
@@ -17,7 +19,7 @@ public class Runner{
   public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     System.out.println();
-    System.out.println("Grades - 1 | Modify student information - 2 | Quit - 3"); // Prompt the user
+    System.out.println("Grades - 1 | Modify student information - 2 | Attendance - 3 | Quit - 4"); // Prompt the user
     System.out.print("Please select an option: ");
     switch (scan.nextInt()) {
       case 1:
@@ -59,7 +61,11 @@ public class Runner{
                 st.printRoster(courseList); // Print the roster
                 System.out.println();
                 System.out.println("Student ID or name to view: ");
-                grades.viewGrades(scan.next());
+                if(scan.hasNextInt()) {
+                  grades.viewGrades(scan.nextInt());
+                } else {
+                  grades.viewGrades(scan.next());
+                }
               } else {
                 System.out.println("Please add grades first");
               }
@@ -113,10 +119,96 @@ public class Runner{
             main(args);
             break;
         }
+      case 3: // This is for attendance
+        System.out.println("\nEdit attendance - 1 | View Attendance - 2 | Go Back - 3");
+        switch(scan.nextInt()){
 
-    default:
-    System.out.println();
-    System.exit(0);
+          case 1: // Edit attendance
+            st.printRoster(courseList);
+            System.out.println("Please enter students ID: ");
+            int studID = scan.nextInt();
+            System.out.println("Student Absent - 1 | Student Present - 2");
+            switch(scan.nextInt()){
+              case 1:
+                attend.studentAbsent(studID);
+                break;
+              case 2:
+                attend.studentAttending(studID);
+                break;
+            }
+            break;
+
+            case 2: // Viewing attendance
+            if(attend.attendSet()) {
+              // TODO: Again, try to get this to work with names
+              System.out.println("Please enter students ID: ");
+              int id = scan.nextInt();
+              int attendance = attend.getAttendance(id);
+              System.out.println(st.getStudentName(id) + "'s attendance is " +
+                      attendance + " days");
+            } else {
+              System.out.println("Please add to the students attendance first");
+            }
+            break;
+        }
+        main(args);
+        break;
+
+    case 4: // User decided to quit
+      System.out.println();
+      System.exit(0);
+      break;
   }
+  }
+
+  /**
+   * Used to find something in an array, returns -1 if there is an issue/ if
+   * the thing to find doesn't exist
+   * @param findingIn the int[] of where to search
+   * @param toFind the int to look for
+   * @return returns the index in the given int[] of where the thing toFind
+   * is found
+   */
+  public static int findInArray(int[] findingIn, int toFind){
+    for(int i = 0; i < findingIn.length; i++){
+      if(findingIn[i] == toFind){
+        return i;
+      }
+    }
+    System.err.println("There was a problem finding the object");
+    return -1;
+  }
+
+  /**
+   * Used to find something in an array, returns -1 if there is an issue/ if
+   * the thing to find doesn't exist
+   * @param findingIn the String[] to search in
+   * @param toFind the String to look for
+   * @return The index in findingIn of where toFind was found
+   */
+  public static int findInArray(String[] findingIn, String toFind){
+    for(int i = 0; i < findingIn.length; i++){
+      if(findingIn[i].equals(toFind)){
+        return i;
+      }
+    }
+    System.err.println("There was an issue finding the object");
+    return -1;
+  }
+
+  /**
+   * Used to find something in an ArrayList, returns -1 if there is an issue/
+   * if the thing to find doesn't exist
+   * @param findingIn the ArrayList to search in
+   * @param toFind the int to look for
+   * @return the index in findingIn where toFind was found
+   */
+  public static int findInArrayList(ArrayList findingIn, int toFind){
+    for(int i = 0; i < findingIn.size(); i++){
+      if(findingIn.get(i).equals(toFind)){
+        return i;
+      }
+    }
+    return -1;
   }
 }
