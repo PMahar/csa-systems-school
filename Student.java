@@ -1,8 +1,10 @@
 import java.util.Scanner;
 
 /**
- * The Student class will contain behaviors for accessing and setting values for course enrollments
- * and the attendance roster. printRoster is also available to access and display the current roster.
+ * The Student class will contain behaviors for accessing
+ * and setting values for course enrollments
+ * and the attendance roster. printRoster is also available
+ * to access and display the current roster.
  */
 
 public class Student {
@@ -24,8 +26,10 @@ public class Student {
     System.out.println("How many students do you plan on adding?");
     int studentNum = scan.nextInt();
     if (studentNum > 0) { // Make sure that the user can't break the program
-      studentID = new int[studentNum]; // This will be used to "hold" multiple students ID's
-      studentName = new String[studentNum]; // This will be used to hold multiple student names
+      // This will be used to "hold" multiple students ID's
+      studentID = new int[studentNum];
+      // This will be used to hold multiple student names
+      studentName = new String[studentNum];
       // Add given student id's to roster
       for (int i = 0; i < studentNum; i++) {
         System.out.println("Student " + (i + 1) + "'s ID");
@@ -43,7 +47,8 @@ public class Student {
   }
 
   /**
-   * Adds a student to the current roster. This is intended to be called multiple times
+   * Adds a student to the current roster. This is intended
+   * to be called multiple times
    * over a while loop.
    *
    * @param id Integer id of each student
@@ -69,7 +74,8 @@ public class Student {
   }
 
   /**
-   * Submenu for adding courses per each student. Courses are concatenated into comma-separated
+   * Submenu for adding courses per each student. Courses are concatenated
+   * into comma-separated
    * strings in an array for each student.
    *
    * @return Array of enlisted courses, indexed by student
@@ -83,12 +89,15 @@ public class Student {
     this.enrollments = new String[studentName.length];
     //For every student, prompt for classes to concatenate to a
     //string array
-    for (int i = 0; i < studentName.length; i++) { // For i < amount of students, increase
+
+    // For i < amount of students, increase
+    for (int i = 0; i < studentName.length; i++) {
       System.out.print("ID " + studentID[i] + "- Number of enlisted courses: ");
       int enlist = cst.nextInt() - 1;
       grade.initGrades(studentID[i]);
       for (int j = 0; j <= enlist; j++) {
-        System.out.print("Course " + (j + 1) + " for student " + studentName[i] + ": ");
+        System.out.print("Course " + (j + 1) + " for student " +
+                "" + studentName[i] + ": ");
         if (j != enlist) {
           course += csl.nextLine() + ", ";
         } else {
@@ -108,7 +117,9 @@ public class Student {
   public void printRoster(String[] enrollments) {
     System.out.println();
     for (int i = 0; i < studentName.length; i++) {
-      System.out.println("[" + studentName[i] + " ID: " + getStudentID(studentName[i]) + "]    " + "[" + enrollments[i] + "]");
+      System.out.println("[" + studentName[i] + " ID: " +
+              "" + getStudentID(studentName[i]) + "]    "
+              + "[" + enrollments[i] + "]");
     }
   }
 

@@ -6,7 +6,8 @@ import java.util.Scanner;
  * setting values from other classes
  * */
 public class Runner{
-  // Declare these here so we don't overwrite them when we call main(args) again
+  // Declare these here so we don't overwrite
+  // them when we call main(args) again
   public static Student st = new Student();
   public static Grades grades = new Grades();
   public static String[] courseList = new String[0];
@@ -19,7 +20,8 @@ public class Runner{
   public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
     System.out.println();
-    System.out.println("Grades - 1 | Modify student information - 2 | Attendance - 3 | Quit - 4"); // Prompt the user
+    System.out.println("Grades - 1 | Modify student information " +
+            "- 2 | Attendance - 3 | Quit - 4"); // Prompt the user
     System.out.print("Please select an option: ");
     switch (scan.nextInt()) {
       case 1:
@@ -29,26 +31,33 @@ public class Runner{
           switch (scan.nextInt()) {
             // Edit grades
             case 1:
-              if (st.enrollments != null) { // Keep the code from exploding if theres nothing
+              // Keep the code from exploding if theres nothing
+              if (st.enrollments != null) {
                 System.out.println();
                 st.printRoster(courseList);
                 System.out.println();
                 System.out.print("Student ID or name to grade: ");
                 if (scan.hasNextInt()) {
                   int idGrade = scan.nextInt();
-                  int cCount = grades.courseCount(courseList, idGrade); // Get and retain the amount of courses
-                  int[] courseGrades = new int[cCount]; // Make a new int[] with a length of the amount of courses taken
+                  // Get and retain the amount of courses
+                  int cCount = grades.courseCount(courseList, idGrade);
+                  // Make a new int[] with a length of the amount of courses taken
+                  int[] courseGrades = new int[cCount];
                   for (int i = 0; i < cCount; i++) { // While i < amount of courses
-                    System.out.println("Grade for " + st.getStudentName(idGrade) +  ", course " + (i + 1) + ": ");
-                    courseGrades[i] = scan.nextInt(); // Set qGrade index of i to the users input
-                    grades.setGrades(courseGrades[i], courseList[i]); // Set the grades accordingly to values of qGrade
+                    System.out.println("Grade for " + st.getStudentName(idGrade) +
+                            ", course " + (i + 1) + ": ");
+                    // Set qGrade index of i to the users input
+                    courseGrades[i] = scan.nextInt();
+                    // Set the grades accordingly to values of qGrade
+                    grades.setGrades(courseGrades[i], courseList[i]);
                   }
                 } else if(scan.hasNext()){
                   String name = scan.next();
                   int cCount = grades.courseCount(courseList, st.getStudentID(name));
                   int[] courseGrade = new int[cCount];
                   for(int i = 0; i < cCount; i++){
-                    System.out.println("Grade for " + name + ", course " +(i + 1) + ": ");
+                    System.out.println("Grade for " + name + ", course " +
+                            (i + 1) + ": ");
                     courseGrade[i] = scan.nextInt();
                     grades.setGrades(courseGrade[i], courseList[i]);
                   }
@@ -72,7 +81,8 @@ public class Runner{
               break;
           }
         } else { // If there aren't any courses listed
-          System.out.println("Please add a roster under 'Modify Roster.'"); // Prompt the user to make courses
+          // Prompt the user to make courses
+          System.out.println("Please add a roster under 'Modify Roster.'");
           main(args); // Return to main "menu"
         }
 
@@ -81,7 +91,7 @@ public class Runner{
 
       case 2: // Option 2: modify student info
         System.out.println();
-        System.out.println("View Roster - 1 | Modify roster - 2 | Back - 3"); // Prompt the user
+        System.out.println("View Roster - 1 | Modify roster - 2 | Back - 3");
         System.out.print("Please select an option: ");
         switch (scan.nextInt()) {
           case 1: // View class roster
@@ -100,8 +110,11 @@ public class Runner{
               courseList = st.addCourses();
               main(args);
             } else {
-              System.out.println("Add Students - 1 | Enroll Students in class - 2 | Quit - 3");
-              switch (scan.nextInt()) { // If you want to add more students or classes after original addition
+              System.out.println("Add Students - 1 | Enroll Students " +
+                      "in class - 2 | Quit - 3");
+              // If you want to add more students or classes
+              // after original addition
+              switch (scan.nextInt()) {
                 case 1: // Add Students
                   st.addStudents(args);
                   break;
@@ -120,7 +133,8 @@ public class Runner{
             break;
         }
       case 3: // This is for attendance
-        System.out.println("\nEdit attendance - 1 | View Attendance - 2 | Go Back - 3");
+        System.out.println("\nEdit attendance - 1 | View Attendance " +
+                "- 2 | Go Back - 3");
         switch(scan.nextInt()){
 
           case 1: // Edit attendance
@@ -203,7 +217,7 @@ public class Runner{
    * @param toFind the int to look for
    * @return the index in findingIn where toFind was found
    */
-  public static int findInArrayList(ArrayList findingIn, int toFind){
+  public static int findInArrayList(ArrayList<Integer> findingIn, int toFind){
     for(int i = 0; i < findingIn.size(); i++){
       if(findingIn.get(i).equals(toFind)){
         return i;

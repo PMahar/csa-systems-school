@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 /**
- * The Grades class contains accessor and setter methods for grade-related data, as well as a
+ * The Grades class contains accessor and setter methods for
+ * grade-related data, as well as a
  * print function similar to Student's
  * */
 public class Grades extends Student {
@@ -32,7 +33,8 @@ public class Grades extends Student {
   }
 
   /**
-   * Parses String[] enrollments to determine the quantity of classes each student is
+   * Parses String[] enrollments to determine the quantity of
+   * classes each student is
    * enrolled in
    * @param courses Array of course lists
    * @param id ID of student to parse (index of students[])
@@ -49,7 +51,8 @@ public class Grades extends Student {
       }
     }
     //Pull a course list by taking the element at the found index, then over
-    //every character in its contents, count its commas to derive number of courses
+    //every character in its contents, count its commas to derive number of
+    // courses
     String cList = courses[sIndex];
     int cLen = courses[sIndex].length();
     for (int i = 0; i < cLen; i++) {
