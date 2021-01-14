@@ -35,16 +35,18 @@ public class Runner{
               if (st.enrollments != null) {
                 System.out.println();
                 st.printRoster(courseList);
-                System.out.println();
                 System.out.print("Student ID or name to grade: ");
                 if (scan.hasNextInt()) {
                   int idGrade = scan.nextInt();
                   // Get and retain the amount of courses
                   int cCount = grades.courseCount(courseList, idGrade);
-                  // Make a new int[] with a length of the amount of courses taken
+                  // Make a new int[] with a length of
+                  // the amount of courses taken
                   int[] courseGrades = new int[cCount];
-                  for (int i = 0; i < cCount; i++) { // While i < amount of courses
-                    System.out.println("Grade for " + st.getStudentName(idGrade) +
+                  // While i < amount of courses
+                  for (int i = 0; i < cCount; i++) {
+                    System.out.println("Grade for " +
+                            st.getStudentName(idGrade) +
                             ", course " + (i + 1) + ": ");
                     // Set qGrade index of i to the users input
                     courseGrades[i] = scan.nextInt();
@@ -53,7 +55,8 @@ public class Runner{
                   }
                 } else if(scan.hasNext()){
                   String name = scan.next();
-                  int cCount = grades.courseCount(courseList, st.getStudentID(name));
+                  int cCount = grades.courseCount(courseList,
+                          st.getStudentID(name));
                   int[] courseGrade = new int[cCount];
                   for(int i = 0; i < cCount; i++){
                     System.out.println("Grade for " + name + ", course " +
@@ -82,7 +85,8 @@ public class Runner{
           }
         } else { // If there aren't any courses listed
           // Prompt the user to make courses
-          System.out.println("Please add a roster under 'Modify Roster.'");
+          System.out.println("Please add a roster " +
+                  "under 'Modify Roster.'");
           main(args); // Return to main "menu"
         }
 
@@ -98,7 +102,8 @@ public class Runner{
             if (courseList.length != 0) {
               st.printRoster(courseList);
             } else {
-              System.out.println("Please add a roster under 'Modify Roster.'");
+              System.out.println("Please add a roster under " +
+                      "'Modify Roster.'");
               main(args);
             }
             main(args);
@@ -109,6 +114,8 @@ public class Runner{
               st.addStudents(args);
               courseList = st.addCourses();
               main(args);
+
+              // If there are already students
             } else {
               System.out.println("Add Students - 1 | Enroll Students " +
                       "in class - 2 | Quit - 3");
@@ -119,7 +126,14 @@ public class Runner{
                   st.addStudents(args);
                   break;
                 case 2: // Enroll students in class
-                  courseList = st.addCourses();
+                  st.printRoster(courseList);
+                  System.out.println("Please enter student id or name" +
+                          " to enroll: ");
+                  if(scan.hasNextInt()) {
+                    courseList = st.addCourses(scan.nextInt());
+                  } else {
+                    courseList = st.addCourses(scan.next());
+                  }
                   break;
                 default:
                   main(args);
@@ -161,7 +175,8 @@ public class Runner{
               System.out.println(st.getStudentName(id) + "'s attendance is " +
                       attendance + " days");
             } else {
-              System.out.println("Please add to the students attendance first");
+              System.out.println("Please add to the students" +
+                      " attendance first");
             }
             break;
         }

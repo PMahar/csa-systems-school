@@ -11,8 +11,11 @@ public class Grades extends Student {
   // grades = {Anthro grade, compsci grade, chem grade,
   // calc grade, quarter1, quarter2, quarter3,quarter4}
   // TODO: comment and describe what these things are
+  // Contains the courses of the students
   private ArrayList<String> gradeCourse = new ArrayList<>();
+  // Contains grades
   private ArrayList<Integer> studentGrades = new ArrayList<>();
+  // Contains student ID's
   private ArrayList<Integer> studentID = new ArrayList<>();
   private int gradeCount = 0;
   private Student st = new Student();
@@ -71,7 +74,7 @@ public class Grades extends Student {
     System.out.println();
     // TODO: Figure out how to chose specific student
     for (int i = 0; i == studentGrades.size(); i++) {
-      System.out.println("Grade " + i + " " + studentGrades.get(i));
+      System.out.println("Grade " + i + " " + studentGrades.get(i-1));
     }
   }
 
@@ -81,6 +84,15 @@ public class Grades extends Student {
    */
   public void viewGrades(String name){
     System.out.println();
+    int id = st.getStudentID(name);
+    int idIndex = Runner.findInArrayList(studentID, id);
+    for(int i = 0; i < gradeCourse.size(); i++){
+      System.err.println("gradeCourse value " + i + " is " + gradeCourse.get(i));
+      System.err.println("studentGrade value " + i + " is " + studentGrades.get(i));
+      System.err.println("studentID value " + i + " is " + studentID.size());
+    }
+    System.out.println("Grade for " + name + " in " + gradeCourse.get(idIndex) +
+            " is " + studentGrades.get(idIndex));
     // TODO: Figure out how to chose specific student
     for (int i = 0; i == studentGrades.size(); i++) {
       System.out.println("Grade " + i + " " + studentGrades.get(i));
@@ -92,8 +104,12 @@ public class Grades extends Student {
    * @return Return true if the student has valid grades
    */
   public boolean validGrades() {
-    if(!studentGrades.isEmpty()){
+    if(!studentGrades.isEmpty() && !studentID.isEmpty() && !gradeCourse.isEmpty()){
       return true;
+    } else {
+      System.err.println("studentGrades empty " + studentGrades.isEmpty());
+      System.err.println("studentID empty " + studentID.isEmpty());
+      System.err.println("gradeCourse empty " + gradeCourse.isEmpty());
     }
     return false;
   }
