@@ -130,7 +130,6 @@ public class Student {
       System.out.print("ID " + studentID[idIndex] +
               "- Number of enlisted courses: ");
       int enlist = cst.nextInt() - 1;
-      grade.initGrades(studentID[idIndex]); // Initialize grades for student
       for (int j = 0; j <= enlist; j++) {
         System.out.print("Course " + (j + 1) + " for student " +
                 "" + studentName[idIndex] + ": ");
@@ -162,7 +161,6 @@ public class Student {
     System.out.print("ID " + studentID[idIndex] +
             "- Number of enlisted courses: ");
     int enlist = cst.nextInt() - 1;
-    grade.initGrades(studentID[idIndex]); // Initialize grades for student
     for (int j = 0; j <= enlist; j++) {
       System.out.print("Course " + (j + 1) + " for student " +
               "" + studentName[idIndex] + ": ");
@@ -199,14 +197,14 @@ public class Student {
     // Check that the things are valid
     if (!name.isEmpty() && studentName != null) {
       for (int i = 0; i < studentName.length; i++) {
-        if (studentName[i].equalsIgnoreCase(name)) {
+        if (studentName[i].contains(name)) {
           return studentID[i];
         }
       }
     } else {
-      System.out.println("Something ain't right here chief");
+      System.out.println("Can't get student's id");
     }
-    return -1;
+    return Integer.MAX_VALUE;
   }
 
   /**

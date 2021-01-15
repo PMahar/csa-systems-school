@@ -18,7 +18,7 @@ public class Grades extends Student {
   // Contains student ID's
   private ArrayList<Integer> studentID = new ArrayList<>();
   private int gradeCount = 0;
-  private Student st = new Student();
+  private final Student st = new Student();
 
   public void initGrades(int id) {
     studentID.add(id);
@@ -29,10 +29,12 @@ public class Grades extends Student {
    * Setter for string-formatted grades
    * @param grade Int of grade, passed from interface
    * @param course The name of the course to grade
+   * @param id The id of the grade to set to
    * */
-  public void setGrades(int grade, String course) {
+  public void setGrades(int grade, String course, int id) {
     gradeCourse.add(course);
     studentGrades.add(grade);
+    studentID.add(id);
   }
 
   /**
@@ -85,12 +87,8 @@ public class Grades extends Student {
   public void viewGrades(String name){
     System.out.println();
     int id = st.getStudentID(name);
+    System.err.println("id is " + id);
     int idIndex = Runner.findInArrayList(studentID, id);
-    for(int i = 0; i < gradeCourse.size(); i++){
-      System.err.println("gradeCourse value " + i + " is " + gradeCourse.get(i));
-      System.err.println("studentGrade value " + i + " is " + studentGrades.get(i));
-      System.err.println("studentID value " + i + " is " + studentID.size());
-    }
     System.out.println("Grade for " + name + " in " + gradeCourse.get(idIndex) +
             " is " + studentGrades.get(idIndex));
     // TODO: Figure out how to chose specific student
@@ -106,10 +104,6 @@ public class Grades extends Student {
   public boolean validGrades() {
     if(!studentGrades.isEmpty() && !studentID.isEmpty() && !gradeCourse.isEmpty()){
       return true;
-    } else {
-      System.err.println("studentGrades empty " + studentGrades.isEmpty());
-      System.err.println("studentID empty " + studentID.isEmpty());
-      System.err.println("gradeCourse empty " + gradeCourse.isEmpty());
     }
     return false;
   }

@@ -51,7 +51,7 @@ public class Runner{
                     // Set qGrade index of i to the users input
                     courseGrades[i] = scan.nextInt();
                     // Set the grades accordingly to values of qGrade
-                    grades.setGrades(courseGrades[i], courseList[i]);
+                    grades.setGrades(courseGrades[i], courseList[i],idGrade);
                   }
                 } else if(scan.hasNext()){
                   String name = scan.next();
@@ -62,7 +62,7 @@ public class Runner{
                     System.out.println("Grade for " + name + ", course " +
                             (i + 1) + ": ");
                     courseGrade[i] = scan.nextInt();
-                    grades.setGrades(courseGrade[i], courseList[i]);
+                    grades.setGrades(courseGrade[i], courseList[i], st.getStudentID(name));
                   }
                 }
               }
@@ -238,6 +238,9 @@ public class Runner{
         return i;
       }
     }
+    System.err.println("There's an issue finding values in this Array List");
+    System.err.println(findingIn + " Found");
+    System.err.println(toFind + " looking");
     return -1;
   }
 }
