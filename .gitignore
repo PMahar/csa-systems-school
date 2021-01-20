@@ -1,5 +1,7 @@
+.DS_Store
 *.java~
 *.class
-.DS_Store
 *.save
+*.iml
 .idea/*
+out/*
