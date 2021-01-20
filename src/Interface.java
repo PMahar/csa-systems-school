@@ -18,6 +18,7 @@ public class Interface {
     // Use backup arrays when returning to this dialog (adding or removing
     // after setting once)
     for (int i = 0; i < 5; i++) {
+      // TODO: Add interfacing to interact with the user and add courses, teachers and everything else
       System.out.println("Student Name: ");
       String name = scl.nextLine();
       System.out.println("Student Id:");

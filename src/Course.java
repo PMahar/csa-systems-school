@@ -1,28 +1,13 @@
+import java.util.ArrayList;
+
 /**
  * This class will add students, remove students,
  * to a course, this is for singular course, not multiple
  */
 public class Course {
   private String courseName;
-  private String[] students;
-  private String[] teachers;
-
-  /**
-   * This is a constructor of course, it takes multiple
-   * students and multiple teachers, this is if the course is bulk
-   * created and has all desired variables
-   * If there is only one teacher then provide a String[] with
-   * one object
-   * @param courseName the name of the course
-   * @param students String[] of students attending the course
-   * @param teachers String[] of teachers teaching/ assisting
-   *                 with the class
-   */
-  public Course(String courseName, String[] students, String[] teachers){
-    this.courseName = courseName;
-    this.students = students;
-    this.teachers = teachers;
-  }
+  private ArrayList<Student> students = new ArrayList<>();
+  private ArrayList<Teacher> teachers = new ArrayList<>();
 
   /**
    * This is a constructor of course, it takes the course
@@ -35,6 +20,38 @@ public class Course {
     this.courseName = courseName;
   }
 
+  /**
+   * Adds multiple students to course's list of students
+   * @param students ArrayList of Students to add
+   */
+  public void addStudents(ArrayList<Student> students){
+    this.students.addAll(students);
+  }
+
+  /**
+   * Adds a single student to course's list of students
+   * @param student The student to add
+   */
+  public void addStudent(Student student){
+    this.students.add(student);
+  }
+
+  /**
+   * Adds multiple teachers to course's list of teachers
+   * @param teachers The teachers to add
+   */
+  public void addTeachers(ArrayList<Teacher> teachers){
+    this.teachers.addAll(teachers);
+  }
+
+  /**
+   * Adds a single teacher to course's list of teachers
+   * @param teacher The teacher to add
+   */
+  public void addTeacher(Teacher teacher){
+    this.teachers.add(teacher);
+  }
+
   public String getCourseName() {
     return courseName;
   }
@@ -43,19 +60,19 @@ public class Course {
     this.courseName = courseName;
   }
 
-  public String[] getStudents() {
+  public ArrayList<Student> getStudents() {
     return students;
   }
 
-  public void setStudents(String[] students) {
+  public void setStudents(ArrayList<Student> students) {
     this.students = students;
   }
 
-  public String[] getTeachers() {
+  public ArrayList<Teacher> getTeachers() {
     return teachers;
   }
 
-  public void setTeachers(String[] teachers) {
+  public void setTeachers(ArrayList<Teacher> teachers) {
     this.teachers = teachers;
   }
 }
