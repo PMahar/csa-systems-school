@@ -8,8 +8,8 @@ public class Student {
   // Every Student object will require an individual name,
   // ID, and list of enrolled courses
   // (as well as any other objects like lunch requirement)
-  int studentID;
-  String studentName;
+  private int studentID;
+  private String studentName;
   private ArrayList<Course> courses = new ArrayList<>();
   // TODO: Create a method to add courses to student
 
