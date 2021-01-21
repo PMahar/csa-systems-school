@@ -6,8 +6,9 @@ import java.util.ArrayList;
  */
 public class Course {
   private String courseName;
-  private ArrayList<Student> students = new ArrayList<>();
-  private ArrayList<Teacher> teachers = new ArrayList<>();
+  // TODO: Figure out how to set a better length
+  private Student[] students = new Student[100];
+  private Teacher[] teachers = new Teacher[100];
 
   /**
    * This is a constructor of course, it takes the course
@@ -24,8 +25,14 @@ public class Course {
    * Adds multiple students to course's list of students
    * @param students ArrayList of Students to add
    */
-  public void addStudents(ArrayList<Student> students){
-    this.students.addAll(students);
+  public void addStudents(Student[] students){
+    for(int i = 0; i < students.length; i++){
+      for(int j = 0; j < this.students.length; j++){
+        if(this.students[i] == null){
+          this.students[i] = students[j];
+        }
+      }
+    }
   }
 
   /**
@@ -33,15 +40,25 @@ public class Course {
    * @param student The student to add
    */
   public void addStudent(Student student){
-    this.students.add(student);
+    for (int i = 0; i < this.teachers.length; i++) {
+      if (!students[i].isValid(this.students[i])) {
+        this.students[i] = student;
+      }
+    }
   }
 
   /**
    * Adds multiple teachers to course's list of teachers
    * @param teachers The teachers to add
    */
-  public void addTeachers(ArrayList<Teacher> teachers){
-    this.teachers.addAll(teachers);
+  public void addTeachers(Teacher[] teachers){
+    for(int i = 0; i < teachers.length; i++){
+      for(int j = 0; j < this.teachers.length; j++){
+        if(this.teachers[i] == null){
+          this.teachers[i] = teachers[j];
+        }
+      }
+    }
   }
 
   /**
@@ -49,7 +66,11 @@ public class Course {
    * @param teacher The teacher to add
    */
   public void addTeacher(Teacher teacher){
-    this.teachers.add(teacher);
+    for(int i = 0; i < teachers.length; i++){
+      if(teachers[i] == null){
+        teachers[i] = teacher;
+      }
+    }
   }
 
   public String getCourseName() {
@@ -60,19 +81,4 @@ public class Course {
     this.courseName = courseName;
   }
 
-  public ArrayList<Student> getStudents() {
-    return students;
-  }
-
-  public void setStudents(ArrayList<Student> students) {
-    this.students = students;
-  }
-
-  public ArrayList<Teacher> getTeachers() {
-    return teachers;
-  }
-
-  public void setTeachers(ArrayList<Teacher> teachers) {
-    this.teachers = teachers;
-  }
 }

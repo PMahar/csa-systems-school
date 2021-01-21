@@ -10,7 +10,8 @@ public class Student {
   // (as well as any other objects like lunch requirement)
   private int studentID;
   private String studentName;
-  private ArrayList<Course> courses = new ArrayList<>();
+  // TODO: Figure out a better length
+  private Course[] courses = new Course[100];
   // TODO: Create a method to add courses to student
 
   // Add an element to the student array
@@ -26,8 +27,14 @@ public class Student {
    * list
    * @param courses The courses to add
    */
-  public void addCourses(ArrayList<Course> courses){
-    this.courses.addAll(courses);
+  public void addCourses(Course[] courses){
+    for(int i = 0; i < courses.length; i++){
+      for(int j = 0; j < this.courses.length; j++){
+        if(this.courses[i] == null){
+          this.courses[i] = courses[j];
+        }
+      }
+    }
   }
 
   /**
@@ -36,30 +43,32 @@ public class Student {
    * @param course The course to add
    */
   public void addCourse(Course course){
-    this.courses.add(course);
+    for(int i = 0; i < this.courses.length; i++){
+      if(courses[i] == null){
+        this.courses[i] = course;
+      }
+    }
+  }
+
+  /**
+   * Checks if a student is valid
+   * @param student
+   * @return
+   */
+  public boolean isValid(Student student){
+    if (!student.getStudentName().isEmpty()){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public int getStudentID() {
     return studentID;
   }
 
-  public void setStudentID(int studentID) {
-    this.studentID = studentID;
-  }
 
   public String getStudentName() {
     return studentName;
-  }
-
-  public void setStudentName(String studentName) {
-    this.studentName = studentName;
-  }
-
-  public ArrayList<Course> getCourses() {
-    return courses;
-  }
-
-  public void setCourses(ArrayList<Course> courses) {
-    this.courses = courses;
   }
 }

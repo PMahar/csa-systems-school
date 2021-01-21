@@ -8,8 +8,7 @@ import java.util.ArrayList;
 public class Teacher {
 private String teacherName;
 private int teacherID;
-private ArrayList<Course> courses = new ArrayList<Course>();
-// TODO: Create a method that affiliates a teacher with courses
+private Course[] courses = new Course[100];
 
   public Teacher(String name, int id) {
     teacherName = name;
@@ -20,8 +19,15 @@ private ArrayList<Course> courses = new ArrayList<Course>();
    * Adds multiple courses to teacher's list of courses
    * @param courses The courses to add
    */
-  public void addCourses(ArrayList<Course> courses) {
-    this.courses.addAll(courses);
+  public void addCourses(Course[] courses) {
+    for(int i = 0; i < courses.length; i++){
+      for(int j = 0; i < this.courses.length; j++){
+        if(this.courses[i] == null){ // if there isn't a value then add the course
+          this.courses[i] = courses[j];
+
+        }
+      }
+    }
   }
 
   /**
@@ -29,6 +35,27 @@ private ArrayList<Course> courses = new ArrayList<Course>();
    * @param course The course to add
    */
   public void addCourse(Course course){
-    this.courses.add(course);
+    for(int i = 0; i < courses.length; i ++){
+      if(courses[i] == null){
+        courses[i] = course;
+      }
+    }
   }
+
+  public String getTeacherName() {
+    return teacherName;
+  }
+
+  public void setTeacherName(String teacherName) {
+    this.teacherName = teacherName;
+  }
+
+  public int getTeacherID() {
+    return teacherID;
+  }
+
+  public void setTeacherID(int teacherID) {
+    this.teacherID = teacherID;
+  }
+
 }

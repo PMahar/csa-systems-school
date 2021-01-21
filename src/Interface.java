@@ -7,7 +7,7 @@ import java.util.Scanner;
  * and the code
  */
 public class Interface {
-  ArrayList<Student> Students = new ArrayList<>();
+  private static Student[] Students = new Student[100];
 
   public static void main(String[] args) {
     Interface run = new Interface();
@@ -58,7 +58,11 @@ public class Interface {
     int id = sct.nextInt();
     if (id > 0) { // Make sure the id is valid
       Student studAdd = new Student(name, id); // Construct a new student
-      run.Students.add(studAdd); // Add student to list of students
+      for(int i = 0; i < Students.length; i++){
+        if(!studAdd.isValid(studAdd)) {
+          run.Students[i] = studAdd; // Add student to list of students
+        }
+      }
       System.out.println("Student's courses (0 to escape, coma's in between names): ");
       while (scl.hasNext() && !scl.next().contains("0")) {
         Course course = new Course(scl.next());
@@ -70,15 +74,22 @@ public class Interface {
     System.out.println("Successfully added student");
   }
 
+  /**
+   * Adds a teacher to a course and a course to a teacher
+   */
+  private void addTeacherCourse(Teacher teacher, Course course){
+
+  }
+
   // Method for listing all stored data as text
   public void printRoster() {
     System.out.println("STUDENTS: ");
     System.out.println();
     // Do some printf magic here
     System.out.println("Student name:                 Student ID:");
-    for (int i = 0; i < Students.size(); i++) {
-      System.out.println(Students.get(i).getStudentName() + "                "
-              + Students.get(i).getStudentID());
+    for (int i = 0; i < Students.length; i++) {
+      System.out.println(Students[i].getStudentName() + "                "
+              + Students[i].getStudentID());
     }
   }
 }
