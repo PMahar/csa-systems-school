@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 /**
  * This class will add students, remove students,
@@ -41,7 +40,7 @@ public class Course {
    */
   public void addStudent(Student student){
     for (int i = 0; i < this.teachers.length; i++) {
-      if (!students[i].isValid(this.students[i])) {
+      if (students[i] != null) {
         this.students[i] = student;
       }
     }

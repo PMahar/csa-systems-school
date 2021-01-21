@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 /**
  * This class deals with adding courses, getting mpGrades,
@@ -52,21 +51,33 @@ public class Student {
 
   /**
    * Checks if a student is valid
-   * @param student
-   * @return
+   * @return True if the student is valid
    */
-  public boolean isValid(Student student){
-    if (!student.getStudentName().isEmpty()){
+  public boolean isValid(){
+    if (!this.getStudentName().isBlank()){
       return true;
     } else {
+      System.err.println("Student not found");
       return false;
+    }
+  }
+
+  public void listCourses(){
+    System.out.println(this.getStudentName() + "'s courses are: ");
+    for(int i = 0; i < courses.length; i ++){
+      System.out.print(courses[i] + ", ");
+    }
+  }
+
+  public void changeName(String name){
+    if(this.isValid()){
+      this.studentName = name;
     }
   }
 
   public int getStudentID() {
     return studentID;
   }
-
 
   public String getStudentName() {
     return studentName;

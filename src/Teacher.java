@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 /**
  * This class handles teacher/ teaching activities
