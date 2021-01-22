@@ -6,130 +6,80 @@ import java.util.Scanner;
  * and the code
  */
 public class Interface {
-  private static Student[] students = new Student[5];
+  private static Roster[] rosters;
   private static Teacher[] teachers = new Teacher[5];
+  private String school;
 
   public static void main(String[] args) {
     Interface run = new Interface();
-    Scanner sct = new Scanner(System.in); // Token based
-    Scanner scl = new Scanner(System.in); // Line based
-
-    System.out.println("Are you a teacher - 1 | or Student - 2 | Quit - 3");
-    // Get an int as an array size, then add to student[] for however many
-    // User has specified
-    // Use backup arrays when returning to this dialog (adding or removing
-    // after setting once)
-    // Add students
-    switch (sct.nextInt()) {
-      case 1: // Teacher
-        System.out.println("Add things - 1 | Grade things - 2");
-        switch (sct.nextInt()){
-          case 1:
-        System.out.println("Add teacher - 1 | Add student - 2");
-        switch (sct.nextInt()) {
-          case 1: // Add teacher
-            addTeacher();
-            break;
-          case 2: // Add student
-            System.out.println("How many students are you adding?");
-            int toAdd = sct.nextInt();
-            for (int i = 0; i < toAdd; i++) {
-              addStudent();
-            }
-            break;
-        }
-        break;
-          case 2: // Grade
-            System.out.println("Student ID or name to grade: ");
-            if(scl.hasNextInt()){
-              // Work off of student ID
-              for(int i = 0; i < students.length; i ++){
-                if(students[i].getStudentID() == scl.nextInt()){
-
-                }
-              }
-            } else if(scl.hasNext()){
-              // Work off of student name
-            }
-            break;
+    Scanner scl = new Scanner(System.in);
+    Scanner sct = new Scanner(System.in);
+    //initialize the program for first-time use
+    if (rosters == null) {
+      run.setup();
     }
-        System.out.println("Continue as teacher? Yes - 1 | No - 2");
-        if(sct.hasNextInt()) {
-          switch (sct.nextInt()) {
-            case 1:
-              // TODO: Add more here
-              break;
-            case 2:
-              main(args);
-              break;
+    System.out.println("1 - Edit student information | 2 - Edit staff information | 3 - Edit marking period grades | 4 - Add Attendance Rosters");
+    System.out.println("5 - View roster");
+    System.out.print("Please select an option: ");
+    switch (scl.next()) {
+      case "1":
+        System.out.println("\nSelect an attendance roster to edit:");
+        for (int i = 0; i < rosters.length; i++) {
+          System.out.print((i + 1) + " - ");
+          rosters[i].printRoster();
+        }
+        int select = sct.nextInt(); //populate a roster object with students
+        //int select = roster.charAt(0);
+        /*
+        if (roster.contains("v")) {
+          Student[] students = rosters[select - 1].getStudents();
+          for (int i = 0; i < students.length; i++) {
+            System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
           }
-        } else {
-          System.out.println("Please enter a number instead");
         }
-        break;
-      case 2: // Student
-        System.out.println("Are you a new student? Yes - 1 | No - 2");
-        switch(scl.nextInt()){
-          case 1:
-            addStudent();
-            break;
-          case 2:
-            Student stud;
-            System.out.println("What is your ID?");
-            int id = sct.nextInt();
-            System.out.println("What's your name");
-            String name = sct.next();
-            // "Find" the student
-            for (Student student : students) {
-              if (student.isValid()) {
-                if (student.getStudentID() == id) {
-                  stud = student;
-                  System.out.println("View classes - 1 | WIP View grades - 2 | Change profile - 3");
-                  switch (sct.nextInt()) {
-                    case 1: // View classes
-                      stud.listCourses();
-                      break;
-                    case 2: // View grades
-                      // TODO: view grades
-                      break;
-                    case 3: // Change profile
-                      System.out.println("Change name - 1 | Change ID - 2");
-                      switch(sct.nextInt()){
-                        case 1:
-                          System.out.println("What's the changed name?");
-                          stud.changeName(sct.next());
-                          break;
-                        case 2:
-                          System.out.println("Not implemented yet");
-                          break;
-                      }
-                  }
-                }
-              }
-            }
-            break;
+         */
+        int rosterSize = rosters[select - 1].getRosterSize();
+        Student[] populate = new Student[rosterSize];
+        for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
+          populate[i] = run.addStudent();
+          rosters[select - 1].setStudents(populate);
         }
-        System.out.println("Continue as student? Yes - 1| No - 2");
-        switch(scl.nextInt()){
-          case 1: // Yes
-            // TODO: Add more for student interactions
-            break;
-          case 2:
-            main(args);
-            break;
+        main(args);
+      case "5":
+        System.out.println("\nSelect an attendance roster:");
+        for (int i = 0; i < rosters.length; i++) {
+          System.out.print((i + 1) + " - ");
+          rosters[i].printRoster();
         }
-        break;
-      case 3:
-        System.exit(0);
-        break;
+        int roster = sct.nextInt();
+        Student[] students = rosters[roster - 1].getStudents();
+        for (int i = 0; i < students.length; i++) {
+            System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
+        }
+      default:
+        System.out.println();
+        main(args);
     }
+
+  }
+
+  private void setup() {
+    Scanner scl = new Scanner(System.in); //line
+    Scanner sct = new Scanner(System.in); //token
+    System.out.print("Initial setup - Enter school name: ");
+    school = scl.nextLine();
+    System.out.print("                Enter roster title: ");
+    String RosterTitle = scl.nextLine();
+    System.out.print("                Enter roster size: ");
+    int rSize = sct.nextInt();
+    rosters = new Roster[1];
+    rosters[0] = new Roster(RosterTitle, rSize);
   }
 
   /**
    * Create a new student
    */
-  private static void addStudent(){
-    Interface run = new Interface();
+  private Student addStudent() {
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
 
@@ -137,20 +87,14 @@ public class Interface {
     String name = scl.nextLine();
     System.out.println("Student Id:");
     int id = sct.nextInt();
-    if (id > 0) { // Make sure the id is valid
-      Student studAdd = new Student(name, id); // Construct a new student
-      for(int i = 0; i < students.length; i++){
-          System.err.println("Added student");
-          students[i] = studAdd; // Add student to list of students
-      }
-      System.out.println("Student's courses (0 to escape, coma's in between names): ");
-      while (!scl.next().equals("0")) {
-        Course course = new Course(scl.next());
-        run.addStudentCourse(studAdd, course);
-      }
-    } else if (id == 0) {
-      System.out.println("Invalid id");
-    }
+    Student studAdd = new Student(name, id); // Construct a new student
+    System.out.println("Student's courses (0 to escape, coma's in between names): ");
+    //while (!scl.next().equals("0")) {
+    //  Course course = new Course(scl.next());
+    //  addStudentCourse(studAdd, course);
+    //} else if (id == 0) {
+    //  System.out.println("Invalid id");
+    return studAdd;
   }
 
   /**
@@ -201,17 +145,5 @@ public class Interface {
   private void addStudentCourse(Student student, Course course){
     student.addCourse(course);
     course.addStudent(student);
-  }
-
-  // Method for listing all stored data as text
-  public void printRoster() {
-    System.out.println("STUDENTS: ");
-    System.out.println();
-    // Do some printf magic here
-    System.out.println("Student name:                 Student ID:");
-    for (int i = 0; i < students.length; i++) {
-      System.out.println(students[i].getStudentName() + "                "
-              + students[i].getStudentID());
-    }
   }
 }
