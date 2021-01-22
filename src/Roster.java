@@ -1,12 +1,15 @@
 import java.util.Scanner;
 
+/**
+ * Contains code for singular class roster.
+ * Has students, title, and size
+ */
 public class Roster {
   private int RosterSize;
   private String title;
   private Student[] students;
 
   public Roster(String title, int RosterSize) {
-    this.students = students;
     this.title = title;
     this.RosterSize = RosterSize;
   }

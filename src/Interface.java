@@ -63,6 +63,9 @@ public class Interface {
 
   }
 
+  /**
+   * TODO: Figure out what this is
+   */
   private void setup() {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
