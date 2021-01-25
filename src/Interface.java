@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Interface {
   private static Roster[] rosters;
   private static Teacher[] teachers = new Teacher[5];
+  private static Course[] courses = new Course[5];
   private String school;
 
   public static void main(String[] args) {
@@ -18,12 +19,13 @@ public class Interface {
     if (rosters == null) {
       run.setup();
     }
+    // Prompt the user
     System.out.println("1 - Edit student information | 2 - Edit staff information " +
             "| 3 - Edit marking period grades | 4 - Add Attendance Rosters");
     System.out.println("5 - View roster");
     System.out.print("Please select an option: ");
     switch (scl.next()) {
-      case "1":
+      case "1": // Edit student info
         System.out.println("\nSelect an attendance roster to edit:");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
@@ -61,9 +63,24 @@ public class Interface {
           rosters[i].printRoster();
         }
         int classId = sct.nextInt(); // Get the class to grade
-        // TODO: wait for Patrick to incorporate a course variable with
-        // TODO: rosters
-
+        // Print the student options
+          rosters[classId - 1].printStudents();
+        System.out.println("\nChoose a student to grade: ");
+        String student = scl.next();
+        // Find the corresponding course
+        for(int i = 0; i < courses.length; i++){
+          if(courses[i] != null && courses[i].getCourseName().equals(rosters[classId-1].getTitle())){
+            for(int j = 0; j < courses[i].getStudents().length; j++){
+              if(courses[i].getStudents()[j].getStudentName().equalsIgnoreCase(student)){
+                System.out.println("Grade for student: ");
+                int grade = sct.nextInt();
+                MPGrade mpGrade = new MPGrade(courses[i], courses[i].getStudents()[j], grade);
+              }
+            }
+          } else {
+            System.out.println("No valid courses");
+          }
+        }
         break;
 
       case "5": // View roster
@@ -82,7 +99,7 @@ public class Interface {
         System.out.println();
         main(args);
     }
-
+  main(args);
   }
 
   /**
@@ -97,8 +114,7 @@ public class Interface {
     String RosterTitle = scl.nextLine();
     System.out.print("                Enter roster size: ");
     int rSize = sct.nextInt();
-    rosters = new Roster[1];
-    rosters[0] = new Roster(RosterTitle, rSize);
+    addClass(RosterTitle,rSize);
   }
 
   /**
@@ -153,6 +169,23 @@ public class Interface {
   private void addTeacherCourse(Teacher teacher, Course course){
     teacher.addCourse(course);
     course.addTeacher(teacher);
+  }
+
+  /**
+   * creates a course object and a roster object
+   * @param rosterTitle The title of the course/ title
+   * @param rSize The amount of students in the course
+   */
+  private void addClass(String rosterTitle, int rSize){
+    rosters = new Roster[1];
+    rosters[0] = new Roster(rosterTitle, rSize);
+    Course course = new Course(rosterTitle);
+    for(int i = 0; i < courses.length; i++){
+      if(courses[i] != null){
+        courses[i] = course;
+        break;
+      }
+    }
   }
 
   /**

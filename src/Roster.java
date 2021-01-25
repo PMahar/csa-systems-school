@@ -18,6 +18,10 @@ public class Roster {
     this.students = students;
   }
 
+  public String getTitle(){
+    return title;
+  }
+
   public Student[] getStudents() {
     return students;
   }
@@ -30,4 +34,9 @@ public class Roster {
     System.out.println(this.title + ": " + (RosterSize) + " students");
   }
 
+  public void printStudents(){
+    for(int i = 0; i < getRosterSize(); i++){
+      System.out.println(getStudents()[i].getStudentName());
+    }
+  }
 }

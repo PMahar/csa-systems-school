@@ -83,8 +83,7 @@ public class Course {
     return courseName;
   }
 
-  public void setCourseName(String courseName) {
-    this.courseName = courseName;
+  public Student[] getStudents(){
+    return students;
   }
-
 }
