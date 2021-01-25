@@ -14,11 +14,12 @@ public class Interface {
     Interface run = new Interface();
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
-    //initialize the program for first-time use
+    // Initialize the program for first-time use
     if (rosters == null) {
       run.setup();
     }
-    System.out.println("1 - Edit student information | 2 - Edit staff information | 3 - Edit marking period grades | 4 - Add Attendance Rosters");
+    System.out.println("1 - Edit student information | 2 - Edit staff information " +
+            "| 3 - Edit marking period grades | 4 - Add Attendance Rosters");
     System.out.println("5 - View roster");
     System.out.print("Please select an option: ");
     switch (scl.next()) {
@@ -28,7 +29,7 @@ public class Interface {
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
         }
-        int select = sct.nextInt(); //populate a roster object with students
+        int select = sct.nextInt(); // Populate a roster object with students
         //int select = roster.charAt(0);
         /*
         if (roster.contains("v")) {
@@ -45,7 +46,27 @@ public class Interface {
           rosters[select - 1].setStudents(populate);
         }
         main(args);
-      case "5":
+        break;
+
+      case "2": // Edit staff info
+        break;
+
+      case "3": // Edit marking period grades
+        // Print rosters of classes to grade
+        System.out.println("\nSelect an attendance roster to grade from: ");
+        for(int i = 0; i < rosters.length; i++){
+          // TODO: Try to figure out how to get student id instead of
+          // TODO: value of "i"
+          System.out.print((i + 1) + " - ");
+          rosters[i].printRoster();
+        }
+        int classId = sct.nextInt(); // Get the class to grade
+        // TODO: wait for Patrick to incorporate a course variable with
+        // TODO: rosters
+
+        break;
+
+      case "5": // View roster
         System.out.println("\nSelect an attendance roster:");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
@@ -54,7 +75,8 @@ public class Interface {
         int roster = sct.nextInt();
         Student[] students = rosters[roster - 1].getStudents();
         for (int i = 0; i < students.length; i++) {
-            System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
+            System.out.println("[" + students[i].getStudentID()
+                    + "]" + "  " + students[i].getStudentName());
         }
       default:
         System.out.println();
@@ -90,14 +112,7 @@ public class Interface {
     String name = scl.nextLine();
     System.out.println("Student Id:");
     int id = sct.nextInt();
-    Student studAdd = new Student(name, id); // Construct a new student
-    System.out.println("Student's courses (0 to escape, coma's in between names): ");
-    //while (!scl.next().equals("0")) {
-    //  Course course = new Course(scl.next());
-    //  addStudentCourse(studAdd, course);
-    //} else if (id == 0) {
-    //  System.out.println("Invalid id");
-    return studAdd;
+    return new Student(name, id);
   }
 
   /**

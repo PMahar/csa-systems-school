@@ -5,9 +5,11 @@
  */
 public class Course {
   private String courseName;
+  private int courseSize;
   // TODO: Figure out how to set a better length
-  private Student[] students = new Student[100];
-  private Teacher[] teachers = new Teacher[100];
+  private Student[] students = new Student[courseSize];
+  private Teacher[] teachers = new Teacher[courseSize];
+  private Roster roster;
 
   /**
    * This is a constructor of course, it takes the course
@@ -18,6 +20,11 @@ public class Course {
    */
   public Course(String courseName){
     this.courseName = courseName;
+  }
+
+  public Course(String courseName, int courseSize, Roster roster){
+    this.courseName = courseName;
+    this.courseSize = courseSize;
   }
 
   /**
