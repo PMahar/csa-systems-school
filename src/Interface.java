@@ -41,6 +41,7 @@ public class Interface {
           }
         }
          */
+        int select = sct.nextInt(); //populate a roster object with students
         int rosterSize = rosters[select - 1].getRosterSize();
         Student[] populate = new Student[rosterSize];
         for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
@@ -103,7 +104,7 @@ public class Interface {
   }
 
   /**
-   * TODO: Figure out what this is
+   * Prepares the program for first-time use, and is implemented in the absence of existing data
    */
   private void setup() {
     Scanner scl = new Scanner(System.in); //line
