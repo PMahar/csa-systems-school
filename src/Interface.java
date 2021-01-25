@@ -29,15 +29,6 @@ public class Interface {
           rosters[i].printRoster();
         }
         int select = sct.nextInt(); //populate a roster object with students
-        //int select = roster.charAt(0);
-        /*
-        if (roster.contains("v")) {
-          Student[] students = rosters[select - 1].getStudents();
-          for (int i = 0; i < students.length; i++) {
-            System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
-          }
-        }
-         */
         int rosterSize = rosters[select - 1].getRosterSize();
         Student[] populate = new Student[rosterSize];
         for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
@@ -64,7 +55,7 @@ public class Interface {
   }
 
   /**
-   * TODO: Figure out what this is
+   * Prepares the program for first-time use, and is implemented in the absence of existing data
    */
   private void setup() {
     Scanner scl = new Scanner(System.in); //line
@@ -91,12 +82,6 @@ public class Interface {
     System.out.println("Student Id:");
     int id = sct.nextInt();
     Student studAdd = new Student(name, id); // Construct a new student
-    System.out.println("Student's courses (0 to escape, coma's in between names): ");
-    //while (!scl.next().equals("0")) {
-    //  Course course = new Course(scl.next());
-    //  addStudentCourse(studAdd, course);
-    //} else if (id == 0) {
-    //  System.out.println("Invalid id");
     return studAdd;
   }
 
