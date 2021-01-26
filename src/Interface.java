@@ -19,6 +19,8 @@ public class Interface {
     if (rosters == null) {
       run.setup();
     }
+    System.out.println("\nSchool: " + run.school);
+    System.out.println("1 - Edit student information | 2 - Edit staff information | 3 - Edit marking period grades | 4 - Add Attendance Rosters");
     // Prompt the user
     System.out.println("1 - Edit student information | 2 - Edit staff information " +
             "| 3 - Edit marking period grades | 4 - Add Attendance Rosters");
@@ -26,28 +28,36 @@ public class Interface {
     System.out.print("Please select an option: ");
     switch (scl.next()) {
       case "1": // Edit student info
+    switch (sct.next()) {
+      case "1":
         System.out.println("\nSelect an attendance roster to edit:");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
         }
-        int select = sct.nextInt(); // Populate a roster object with students
-        //int select = roster.charAt(0);
-        /*
-        if (roster.contains("v")) {
-          Student[] students = rosters[select - 1].getStudents();
-          for (int i = 0; i < students.length; i++) {
-            System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
-          }
-        }
-         */
+        System.out.println("Back - 0");
         int select = sct.nextInt(); //populate a roster object with students
+        if (select == 0) {
+          main(args);
+        }
         int rosterSize = rosters[select - 1].getRosterSize();
         Student[] populate = new Student[rosterSize];
         for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
           populate[i] = run.addStudent();
           rosters[select - 1].setStudents(populate);
         }
+        main(args);
+      case "4":
+        System.out.println("\nCurrent Rosters for " + school + ": ");
+        for (int i = 0; i < rosters.length; i++) {
+          System.out.print((i + 1) + " - ");
+          rosters[i].printRoster();
+        }
+        System.out.print("Enter roster title: ");
+        String rosterTitle = scl.nextLine();
+        System.out.print("Enter roster size: ");
+        int rSize = sct.nextInt();
+        run.addRoster(rosterTitle, rSize);
         main(args);
         break;
 
@@ -92,10 +102,14 @@ public class Interface {
         }
         int roster = sct.nextInt();
         Student[] students = rosters[roster - 1].getStudents();
-        for (int i = 0; i < students.length; i++) {
-            System.out.println("[" + students[i].getStudentID()
-                    + "]" + "  " + students[i].getStudentName());
+        if (students == null) {
+          System.out.println("Please add the contents of this roster under 'Edit student information.'");
+          main(args);
         }
+        for (int i = 0; i < students.length; i++) {
+          System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
+        }
+        main(args);
       default:
         System.out.println();
         main(args);
@@ -112,10 +126,11 @@ public class Interface {
     System.out.print("Initial setup - Enter school name: ");
     school = scl.nextLine();
     System.out.print("                Enter roster title: ");
-    String RosterTitle = scl.nextLine();
+    String rosterTitle = scl.nextLine();
     System.out.print("                Enter roster size: ");
     int rSize = sct.nextInt();
-    addClass(RosterTitle,rSize);
+    rosters = new Roster[1];
+    rosters[0] = new Roster(rosterTitle, rSize);
   }
 
   /**
@@ -124,7 +139,6 @@ public class Interface {
   private Student addStudent() {
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
-
     System.out.println("Student Name: ");
     String name = scl.nextLine();
     System.out.println("Student Id:");
@@ -135,7 +149,7 @@ public class Interface {
   /**
    * Creates a new teacher
    */
-  private static void addTeacher(){
+  private void addTeacher(){
     Interface run = new Interface();
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
@@ -197,5 +211,17 @@ public class Interface {
   private void addStudentCourse(Student student, Course course){
     student.addCourse(course);
     course.addStudent(student);
+  }
+
+  private void addRoster(String title, int rosterSize) {
+    Roster[] rostersBak = new Roster[rosters.length + 1];
+    for (int i = 0; i < rosters.length; i++) {
+      rostersBak[i] = rosters[i];
+    }
+    rosters = new Roster[rostersBak.length];
+    for (int i = 0; i < rostersBak.length; i++) {
+      rosters[i] = rostersBak[i];
+    }
+    rosters[rosters.length - 1] = new Roster(title, rosterSize);
   }
 }
