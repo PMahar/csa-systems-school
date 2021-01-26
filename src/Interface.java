@@ -8,41 +8,79 @@ import java.util.Scanner;
 public class Interface {
   private static Roster[] rosters;
   private static Teacher[] teachers = new Teacher[5];
-  private static String school;
+  private static final Course[] courses = new Course[5];
+  private String school;
 
   public static void main(String[] args) {
     Interface run = new Interface();
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
-    //initialize the program for first-time use
+    // Initialize the program for first-time use
     if (rosters == null) {
       run.setup();
     }
     System.out.println("\nSchool: " + run.school);
-    System.out.println("1 - Edit student information | 2 - Edit staff information | 3 - Edit marking period grades | 4 - Add Attendance Rosters");
+    System.out.println("1 - Edit student information | " +
+            "2 - Edit staff information | " +
+            "3 - Edit marking period grades | 4 - Add Attendance Rosters");
     System.out.println("5 - View roster");
     System.out.print("Please select an option: ");
     switch (sct.next()) {
       case "1":
         System.out.println("\nSelect an attendance roster to edit:");
-        for (int i = 0; i < rosters.length; i++) {
+        for (int i = 0; i < rosters.length; i++) { // Print the roster
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
         }
         System.out.println("Back - 0");
-        int select = sct.nextInt(); //populate a roster object with students
-        if (select == 0) {
+        int select = sct.nextInt(); // Populate a roster object with students
+        if (select == 0) { // Send the user back to the main prompt
           main(args);
         }
         int rosterSize = rosters[select - 1].getRosterSize();
         Student[] populate = new Student[rosterSize];
+        // for i < rosterSize increase i, execute code
         for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
+          // Set index i of populate to what the user gives in addStudent()
           populate[i] = run.addStudent();
-          rosters[select - 1].setStudents(populate);
+          rosters[select - 1].setStudents(populate); // Add students to roster
+          String rosterName = rosters[select - 1].getTitle();
+          for(int j = 0; j < courses.length; j++){
+            if(courses[j] != null) { // If there are courses
+              if(courses[j].getCourseName().equalsIgnoreCase(rosterName)) {
+                courses[j].addStudent(populate[i]);
+              }
+            }
+          }
         }
         main(args);
+        break;
+      case "3": // Edit/ add mpGrades
+        if(courses[0] != null) { // Make sure that courses has values
+          System.out.println("\nPlease select a roster: ");
+          for (int i = 0; i < rosters.length; i++) { // Print roster
+            System.out.print("[" + (i + 1) + "] ");
+            rosters[i].printRoster();
+          }
+          int rostNum = sct.nextInt(); // The name of the roster chosen
+          String rostName = rosters[rostNum-1].getTitle();
+          for (int j = 0; j < courses.length; j++) {
+            if (courses[j] != null) {
+              if (courses[j].getCourseName().equalsIgnoreCase(rostName)) {
+                courses[j].printStudents();
+              } else {
+                System.out.println("Not found");
+              }
+            }
+          }
+        } else {
+          System.out.println("No values in courses");
+        }
+        main(args);
+        break;
+
       case "4":
-        System.out.println("\nCurrent Rosters for " + school + ": ");
+        System.out.println("\nCurrent Rosters for " + run.school + ": ");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
@@ -62,11 +100,15 @@ public class Interface {
         int roster = sct.nextInt();
         Student[] students = rosters[roster - 1].getStudents();
         if (students == null) {
-          System.out.println("Please add the contents of this roster under 'Edit student information.'");
+          System.out.println("Please add the contents of this roster" +
+                  " under 'Edit student information.'");
           main(args);
         }
-        for (int i = 0; i < students.length; i++) {
-          System.out.println("[" + students[i].getStudentID() + "]" + "  " + students[i].getStudentName());
+        if(students != null) {
+          for (int i = 0; i < students.length; i++) {
+            System.out.println("[" + students[i].getStudentID()
+                    + "]" + "  " + students[i].getStudentName());
+          }
         }
         main(args);
       default:
@@ -77,7 +119,8 @@ public class Interface {
   }
 
   /**
-   * Prepares the program for first-time use, and is implemented in the absence of existing data
+   * Prepares the program for first-time use, and is implemented
+   * in the absence of existing data
    */
   private void setup() {
     Scanner scl = new Scanner(System.in); //line
@@ -89,7 +132,10 @@ public class Interface {
     System.out.print("                Enter roster size: ");
     int rSize = sct.nextInt();
     rosters = new Roster[1];
+    // Assign the first index in array rosters to a new roster with
+    // given title and size
     rosters[0] = new Roster(rosterTitle, rSize);
+    courses[0] = new Course(rosterTitle);
   }
 
   /**
@@ -102,8 +148,7 @@ public class Interface {
     String name = scl.nextLine();
     System.out.println("Student Id:");
     int id = sct.nextInt();
-    Student studAdd = new Student(name, id); // Construct a new student
-    return studAdd;
+    return new Student(name, id); // Construct a new student
   }
 
   /**
@@ -144,16 +189,6 @@ public class Interface {
   private void addTeacherCourse(Teacher teacher, Course course){
     teacher.addCourse(course);
     course.addTeacher(teacher);
-  }
-
-  /**
-   * Adds student to course and course to student
-   * @param student Student to add to course
-   * @param course Course to add to student
-   */
-  private void addStudentCourse(Student student, Course course){
-    student.addCourse(course);
-    course.addStudent(student);
   }
 
   private void addRoster(String title, int rosterSize) {

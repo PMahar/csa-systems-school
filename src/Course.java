@@ -5,8 +5,8 @@
  */
 public class Course {
   private String courseName;
-  private int courseSize;
   // TODO: Figure out how to set a better length
+  private int courseSize = 10;
   private Student[] students = new Student[courseSize];
   private Teacher[] teachers = new Teacher[courseSize];
   private Roster roster;
@@ -20,11 +20,6 @@ public class Course {
    */
   public Course(String courseName){
     this.courseName = courseName;
-  }
-
-  public Course(String courseName, int courseSize, Roster roster){
-    this.courseName = courseName;
-    this.courseSize = courseSize;
   }
 
   /**
@@ -85,5 +80,11 @@ public class Course {
 
   public Student[] getStudents(){
     return students;
+  }
+
+  public void printStudents(){
+    for(int i = 0; i < courseSize; i++){
+      System.out.println(getStudents()[i]);
+    }
   }
 }
