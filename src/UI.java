@@ -5,13 +5,13 @@ import java.util.Scanner;
  * This is where the interfacing is between the user
  * and the code
  */
-public class Interface {
+public class UI {
   private static Roster[] rosters;
   private static Teacher[] teachers;
   private static String school;
 
   public static void main(String[] args) {
-    Interface run = new Interface();
+    UI run = new UI();
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
     // Initialize the program for first-time use
@@ -86,6 +86,11 @@ public class Interface {
           rosters[i].printRoster();
         }
         int rostChoice = sct.nextInt(); // Roster to grade from
+        if (rosters[rostChoice - 1].getStudents() == null) {
+          System.out.println("Please add the contents of this roster " +
+                  "under 'Edit student information.'");
+          main(args);
+        }
         System.out.println("Choose a student to grade: ");
         // Print students
         for(int k = 0; k < rosters[rostChoice - 1].getStudents().length; k++){
@@ -115,7 +120,6 @@ public class Interface {
           System.out.println("Please enroll student in course first");
         }
         main(args);
-        break;
       case "4":
         System.out.println("Please select a student (Back - 0: ");
         for (int i = 0; i < rosters.length; i++) {

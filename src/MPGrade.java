@@ -4,7 +4,6 @@
  * class so it's for one grade
  */
 public class MPGrade {
-  // TODO: incorporate this into interface
   private Course course;
   private Student student;
   private int grade;

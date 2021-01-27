@@ -7,7 +7,7 @@
 public class Teacher {
 private String teacherName;
 private int teacherID;
-private Course[] courses = new Course[100];
+private Course[] courses;
 //teacher requires course objects
 
   public Teacher(String name, int id) {
