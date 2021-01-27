@@ -8,7 +8,6 @@ public class Course {
   private int courseSize = 10;
   private Student[] students = new Student[courseSize];
   private Teacher[] teachers = new Teacher[courseSize];
-  private Roster roster;
 
   /**
    * This is a constructor of course, it takes the course

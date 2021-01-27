@@ -8,6 +8,7 @@ public class Teacher {
 private String teacherName;
 private int teacherID;
 private Course[] courses = new Course[100];
+//teacher requires course objects
 
   public Teacher(String name, int id) {
     teacherName = name;
@@ -16,45 +17,42 @@ private Course[] courses = new Course[100];
 
   /**
    * Adds multiple courses to teacher's list of courses
-   * @param courses The courses to add
+   * @param courseName The courses to add
    */
-  public void addCourses(Course[] courses) {
-    for(int i = 0; i < courses.length; i++){
-      for(int j = 0; i < this.courses.length; j++){
-        if(this.courses[i] == null){ // if there isn't a value then add the course
-          this.courses[i] = courses[j];
-
-        }
-      }
+  public void addCourses(String courseName) {
+    if (courses == null) {
+      courses = new Course[1];
+      courses[0] = new Course(courseName);
+      return;
     }
+    Course[] coursesBak = new Course[courses.length + 1];
+    for (int i = 0; i < courses.length; i++) {
+      coursesBak[i] = courses[i];
+    }
+    courses = new Course[coursesBak.length];
+    for (int i = 0; i < coursesBak.length; i++) {
+      courses[i] = coursesBak[i];
+    }
+    courses[courses.length - 1] = new Course(courseName);
   }
 
   /**
-   * Adds a single course to teacher's list of courses
-   * @param course The course to add
+   * Concatenate courses to a string for printing
+   * @return String-formatted courses
    */
-  public void addCourse(Course course){
-    for(int i = 0; i < courses.length; i ++){
-      if(courses[i] == null){
-        courses[i] = course;
-      }
-    }
-  }
-
-  /**
-   * Concatenate the current values of field "courses" to a readable string
-   * @return String of enrolled courses
-   */
-  /*
   public String catCourses() {
-    String cat = courses[0].getCourseName();
-    for (int i = 1; i < courses.length; i++) {
-      cat += courses[i].getCourseName();
+    String courseConcat = "";
+    if (courses == null) {
+      courseConcat = "(None)";
+      return courseConcat;
     }
-    return cat;
+    for (int i = 0; i < courses.length - 1; i++) {
+      courseConcat += (courses[i].getCourseName() + ", ");
+    }
+    courseConcat += courses[courses.length - 1].getCourseName();
+    return courseConcat;
   }
 
-   */
 
   public String getTeacherName() {
     return teacherName;

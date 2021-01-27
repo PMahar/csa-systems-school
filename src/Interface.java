@@ -19,10 +19,13 @@ public class Interface {
       run.setup();
     }
     System.out.println("\nSchool: " + school);
-    System.out.println("1 - Edit student information | " +
-            "2 - Edit staff information | " +
-            "3 - Edit marking period grades | 4 - Add Attendance Rosters");
-    System.out.println("5 - View roster");
+    System.out.println("|1 - Edit student information" +
+            "\n|2 - Edit staff information" +
+            "\n|3 - Edit marking period grades" +
+            "\n|4 - Edit student course enrollments" +
+            "\n|5 - Edit teacher's courses" +
+            "\n|6 - Add Attendance Rosters" +
+            "\n|7 - View roster");
     System.out.print("Please select an option: ");
     switch (sct.next()) {
       case "1":
@@ -66,7 +69,7 @@ public class Interface {
         }
         System.out.println("Teacher Name (Back - 0): ");
         String teacherName = scl.next();
-        if (scl.next().equals("0")) {
+        if (teacherName.equals("0")) {
           main(args);
         }
         System.out.println("Teacher ID: ");
@@ -98,8 +101,54 @@ public class Interface {
         main(args);
 
          */
+
       case "4":
-        System.out.println("\nCurrent Rosters for " + run.school + ": ");
+        System.out.println("Please select a student (Back - 0: ");
+        for (int i = 0; i < rosters.length; i++) {
+          System.out.print((i + 1) + " - ");
+          rosters[i].printRoster();
+        }
+        int rosterCourse = sct.nextInt();
+        Student[] studentsCourse = rosters[rosterCourse - 1].getStudents();
+        if (studentsCourse == null) {
+          System.out.println("Please add the contents of this roster under 'Edit student information.'");
+          main(args);
+        }
+        for (int i = 0; i < studentsCourse.length; i++) {
+          System.out.println(i + 1 + " - [" + studentsCourse[i].getStudentID()
+                  + "]" + "  " + studentsCourse[i].getStudentName());
+        }
+        int studentChoice = sct.nextInt();
+        System.out.println("Enter enrollments for " + studentsCourse[studentChoice - 1].getStudentName()
+                            +", " + studentsCourse[studentChoice - 1].getStudentID());
+        System.out.print("Number of enrollments: ");
+        int courseCountStudent = sct.nextInt();
+        System.out.println("Press enter after each course to add it to the enrollment list.");
+        for (int i = 0; i < courseCountStudent; i++) {
+          studentsCourse[studentChoice - 1].addCourses(scl.nextLine());
+        }
+        studentsCourse[studentChoice - 1].listCourses();
+        main(args);
+
+      case "5":
+        if (teachers == null) {
+          System.out.println("Please add teachers under 'Edit staff information.'");
+          main(args);
+        }
+        System.out.println("Please select a teacher (Back - 0): ");
+        for (int i = 0; i < teachers.length; i++) {
+          System.out.println(teachers[i].getTeacherName());
+        }
+        int teacherChoice = sct.nextInt();
+        System.out.print("Number of enrollments: ");
+        int courseCountTeacher = sct.nextInt();
+        System.out.println("Press enter after each course to add it to the enrollment list.");
+        for (int i = 0; i < courseCountTeacher; i++) {
+          teachers[teacherChoice - 1].addCourses(scl.nextLine());
+        }
+        main(args);
+      case "6":
+        System.out.println("\nCurrent Rosters for " + school + ": ");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
@@ -110,23 +159,21 @@ public class Interface {
         int rSize = sct.nextInt();
         run.addRoster(rosterTitle, rSize);
         main(args);
-      case "5":
+      case "7":
         System.out.println("\nSelect an attendance roster:");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
         }
-        int roster = sct.nextInt();
-        Student[] students = rosters[roster - 1].getStudents();
-        if (students == null) {
+        int rosterView = sct.nextInt();
+        Student[] studentsView = rosters[rosterView - 1].getStudents();
+        if (studentsView == null) {
           System.out.println("Please add the contents of this roster under 'Edit student information.'");
           main(args);
         }
-        if(students != null) {
-          for (int i = 0; i < students.length; i++) {
-            System.out.println("[" + students[i].getStudentID()
-                    + "]" + "  " + students[i].getStudentName());
-          }
+        for (int i = 0; i < studentsView.length; i++) {
+          System.out.println("[" + studentsView[i].getStudentID()
+                  + "]" + "  " + studentsView[i].getStudentName() + studentsView[i].catCourses());
         }
         main(args);
       default:
@@ -198,15 +245,6 @@ public class Interface {
 
   }
 
-  /**
-   * Adds teacher to course and course to teacher
-   * @param teacher The teacher to add to course
-   * @param course The course to add to the teacher
-   */
-  private void addTeacherCourse(Teacher teacher, Course course){
-    teacher.addCourse(course);
-    course.addTeacher(teacher);
-  }
 
   private void addRoster(String title, int rosterSize) {
     Roster[] rostersBak = new Roster[rosters.length + 1];

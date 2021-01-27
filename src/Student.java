@@ -9,9 +9,8 @@ public class Student {
   // (as well as any other objects like lunch requirement)
   private int studentID;
   private String studentName;
-  // TODO: Figure out a better length
-  private Course[] courses = new Course[100];
-  // TODO: Create a method to add courses to student
+  private Course[] courses;
+  //student will require both mpgrade and course objects
 
   // Add an element to the student array
 
@@ -21,32 +20,25 @@ public class Student {
     this.studentID = id;
   }
 
-  /**
-   * This adds multiple courses at once to a student's course
-   * list
-   * @param courses The courses to add
-   */
-  public void addCourses(Course[] courses){
-    for(int i = 0; i < courses.length; i++){
-      for(int j = 0; j < this.courses.length; j++){
-        if(this.courses[i] == null){
-          this.courses[i] = courses[j];
-        }
-      }
+  public void addCourses(String courseName) {
+    if (courses == null) {
+      courses = new Course[1];
+      courses[0] = new Course(courseName);
+      return;
     }
+    Course[] coursesBak = new Course[courses.length + 1];
+    for (int i = 0; i < courses.length; i++) {
+      coursesBak[i] = courses[i];
+    }
+    courses = new Course[coursesBak.length];
+    for (int i = 0; i < coursesBak.length; i++) {
+      courses[i] = coursesBak[i];
+    }
+    courses[courses.length - 1] = new Course(courseName);
   }
 
-  /**
-   * This adds a single course to a student's course
-   * list
-   * @param course The course to add
-   */
-  public void addCourse(Course course){
-    for(int i = 0; i < this.courses.length; i++){
-      if(courses[i] == null){
-        this.courses[i] = course;
-      }
-    }
+  public int getCourseCount() {
+    return this.courses.length;
   }
 
   /**
@@ -65,8 +57,25 @@ public class Student {
   public void listCourses(){
     System.out.println(this.getStudentName() + "'s courses are: ");
     for(int i = 0; i < courses.length; i ++){
-      System.out.print(courses[i] + ", ");
+      System.out.print(courses[i].getCourseName() + ", ");
     }
+  }
+
+  /**
+   * Concatenate courses to a string for printing
+   * @return String-formatted courses
+   */
+  public String catCourses() {
+    String courseConcat = "";
+    if (courses == null) {
+      courseConcat = "(None)";
+      return courseConcat;
+    }
+    for (int i = 0; i < courses.length - 1; i++) {
+      courseConcat += (courses[i].getCourseName() + ", ");
+    }
+    courseConcat += courses[courses.length - 1].getCourseName();
+    return courseConcat;
   }
 
   public void changeName(String name){
