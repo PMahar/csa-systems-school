@@ -5,7 +5,6 @@
  */
 public class Course {
   private String courseName;
-  // TODO: Figure out how to set a better length
   private int courseSize = 10;
   private Student[] students = new Student[courseSize];
   private Teacher[] teachers = new Teacher[courseSize];

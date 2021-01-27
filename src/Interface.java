@@ -7,9 +7,8 @@ import java.util.Scanner;
  */
 public class Interface {
   private static Roster[] rosters;
-  private static Teacher[] teachers = new Teacher[5];
-  private static final Course[] courses = new Course[5];
-  private String school;
+  private static Teacher[] teachers;
+  private static String school;
 
   public static void main(String[] args) {
     Interface run = new Interface();
@@ -19,7 +18,7 @@ public class Interface {
     if (rosters == null) {
       run.setup();
     }
-    System.out.println("\nSchool: " + run.school);
+    System.out.println("\nSchool: " + school);
     System.out.println("1 - Edit student information | " +
             "2 - Edit staff information | " +
             "3 - Edit marking period grades | 4 - Add Attendance Rosters");
@@ -27,35 +26,55 @@ public class Interface {
     System.out.print("Please select an option: ");
     switch (sct.next()) {
       case "1":
-        System.out.println("\nSelect an attendance roster to edit:");
+        System.out.println("\nSelect an attendance roster to edit (Back - 0):");
         for (int i = 0; i < rosters.length; i++) { // Print the roster
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
         }
-        System.out.println("Back - 0");
         int select = sct.nextInt(); // Populate a roster object with students
         if (select == 0) { // Send the user back to the main prompt
           main(args);
         }
         int rosterSize = rosters[select - 1].getRosterSize();
-        Student[] populate = new Student[rosterSize];
+        Student[] populateStudents = new Student[rosterSize];
         // for i < rosterSize increase i, execute code
         for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
-          // Set index i of populate to what the user gives in addStudent()
-          populate[i] = run.addStudent();
-          rosters[select - 1].setStudents(populate); // Add students to roster
+          // Set index i of populateStudents to what the user gives in addStudent()
+          populateStudents[i] = run.addStudent();
+          rosters[select - 1].setStudents(populateStudents); // Add students to roster
           String rosterName = rosters[select - 1].getTitle();
+          /*
           for(int j = 0; j < courses.length; j++){
             if(courses[j] != null) { // If there are courses
               if(courses[j].getCourseName().equalsIgnoreCase(rosterName)) {
-                courses[j].addStudent(populate[i]);
+                courses[j].addStudent(populateStudents[i]);
               }
             }
           }
+
+           */
         }
         main(args);
-        break;
-      case "3": // Edit/ add mpGrades
+
+      case "2":
+        if (teachers != null) {
+          for (int i = 0; i < teachers.length; i++) {
+            System.out.println(teachers[i].getTeacherID() + " - "
+                    + teachers[i].getTeacherName()
+                    /*+ teachers[i].catCourses()*/);
+          }
+        }
+        System.out.println("Teacher Name (Back - 0): ");
+        String teacherName = scl.next();
+        if (scl.next().equals("0")) {
+          main(args);
+        }
+        System.out.println("Teacher ID: ");
+        int teacherID = sct.nextInt();
+        run.addTeacher(teacherName, teacherID);
+        main(args);
+      case "3":
+        /*// Edit/ add mpGrades
         if(courses[0] != null) { // Make sure that courses has values
           System.out.println("\nPlease select a roster: ");
           for (int i = 0; i < rosters.length; i++) { // Print roster
@@ -77,8 +96,8 @@ public class Interface {
           System.out.println("No values in courses");
         }
         main(args);
-        break;
 
+         */
       case "4":
         System.out.println("\nCurrent Rosters for " + run.school + ": ");
         for (int i = 0; i < rosters.length; i++) {
@@ -100,8 +119,7 @@ public class Interface {
         int roster = sct.nextInt();
         Student[] students = rosters[roster - 1].getStudents();
         if (students == null) {
-          System.out.println("Please add the contents of this roster" +
-                  " under 'Edit student information.'");
+          System.out.println("Please add the contents of this roster under 'Edit student information.'");
           main(args);
         }
         if(students != null) {
@@ -135,13 +153,13 @@ public class Interface {
     // Assign the first index in array rosters to a new roster with
     // given title and size
     rosters[0] = new Roster(rosterTitle, rSize);
-    courses[0] = new Course(rosterTitle);
   }
 
   /**
    * Create a new student
    */
   private Student addStudent() {
+    System.out.println(school);
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
     System.out.println("Student Name: ");
@@ -154,31 +172,30 @@ public class Interface {
   /**
    * Creates a new teacher
    */
-  private void addTeacher(){
-    Interface run = new Interface();
-    Scanner sct = new Scanner(System.in);
-    Scanner scl = new Scanner(System.in);
-
-    System.out.println("Teacher Name: ");
-    String name = scl.next();
-    System.out.println("Teacher ID: ");
-    int id = sct.nextInt();
-    if(id > 0){
-      Teacher teacherAdd = new Teacher(name, id);
-      for(int i = 0; i < teachers.length; i++){
-        if(teacherAdd.getTeacherName() != null){
-          teachers[i] = teacherAdd;
-        }
-      }
+  private void addTeacher(String name, int id) {
+    if (teachers == null) {
+      teachers = new Teacher[1];
+      teachers[0] = new Teacher(name, id);
+      return;
+    }
+    Teacher[] teachersBak = new Teacher[teachers.length + 1];
+    for (int i = 0; i < teachers.length; i++) {
+      teachersBak[i] = teachers[i];
+    }
+    teachers = new Teacher[teachersBak.length];
+    for (int i = 0; i < teachersBak.length; i++) {
+      teachers[i] = teachersBak[i];
+    }
+    teachers[teachers.length - 1] = new Teacher(name, id);
+      /*
       System.out.println("Teacher's course (0 to escape): ");
       while(scl.hasNext() && !scl.next().contains("0")){
         Course course = new Course(scl.next());
         run.addTeacherCourse(teacherAdd, course);
       }
-    } else if(id == 0){
-      System.out.println("Invalid ID");
-    }
-    System.out.println("Successfully added teacher");
+
+       */
+
   }
 
   /**

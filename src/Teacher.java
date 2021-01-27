@@ -41,6 +41,21 @@ private Course[] courses = new Course[100];
     }
   }
 
+  /**
+   * Concatenate the current values of field "courses" to a readable string
+   * @return String of enrolled courses
+   */
+  /*
+  public String catCourses() {
+    String cat = courses[0].getCourseName();
+    for (int i = 1; i < courses.length; i++) {
+      cat += courses[i].getCourseName();
+    }
+    return cat;
+  }
+
+   */
+
   public String getTeacherName() {
     return teacherName;
   }
