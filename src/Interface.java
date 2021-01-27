@@ -58,7 +58,7 @@ public class Interface {
            */
         }
         main(args);
-
+        break;
       case "2":
         if (teachers != null) {
           for (int i = 0; i < teachers.length; i++) {
@@ -76,32 +76,46 @@ public class Interface {
         int teacherID = sct.nextInt();
         run.addTeacher(teacherName, teacherID);
         main(args);
+        break;
       case "3":
-        /*// Edit/ add mpGrades
-        if(courses[0] != null) { // Make sure that courses has values
-          System.out.println("\nPlease select a roster: ");
-          for (int i = 0; i < rosters.length; i++) { // Print roster
-            System.out.print("[" + (i + 1) + "] ");
-            rosters[i].printRoster();
-          }
-          int rostNum = sct.nextInt(); // The name of the roster chosen
-          String rostName = rosters[rostNum-1].getTitle();
-          for (int j = 0; j < courses.length; j++) {
-            if (courses[j] != null) {
-              if (courses[j].getCourseName().equalsIgnoreCase(rostName)) {
-                courses[j].printStudents();
-              } else {
-                System.out.println("Not found");
-              }
+        // Edit/ add mpGrades
+        System.out.println("Choose a roster to grade in:");
+        // Print roster
+        for(int i = 0; i < rosters.length; i++){
+          System.out.print((i+1) + " - ");
+          rosters[i].printRoster();
+        }
+        int rostChoice = sct.nextInt(); // Roster to grade from
+        System.out.println("Choose a student to grade: ");
+        // Print students
+        for(int k = 0; k < rosters[rostChoice - 1].getStudents().length; k++){
+          System.out.println((k+1) + " - " +
+                  rosters[rostChoice - 1].getStudents()[k].getStudentName());
+        }
+        int studIndex = sct.nextInt(); // Student to grade
+        // Find the course that is related to said roster
+        Student courseFind = run.findStudent(rosters[rostChoice - 1].
+                getStudents()[studIndex - 1].getStudentName());
+        Course studCourse = null;
+        if(courseFind.getCourses() != null) { // If course is valid find the matching roster
+          for (int i = 0; i < courseFind.getCourseCount(); i++) {
+              if (courseFind.getCourses()[i].getCourseName().
+                      equalsIgnoreCase(rosters[rostChoice - 1].getTitle())) {
+                studCourse = courseFind.getCourses()[i];
             }
           }
+          System.out.println("Please enter marking period grade for " +
+                  rosters[rostChoice - 1].getStudents()[studIndex - 1].getStudentName());
+          int grade = sct.nextInt();
+          MPGrade mpGrade = new MPGrade(studCourse,
+                  rosters[rostChoice - 1].getStudents()[studIndex - 1], grade);
+          rosters[rostChoice-1].getStudents()[studIndex-1].addMPGrade(studCourse,grade);
+          mpGrade.printGrade();
         } else {
-          System.out.println("No values in courses");
+          System.out.println("Please enroll student in course first");
         }
         main(args);
-
-         */
-
+        break;
       case "4":
         System.out.println("Please select a student (Back - 0: ");
         for (int i = 0; i < rosters.length; i++) {
@@ -111,7 +125,8 @@ public class Interface {
         int rosterCourse = sct.nextInt();
         Student[] studentsCourse = rosters[rosterCourse - 1].getStudents();
         if (studentsCourse == null) {
-          System.out.println("Please add the contents of this roster under 'Edit student information.'");
+          System.out.println("Please add the contents of this roster " +
+                  "under 'Edit student information.'");
           main(args);
         }
         for (int i = 0; i < studentsCourse.length; i++) {
@@ -119,20 +134,23 @@ public class Interface {
                   + "]" + "  " + studentsCourse[i].getStudentName());
         }
         int studentChoice = sct.nextInt();
-        System.out.println("Enter enrollments for " + studentsCourse[studentChoice - 1].getStudentName()
+        System.out.println("Enter enrollments for " +
+                studentsCourse[studentChoice - 1].getStudentName()
                             +", " + studentsCourse[studentChoice - 1].getStudentID());
         System.out.print("Number of enrollments: ");
         int courseCountStudent = sct.nextInt();
-        System.out.println("Press enter after each course to add it to the enrollment list.");
+        System.out.println("Press enter after each course to add it to " +
+                "the enrollment list.");
         for (int i = 0; i < courseCountStudent; i++) {
           studentsCourse[studentChoice - 1].addCourses(scl.nextLine());
         }
         studentsCourse[studentChoice - 1].listCourses();
         main(args);
-
+        break;
       case "5":
         if (teachers == null) {
-          System.out.println("Please add teachers under 'Edit staff information.'");
+          System.out.println("Please add teachers under 'Edit staff " +
+                  "information.'");
           main(args);
         }
         System.out.println("Please select a teacher (Back - 0): ");
@@ -142,11 +160,13 @@ public class Interface {
         int teacherChoice = sct.nextInt();
         System.out.print("Number of enrollments: ");
         int courseCountTeacher = sct.nextInt();
-        System.out.println("Press enter after each course to add it to the enrollment list.");
+        System.out.println("Press enter after each course to add it to " +
+                "the enrollment list.");
         for (int i = 0; i < courseCountTeacher; i++) {
           teachers[teacherChoice - 1].addCourses(scl.nextLine());
         }
         main(args);
+        break;
       case "6":
         System.out.println("\nCurrent Rosters for " + school + ": ");
         for (int i = 0; i < rosters.length; i++) {
@@ -159,6 +179,7 @@ public class Interface {
         int rSize = sct.nextInt();
         run.addRoster(rosterTitle, rSize);
         main(args);
+        break;
       case "7":
         System.out.println("\nSelect an attendance roster:");
         for (int i = 0; i < rosters.length; i++) {
@@ -168,14 +189,17 @@ public class Interface {
         int rosterView = sct.nextInt();
         Student[] studentsView = rosters[rosterView - 1].getStudents();
         if (studentsView == null) {
-          System.out.println("Please add the contents of this roster under 'Edit student information.'");
+          System.out.println("Please add the contents of this roster " +
+                  "under 'Edit student information.'");
           main(args);
         }
         for (int i = 0; i < studentsView.length; i++) {
           System.out.println("[" + studentsView[i].getStudentID()
-                  + "]" + "  " + studentsView[i].getStudentName() + studentsView[i].catCourses());
+                  + "]" + "  " + studentsView[i].getStudentName() +
+                  studentsView[i].catCourses());
         }
         main(args);
+        break;
       default:
         System.out.println();
         main(args);
@@ -256,5 +280,22 @@ public class Interface {
       rosters[i] = rostersBak[i];
     }
     rosters[rosters.length - 1] = new Roster(title, rosterSize);
+  }
+
+  /**
+   * Finds a student from a string of their name
+   * @param name The name of the student to search for
+   * @return The student looked for, if not found returns null
+   */
+  private Student findStudent(String name){
+    for(int i = 0; i < rosters.length; i++){
+      for(int x = 0; x < rosters[i].getStudents().length; x++){
+        if(rosters[i].getStudents()[x].getStudentName().equalsIgnoreCase(name)){
+          return rosters[i].getStudents()[x];
+        }
+      }
+    }
+    System.err.println("Student not found");
+    return null;
   }
 }

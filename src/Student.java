@@ -10,6 +10,7 @@ public class Student {
   private int studentID;
   private String studentName;
   private Course[] courses;
+  private MPGrade[] mPGrade;
   //student will require both mpgrade and course objects
 
   // Add an element to the student array
@@ -90,5 +91,25 @@ public class Student {
 
   public String getStudentName() {
     return studentName;
+  }
+
+  public Course[] getCourses(){
+    return courses;
+  }
+
+  public void addMPGrade(Course course, int grade){
+    if(mPGrade == null){
+      mPGrade = new MPGrade[1];
+      mPGrade[0] = new MPGrade(course, this, grade);
+    }
+    MPGrade[] mPGradeBack = new MPGrade[mPGrade.length + 1];
+    for (int i = 0; i < mPGrade.length; i++) {
+      mPGradeBack[i] = mPGrade[i];
+    }
+    mPGrade = new MPGrade[mPGradeBack.length];
+    for (int i = 0; i < mPGradeBack.length; i++) {
+      mPGrade[i] = mPGradeBack[i];
+    }
+    mPGrade[mPGrade.length - 1] = new MPGrade(course, this, grade);
   }
 }
