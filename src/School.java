@@ -21,7 +21,7 @@ public class School {
             "\n|3 - Edit marking period grades" +
             "\n|4 - Edit student course enrollments" +
             "\n|5 - Edit teacher's courses" +
-            "\n|6 - Add Attendance Rosters" +
+            "\n|6 - Add attendance rosters" +
             "\n|7 - View roster");
 
     System.out.print("Please select an option: ");
@@ -50,11 +50,11 @@ public class School {
         editSchool();
         break;
       case "2":
-        if (teachers != null) {
+        if (teachers[teachers.length - 1] != null) {
           for (int i = 0; i < teachers.length; i++) {
             System.out.println(teachers[i].getTeacherID() + " - "
-                            + teachers[i].getTeacherName()
-                    /*+ teachers[i].catCourses()*/);
+                    + teachers[i].getTeacherName()
+                    + ": " + teachers[i].catCourses());
           }
         }
         System.out.println("Teacher Name (Back - 0): ");
@@ -66,7 +66,6 @@ public class School {
         int teacherID = sct.nextInt();
         addTeacher(teacherName, teacherID);
         editSchool();
-        break;
       case "3":
         // Edit/ add mpGrades
         System.out.println("Choose a roster to grade in:");
@@ -111,7 +110,7 @@ public class School {
         }
         editSchool();
       case "4":
-        System.out.println("Please select a student (Back - 0: ");
+        System.out.println("Please select a student (Back - 0): ");
         for (int i = 0; i < rosters.length; i++) {
           System.out.print((i + 1) + " - ");
           rosters[i].printRoster();
@@ -142,15 +141,16 @@ public class School {
         editSchool();
         break;
       case "5":
-        if (teachers == null) {
+        if (teachers[teachers.length - 1] == null) {
           System.out.println("Please add teachers under 'Edit staff " +
                   "information.'");
           editSchool();
         }
-        System.out.println("Please select a teacher (Back - 0): ");
         for (int i = 0; i < teachers.length; i++) {
-          System.out.println(teachers[i].getTeacherName());
+          System.out.println("[" + i + "] " + teachers[i].getTeacherName() + ": " +
+                              teachers[i].catCourses());
         }
+        System.out.print("Please select a teacher (Back - 0): ");
         int teacherChoice = sct.nextInt();
         System.out.print("Number of enrollments: ");
         int courseCountTeacher = sct.nextInt();
@@ -160,7 +160,6 @@ public class School {
           teachers[teacherChoice - 1].addCourses(scl.nextLine());
         }
         editSchool();
-        break;
       case "6":
         System.out.println("\nCurrent Rosters for " + schoolTitle + ": ");
         for (int i = 0; i < rosters.length; i++) {
@@ -187,10 +186,12 @@ public class School {
                   "under 'Edit student information.'");
           editSchool();
         }
-        for (int i = 0; i < studentsView.length; i++) {
-          System.out.println("[" + studentsView[i].getStudentID()
-                  + "]" + "  " + studentsView[i].getStudentName() +
-                  " " + studentsView[i].catCourses());
+        if (studentsView != null) {
+          for (int i = 0; i < studentsView.length; i++) {
+            System.out.println("[" + studentsView[i].getStudentID()
+                    + "]" + "  " + studentsView[i].getStudentName() +
+                    " " + studentsView[i].catCourses());
+          }
         }
         editSchool();
         break;
@@ -204,7 +205,7 @@ public class School {
    * Creates a new teacher
    */
   public void addTeacher(String name, int id) {
-    if (teachers == null) {
+    if (teachers[teachers.length - 1] == null) {
       teachers = new Teacher[1];
       teachers[0] = new Teacher(name, id);
       return;

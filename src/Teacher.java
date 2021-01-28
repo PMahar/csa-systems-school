@@ -11,8 +11,8 @@ private Course[] courses;
 //teacher requires course objects
 
   public Teacher(String name, int id) {
-    teacherName = name;
-    teacherID = id;
+    this.teacherName = name;
+    this.teacherID = id;
   }
 
   /**

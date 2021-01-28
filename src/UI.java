@@ -25,22 +25,24 @@ public class UI {
               " faculty members");
     }
     System.out.print("Select a school to modify (Add school - a | Quit - 0): ");
-    int schoolSelect = sct.nextInt();
-    switch(schoolSelect) {
+    String uiSelect = scl.nextLine();
+    switch(uiSelect.charAt(0)) {
       case 0:
         System.exit(0);
       case 'a':
         System.out.print("School title: ");
         String schoolTitle = scl.nextLine();
-        System.out.println("Roster title: ");
+        System.out.print("Roster title: ");
         String rosterTitle = scl.nextLine();
-        System.out.println("Roster size: ");
+        System.out.print("Roster size: ");
         int rosterSize = sct.nextInt();
         Roster[] addRoster = new Roster[1];
         addRoster[0] = new Roster(rosterTitle, rosterSize);
         Teacher[] addTeacher = new Teacher[1];
         run.addSchool(addRoster, addTeacher, schoolTitle);
+        main(args);
       default:
+        int schoolSelect = Integer.parseInt(uiSelect);
         schools[schoolSelect - 1].editSchool();
         main(args);
     }
