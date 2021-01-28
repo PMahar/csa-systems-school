@@ -1,13 +1,18 @@
 import java.util.Scanner;
 
 /**
- * This is where the interfacing is between the user
- * and the code
+ * Entry class, allows mutation of data fields through modifying 'school' objects
+ * and their associated properties
  */
 public class UI {
   private String district;
   private static School[] schools;
 
+  /**
+   * Entry point method, constructs all necessary objects on startup as well
+   * as manipulates 'school' objects
+   * @param args Command-line arguments
+   */
   public static void main(String[] args) {
     UI run = new UI();
     Scanner sct = new Scanner(System.in);
@@ -52,7 +57,7 @@ public class UI {
    * Prepares the program for first-time use, and is implemented
    * in the absence of existing data
    */
-  private void setup() {
+  public void setup() {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
     System.out.print("Initial setup - Enter district name: ");
@@ -73,11 +78,21 @@ public class UI {
     schools[0] = new School(initRosters, initTeachers, initSchool);
   }
 
-
+  /**
+   * Mutator for district field
+   * @param district Title of school district
+   */
   public void setDistrict(String district) {
     this.district = district;
   }
 
+  /**
+   * Constructs a new 'school' object, expanding current school array
+   * 'rosters' and 'teachers' will be null on setup construction
+   * @param rosters Attendance rosters
+   * @param teachers Teachers
+   * @param schoolTitle Title of school
+   */
   public void addSchool(Roster[] rosters, Teacher[] teachers, String schoolTitle) {
     School[] schoolsBak = new School[UI.schools.length + 1];
     for (int i = 0; i < schools.length; i++) {

@@ -1,8 +1,7 @@
 
 /**
- * This class handles teacher/ teaching activities
- * This class is meant to deal with a single teacher at
- * a time
+ * Teacher objects will represent faculty members within the school, with fields for their name,
+ * numerical ID, and courses taught
  */
 public class Teacher {
 private String teacherName;
@@ -10,6 +9,11 @@ private int teacherID;
 private Course[] courses;
 //teacher requires course objects
 
+  /**
+   * Constructor of teacher object
+   * @param name Name of teacher
+   * @param id Numerical ID of teacher
+   */
   public Teacher(String name, int id) {
     this.teacherName = name;
     this.teacherID = id;
@@ -53,21 +57,20 @@ private Course[] courses;
     return courseConcat;
   }
 
-
+  /**
+   * Accessor for field teacherName
+   * @return Name of selected teacher
+   */
   public String getTeacherName() {
     return teacherName;
   }
 
-  public void setTeacherName(String teacherName) {
-    this.teacherName = teacherName;
-  }
-
+  /**
+   * Accessor for field teacherID
+   * @return Numerical ID of selected teacher
+   */
   public int getTeacherID() {
     return teacherID;
-  }
-
-  public void setTeacherID(int teacherID) {
-    this.teacherID = teacherID;
   }
 
 }

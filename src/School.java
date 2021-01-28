@@ -5,12 +5,22 @@ public class School {
   private Teacher[] teachers;
   private String schoolTitle;
 
+  /**
+   * Constructor of 'school' object, which contains attendance rosters, teachers, and all
+   * respective attributes
+   * @param rosters Setup attendance rosters
+   * @param teachers Setup teachers
+   * @param schoolTitle School title
+   */
   public School(Roster[] rosters, Teacher[] teachers, String schoolTitle) {
     this.rosters = rosters;
     this.teachers = teachers;
     this.schoolTitle = schoolTitle;
   }
 
+  /**
+   * User interface for modifying 'school' objects within a district
+   */
   public void editSchool() {
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
@@ -202,7 +212,9 @@ public class School {
   }
 
   /**
-   * Creates a new teacher
+   * Creates a new teacher in an expanding array
+   * @param name Name of teacher
+   * @param id Numerical teacher ID
    */
   public void addTeacher(String name, int id) {
     if (teachers[teachers.length - 1] == null) {
@@ -221,6 +233,11 @@ public class School {
     teachers[teachers.length - 1] = new Teacher(name, id);
   }
 
+  /**
+   * Creates a new attenance roster in an expanding array
+   * @param title Title of roster (E.g. grade, 12th grade, seniors)
+   * @param rosterSize Number of students in roster
+   */
   public void addRoster(String title, int rosterSize) {
     Roster[] rostersBak = new Roster[rosters.length + 1];
     for (int i = 0; i < rosters.length; i++) {
@@ -233,18 +250,34 @@ public class School {
     rosters[rosters.length - 1] = new Roster(title, rosterSize);
   }
 
+  /**
+   * Accessor for school rosters
+   * @return Current rosters
+   */
   public Roster[] getRosters() {
     return rosters;
   }
 
+  /**
+   * Accessor for school teachers
+   * @return Current teachers
+   */
   public Teacher[] getTeachers() {
     return teachers;
   }
 
+  /**
+   * Accessor for school title
+   * @return School title
+   */
   public String getSchoolTitle() {
     return schoolTitle;
   }
 
+  /**
+   * Numerical count of total student array size between all rosters
+   * @return Total student count
+   */
   public int totalStudents() {
     int studentCount = 0;
     for (int i = 0; i < rosters.length; i++) {
@@ -258,7 +291,7 @@ public class School {
    * @param name The name of the student to search for
    * @return The student looked for, if not found returns null
    */
-  private Student findStudent(String name){
+  public Student findStudent(String name){
     for(int i = 0; i < rosters.length; i++){
       for(int x = 0; x < rosters[i].getStudents().length; x++){
         if(rosters[i].getStudents()[x].getStudentName().equalsIgnoreCase(name)){

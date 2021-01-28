@@ -1,7 +1,7 @@
 
 /**
- * This class deals with adding courses, getting mpGrades,
- * and other *singular* student activities.
+ * Student objects represent students within a school, with names, numerical IDs,
+ * attended courses, and marking period grades
  */
 public class Student {
   // Every Student object will require an individual name,
@@ -16,11 +16,21 @@ public class Student {
   // Add an element to the student array
 
   // Constructor to instantiate student object from psvm
+
+  /**
+   * Constructor of student object
+   * @param name Name of student
+   * @param id Numerical ID of student
+   */
   public Student(String name, int id) {
     this.studentName = name;
     this.studentID = id;
   }
 
+  /**
+   * Add student courses into an expanding array
+   * @param courseName String representing a course name
+   */
   public void addCourses(String courseName) {
     if (courses == null) {
       courses = new Course[1];
@@ -38,23 +48,17 @@ public class Student {
     courses[courses.length - 1] = new Course(courseName);
   }
 
+  /**
+   * Accessor for length of courses array
+   * @return Integer representing number of enlisted courses
+   */
   public int getCourseCount() {
     return this.courses.length;
   }
 
   /**
-   * Checks if a student is valid
-   * @return True if the student is valid
+   * Utility method for printing contents of course array to console
    */
-  public boolean isValid(){
-    if (!this.getStudentName().isBlank()){
-      return true;
-    } else {
-      System.err.println("Student not found");
-      return false;
-    }
-  }
-
   public void listCourses(){
     System.out.println(this.getStudentName() + "'s courses are: ");
     for(int i = 0; i < courses.length; i ++){
@@ -79,24 +83,35 @@ public class Student {
     return courseConcat;
   }
 
-  public void changeName(String name){
-    if(this.isValid()){
-      this.studentName = name;
-    }
-  }
-
+  /**
+   * Accessor for student ID
+   * @return Selected student's numerical identifier
+   */
   public int getStudentID() {
     return studentID;
   }
 
+  /**
+   * Accessor for student name
+   * @return Selected student's name
+   */
   public String getStudentName() {
     return studentName;
   }
 
+  /**
+   * Accessor for selected student's enrollment array
+   * @return Student's course array
+   */
   public Course[] getCourses(){
     return courses;
   }
 
+  /**
+   * Add marking period grades into an expanding array
+   * @param course Course associated with grade
+   * @param grade Numerical marking period grade
+   */
   public void addMPGrade(Course course, int grade){
     if(mPGrade == null){
       mPGrade = new MPGrade[1];
