@@ -3,7 +3,7 @@
  * Teacher objects will represent faculty members within the school, with fields for their name,
  * numerical ID, and courses taught
  */
-public class Teacher {
+public class Teacher implements SchoolMember {
 private String teacherName;
 private int teacherID;
 private Course[] courses;

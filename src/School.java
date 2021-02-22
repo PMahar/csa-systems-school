@@ -133,13 +133,13 @@ public class School {
           editSchool();
         }
         for (int i = 0; i < studentsCourse.length; i++) {
-          System.out.println(i + 1 + " - [" + studentsCourse[i].getStudentID()
+          System.out.println(i + 1 + " - [" + studentsCourse[i].getId()
                   + "]" + "  " + studentsCourse[i].getStudentName());
         }
         int studentChoice = sct.nextInt();
         System.out.println("Enter enrollments for " +
                 studentsCourse[studentChoice - 1].getStudentName()
-                +", " + studentsCourse[studentChoice - 1].getStudentID());
+                +", " + studentsCourse[studentChoice - 1].getId());
         System.out.print("Number of enrollments: ");
         int courseCountStudent = sct.nextInt();
         System.out.println("Press enter after each course to add it to " +
@@ -198,7 +198,7 @@ public class School {
         }
         if (studentsView != null) {
           for (int i = 0; i < studentsView.length; i++) {
-            System.out.println("[" + studentsView[i].getStudentID()
+            System.out.println("[" + studentsView[i].getId()
                     + "]" + "  " + studentsView[i].getStudentName() +
                     " " + studentsView[i].catCourses());
           }

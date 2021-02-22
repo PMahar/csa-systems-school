@@ -3,11 +3,11 @@
  * Student objects represent students within a school, with names, numerical IDs,
  * attended courses, and marking period grades
  */
-public class Student {
+public class Student implements SchoolMember{
   // Every Student object will require an individual name,
   // ID, and list of enrolled courses
   // (as well as any other objects like lunch requirement)
-  private int studentID;
+  private int id;
   private String studentName;
   private Course[] courses;
   private MPGrade[] mPGrade;
@@ -24,7 +24,7 @@ public class Student {
    */
   public Student(String name, int id) {
     this.studentName = name;
-    this.studentID = id;
+    this.id = id;
   }
 
   /**
@@ -87,8 +87,8 @@ public class Student {
    * Accessor for student ID
    * @return Selected student's numerical identifier
    */
-  public int getStudentID() {
-    return studentID;
+  public int getId() {
+    return id;
   }
 
   /**
