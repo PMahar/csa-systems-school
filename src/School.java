@@ -94,12 +94,12 @@ public class School {
         // Print students
         for(int k = 0; k < rosters[rostChoice - 1].getStudents().length; k++){
           System.out.println((k+1) + " - " +
-                  rosters[rostChoice - 1].getStudents()[k].getStudentName());
+                  rosters[rostChoice - 1].getStudents()[k].getName());
         }
         int studIndex = sct.nextInt(); // Student to grade
         // Find the course that is related to said roster
         Student courseFind = findStudent(rosters[rostChoice - 1].
-                getStudents()[studIndex - 1].getStudentName());
+                getStudents()[studIndex - 1].getName());
         Course studCourse = null;
         if(courseFind.getCourses() != null) { // If course is valid find the matching roster
           for (int i = 0; i < courseFind.getCourseCount(); i++) {
@@ -109,7 +109,7 @@ public class School {
             }
           }
           System.out.println("Please enter marking period grade for " +
-                  rosters[rostChoice - 1].getStudents()[studIndex - 1].getStudentName());
+                  rosters[rostChoice - 1].getStudents()[studIndex - 1].getName());
           int grade = sct.nextInt();
           MPGrade mpGrade = new MPGrade(studCourse,
                   rosters[rostChoice - 1].getStudents()[studIndex - 1], grade);
@@ -134,11 +134,11 @@ public class School {
         }
         for (int i = 0; i < studentsCourse.length; i++) {
           System.out.println(i + 1 + " - [" + studentsCourse[i].getId()
-                  + "]" + "  " + studentsCourse[i].getStudentName());
+                  + "]" + "  " + studentsCourse[i].getName());
         }
         int studentChoice = sct.nextInt();
         System.out.println("Enter enrollments for " +
-                studentsCourse[studentChoice - 1].getStudentName()
+                studentsCourse[studentChoice - 1].getName()
                 +", " + studentsCourse[studentChoice - 1].getId());
         System.out.print("Number of enrollments: ");
         int courseCountStudent = sct.nextInt();
@@ -199,7 +199,7 @@ public class School {
         if (studentsView != null) {
           for (int i = 0; i < studentsView.length; i++) {
             System.out.println("[" + studentsView[i].getId()
-                    + "]" + "  " + studentsView[i].getStudentName() +
+                    + "]" + "  " + studentsView[i].getName() +
                     " " + studentsView[i].catCourses());
           }
         }
@@ -294,7 +294,7 @@ public class School {
   public Student findStudent(String name){
     for(int i = 0; i < rosters.length; i++){
       for(int x = 0; x < rosters[i].getStudents().length; x++){
-        if(rosters[i].getStudents()[x].getStudentName().equalsIgnoreCase(name)){
+        if(rosters[i].getStudents()[x].getName().equalsIgnoreCase(name)){
           return rosters[i].getStudents()[x];
         }
       }

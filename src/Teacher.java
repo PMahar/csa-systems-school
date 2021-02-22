@@ -7,7 +7,7 @@ public class Teacher implements SchoolMember {
 private String teacherName;
 private int teacherID;
 private Course[] courses;
-//teacher requires course objects
+// teacher requires course objects
 
   /**
    * Constructor of teacher object
@@ -15,8 +15,8 @@ private Course[] courses;
    * @param id Numerical ID of teacher
    */
   public Teacher(String name, int id) {
-    this.teacherName = name;
-    this.teacherID = id;
+    teacherName = name;
+    teacherID = id;
   }
 
   /**
@@ -65,12 +65,22 @@ private Course[] courses;
     return teacherName;
   }
 
+  @Override
   /**
    * Accessor for field teacherID
    * @return Numerical ID of selected teacher
    */
-  public int getTeacherID() {
+  public int getId() {
     return teacherID;
   }
 
+  @Override
+  public String getName() {
+    return teacherName;
+  }
+
+  @Override
+  public Course[] getCourses() {
+    return courses;
+  }
 }

@@ -7,8 +7,8 @@ public class Student implements SchoolMember{
   // Every Student object will require an individual name,
   // ID, and list of enrolled courses
   // (as well as any other objects like lunch requirement)
-  private int id;
-  private String studentName;
+  private final int id;
+  private final String name;
   private Course[] courses;
   private MPGrade[] mPGrade;
   //student will require both mpgrade and course objects
@@ -23,7 +23,7 @@ public class Student implements SchoolMember{
    * @param id Numerical ID of student
    */
   public Student(String name, int id) {
-    this.studentName = name;
+    this.name = name;
     this.id = id;
   }
 
@@ -31,6 +31,7 @@ public class Student implements SchoolMember{
    * Add student courses into an expanding array
    * @param courseName String representing a course name
    */
+  @Override
   public void addCourses(String courseName) {
     if (courses == null) {
       courses = new Course[1];
@@ -60,9 +61,9 @@ public class Student implements SchoolMember{
    * Utility method for printing contents of course array to console
    */
   public void listCourses(){
-    System.out.println(this.getStudentName() + "'s courses are: ");
-    for(int i = 0; i < courses.length; i ++){
-      System.out.print(courses[i].getCourseName() + ", ");
+    System.out.println(this.getName() + "'s courses are: ");
+    for (Course cours : courses) {
+      System.out.print(cours.getCourseName() + ", ");
     }
   }
 
@@ -95,8 +96,8 @@ public class Student implements SchoolMember{
    * Accessor for student name
    * @return Selected student's name
    */
-  public String getStudentName() {
-    return studentName;
+  public String getName() {
+    return name;
   }
 
   /**

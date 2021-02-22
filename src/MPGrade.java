@@ -15,7 +15,7 @@ public class MPGrade {
   }
 
   public void printGrade(){
-    System.out.println(student.getStudentName() + "'s grade in " + course.getCourseName()
+    System.out.println(student.getName() + "'s grade in " + course.getCourseName()
             + " is now " + grade + "%");
   }
 }

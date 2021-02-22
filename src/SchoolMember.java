@@ -1,4 +1,7 @@
 public interface SchoolMember {
-  int id = 0;
-  String name = null;
+  int getId();
+  String getName();
+  Course[] getCourses();
+  void addCourses(String courseName);
+  String catCourses();
 }
