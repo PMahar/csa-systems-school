@@ -62,7 +62,7 @@ public class School {
       case "2":
         if (teachers[teachers.length - 1] != null) {
           for (int i = 0; i < teachers.length; i++) {
-            System.out.println(teachers[i].getTeacherID() + " - "
+            System.out.println(teachers[i].getId() + " - "
                     + teachers[i].getTeacherName()
                     + ": " + teachers[i].catCourses());
           }
