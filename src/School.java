@@ -1,8 +1,10 @@
+import java.lang.reflect.Array;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class School {
-  private Roster[] rosters;
-  private Teacher[] teachers;
+  private ArrayList<Roster> rosters;
+  private ArrayList<Teacher> teachers;
   private String schoolTitle;
 
   /**
@@ -12,7 +14,7 @@ public class School {
    * @param teachers Setup teachers
    * @param schoolTitle School title
    */
-  public School(Roster[] rosters, Teacher[] teachers, String schoolTitle) {
+  public School(ArrayList<Roster> rosters, ArrayList<Teacher> teachers, String schoolTitle) {
     this.rosters = rosters;
     this.teachers = teachers;
     this.schoolTitle = schoolTitle;
@@ -41,30 +43,28 @@ public class School {
       case "1":
         System.out.println("School - " + schoolTitle);
         System.out.println("\nSelect an attendance roster to edit (Back - 0):");
-        for (int i = 0; i < rosters.length; i++) { // Print the roster
+        for (int i = 0; i < rosters.size(); i++) { // Print the roster
           System.out.print((i + 1) + " - ");
-          rosters[i].printRoster();
+          rosters.get(i).printRoster();
         }
         int select = sct.nextInt(); // Populate a roster object with students
         if (select == 0) { // Send the user back to the main prompt
           editSchool();
         }
-        int rosterSize = rosters[select - 1].getRosterSize();
-        Student[] populateStudents = new Student[rosterSize];
+        ArrayList<Student> populateStudents = new ArrayList<>();
         // for i < rosterSize increase i, execute code
-        for (int i = 0; i < (rosters[select - 1].getRosterSize()); i++) {
+        for (int i = 0; i < (rosters.get(select - 1).getRosterSize()); i++) {
           // Set index i of populateStudents to what the user gives in addStudent()
-          populateStudents[i] = rosters[select - 1].addStudent();
-          rosters[select - 1].setStudents(populateStudents); // Add students to roster
+          populateStudents.add(rosters.get(select - 1).addStudent());
+          rosters.get(select - 1).setStudents(populateStudents); // Add students to roster
         }
         editSchool();
-        break;
       case "2":
-        if (teachers[teachers.length - 1] != null) {
-          for (int i = 0; i < teachers.length; i++) {
-            System.out.println(teachers[i].getId() + " - "
-                    + teachers[i].getTeacherName()
-                    + ": " + teachers[i].catCourses());
+        if (teachers != null) {
+          for (int i = 0; i < teachers.size(); i++) {
+            System.out.println(teachers.get(i).getId() + " - "
+                    + teachers.get(i).getTeacherName()
+                    + ": " + teachers.get(i).catCourses());
           }
         }
         System.out.println("Teacher Name (Back - 0): ");
@@ -80,40 +80,40 @@ public class School {
         // Edit/ add mpGrades
         System.out.println("Choose a roster to grade in:");
         // Print roster
-        for(int i = 0; i < rosters.length; i++){
+        for(int i = 0; i < rosters.size(); i++){
           System.out.print((i+1) + " - ");
-          rosters[i].printRoster();
+          rosters.get(i).printRoster();
         }
         int rostChoice = sct.nextInt(); // Roster to grade from
-        if (rosters[rostChoice - 1].getStudents() == null) {
+        if (rosters.get(rostChoice - 1).getStudents() == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
           editSchool();
         }
         System.out.println("Choose a student to grade: ");
         // Print students
-        for(int k = 0; k < rosters[rostChoice - 1].getStudents().length; k++){
+        for(int k = 0; k < rosters.get(rostChoice - 1).getStudents().size(); k++){
           System.out.println((k+1) + " - " +
-                  rosters[rostChoice - 1].getStudents()[k].getName());
+                  rosters.get(rostChoice - 1).getStudents().get(k).getName());
         }
         int studIndex = sct.nextInt(); // Student to grade
         // Find the course that is related to said roster
-        Student courseFind = findStudent(rosters[rostChoice - 1].
-                getStudents()[studIndex - 1].getName());
+        Student courseFind = findStudent(rosters.get(rostChoice - 1).
+                getStudents().get(studIndex - 1).getName());
         Course studCourse = null;
         if(courseFind.getCourses() != null) { // If course is valid find the matching roster
           for (int i = 0; i < courseFind.getCourseCount(); i++) {
-            if (courseFind.getCourses()[i].getCourseName().
-                    equalsIgnoreCase(rosters[rostChoice - 1].getTitle())) {
-              studCourse = courseFind.getCourses()[i];
+            if (courseFind.getCourses().get(i).getCourseName().
+                    equalsIgnoreCase(rosters.get(rostChoice - 1).getTitle())) {
+              studCourse = courseFind.getCourses().get(i);
             }
           }
           System.out.println("Please enter marking period grade for " +
-                  rosters[rostChoice - 1].getStudents()[studIndex - 1].getName());
+                  rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).getName());
           int grade = sct.nextInt();
           MPGrade mpGrade = new MPGrade(studCourse,
-                  rosters[rostChoice - 1].getStudents()[studIndex - 1], grade);
-          rosters[rostChoice-1].getStudents()[studIndex-1].addMPGrade(studCourse,grade);
+                  rosters.get(rostChoice - 1).getStudents().get(studIndex - 1), grade);
+          rosters.get(rostChoice-1).getStudents().get(studIndex-1).addMPGrade(studCourse,grade);
           mpGrade.printGrade();
         } else {
           System.out.println("Please enroll student in course first");
@@ -121,60 +121,62 @@ public class School {
         editSchool();
       case "4":
         System.out.println("Please select a student (Back - 0): ");
-        for (int i = 0; i < rosters.length; i++) {
+        for (int i = 0; i < rosters.size(); i++) {
           System.out.print((i + 1) + " - ");
-          rosters[i].printRoster();
+          rosters.get(i).printRoster();
         }
         int rosterCourse = sct.nextInt();
-        Student[] studentsCourse = rosters[rosterCourse - 1].getStudents();
+        ArrayList<Student> studentsCourse = rosters.get(rosterCourse - 1).getStudents();
         if (studentsCourse == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
           editSchool();
         }
-        for (int i = 0; i < studentsCourse.length; i++) {
-          System.out.println(i + 1 + " - [" + studentsCourse[i].getId()
-                  + "]" + "  " + studentsCourse[i].getName());
+        for (int i = 0; i < studentsCourse.size(); i++) {
+          System.out.println(i + 1 + " - [" + studentsCourse.get(i).getId()
+                  + "]" + "  " + studentsCourse.get(i).getName());
         }
         int studentChoice = sct.nextInt();
         System.out.println("Enter enrollments for " +
-                studentsCourse[studentChoice - 1].getName()
-                +", " + studentsCourse[studentChoice - 1].getId());
+                studentsCourse.get(studentChoice - 1).getName()
+                +", " + studentsCourse.get(studentChoice - 1).getId());
         System.out.print("Number of enrollments: ");
         int courseCountStudent = sct.nextInt();
         System.out.println("Press enter after each course to add it to " +
                 "the enrollment list.");
         for (int i = 0; i < courseCountStudent; i++) {
-          studentsCourse[studentChoice - 1].addCourses(scl.nextLine());
+          studentsCourse.get(studentChoice - 1).addCourses(scl.nextLine());
         }
-        studentsCourse[studentChoice - 1].listCourses();
+        studentsCourse.get(studentChoice - 1).listCourses();
         editSchool();
-        break;
       case "5":
-        if (teachers[teachers.length - 1] == null) {
+        if (teachers.get(teachers.size() - 1) == null) {
           System.out.println("Please add teachers under 'Edit staff " +
                   "information.'");
           editSchool();
         }
-        for (int i = 0; i < teachers.length; i++) {
-          System.out.println("[" + i + "] " + teachers[i].getTeacherName() + ": " +
-                              teachers[i].catCourses());
+        for (int i = 0; i < teachers.size(); i++) {
+          System.out.println("[" + (i + 1) + "] " + teachers.get(i).getTeacherName() + ": " +
+                              teachers.get(i).catCourses());
         }
         System.out.print("Please select a teacher (Back - 0): ");
         int teacherChoice = sct.nextInt();
+        if (teacherChoice == 0) {
+          editSchool();
+        }
         System.out.print("Number of enrollments: ");
         int courseCountTeacher = sct.nextInt();
         System.out.println("Press enter after each course to add it to " +
                 "the enrollment list.");
         for (int i = 0; i < courseCountTeacher; i++) {
-          teachers[teacherChoice - 1].addCourses(scl.nextLine());
+          teachers.get(teacherChoice - 1).addCourses(scl.nextLine());
         }
         editSchool();
       case "6":
         System.out.println("\nCurrent Rosters for " + schoolTitle + ": ");
-        for (int i = 0; i < rosters.length; i++) {
+        for (int i = 0; i < rosters.size(); i++) {
           System.out.print((i + 1) + " - ");
-          rosters[i].printRoster();
+          rosters.get(i).printRoster();
         }
         System.out.print("Enter roster title: ");
         String rosterTitle = scl.nextLine();
@@ -185,26 +187,25 @@ public class School {
         break;
       case "7":
         System.out.println("\nSelect an attendance roster:");
-        for (int i = 0; i < rosters.length; i++) {
+        for (int i = 0; i < rosters.size(); i++) {
           System.out.print((i + 1) + " - ");
-          rosters[i].printRoster();
+          rosters.get(i).printRoster();
         }
         int rosterView = sct.nextInt();
-        Student[] studentsView = rosters[rosterView - 1].getStudents();
+        ArrayList<Student> studentsView = rosters.get(rosterView - 1).getStudents();
         if (studentsView == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
           editSchool();
         }
         if (studentsView != null) {
-          for (int i = 0; i < studentsView.length; i++) {
-            System.out.println("[" + studentsView[i].getId()
-                    + "]" + "  " + studentsView[i].getName() +
-                    " " + studentsView[i].catCourses());
+          for (int i = 0; i < studentsView.size(); i++) {
+            System.out.println("[" + studentsView.get(i).getId()
+                    + "]" + "  " + studentsView.get(i).getName() +
+                    " " + studentsView.get(i).catCourses());
           }
         }
         editSchool();
-        break;
       default:
         System.out.println();
         editSchool();
@@ -217,20 +218,7 @@ public class School {
    * @param id Numerical teacher ID
    */
   public void addTeacher(String name, int id) {
-    if (teachers[teachers.length - 1] == null) {
-      teachers = new Teacher[1];
-      teachers[0] = new Teacher(name, id);
-      return;
-    }
-    Teacher[] teachersBak = new Teacher[teachers.length + 1];
-    for (int i = 0; i < teachers.length; i++) {
-      teachersBak[i] = teachers[i];
-    }
-    teachers = new Teacher[teachersBak.length];
-    for (int i = 0; i < teachersBak.length; i++) {
-      teachers[i] = teachersBak[i];
-    }
-    teachers[teachers.length - 1] = new Teacher(name, id);
+    teachers.add(new Teacher(name, id));
   }
 
   /**
@@ -239,22 +227,14 @@ public class School {
    * @param rosterSize Number of students in roster
    */
   public void addRoster(String title, int rosterSize) {
-    Roster[] rostersBak = new Roster[rosters.length + 1];
-    for (int i = 0; i < rosters.length; i++) {
-      rostersBak[i] = rosters[i];
-    }
-    rosters = new Roster[rostersBak.length];
-    for (int i = 0; i < rostersBak.length; i++) {
-      rosters[i] = rostersBak[i];
-    }
-    rosters[rosters.length - 1] = new Roster(title, rosterSize);
+    rosters.add(new Roster(title, rosterSize));
   }
 
   /**
    * Accessor for school rosters
    * @return Current rosters
    */
-  public Roster[] getRosters() {
+  public ArrayList<Roster> getRosters() {
     return rosters;
   }
 
@@ -262,7 +242,7 @@ public class School {
    * Accessor for school teachers
    * @return Current teachers
    */
-  public Teacher[] getTeachers() {
+  public ArrayList<Teacher> getTeachers() {
     return teachers;
   }
 
@@ -280,8 +260,8 @@ public class School {
    */
   public int totalStudents() {
     int studentCount = 0;
-    for (int i = 0; i < rosters.length; i++) {
-      studentCount += rosters[i].getRosterSize();
+    for (int i = 0; i < rosters.size(); i++) {
+      studentCount += rosters.get(i).getRosterSize();
     }
     return studentCount;
   }
@@ -292,10 +272,10 @@ public class School {
    * @return The student looked for, if not found returns null
    */
   public Student findStudent(String name){
-    for(int i = 0; i < rosters.length; i++){
-      for(int x = 0; x < rosters[i].getStudents().length; x++){
-        if(rosters[i].getStudents()[x].getName().equalsIgnoreCase(name)){
-          return rosters[i].getStudents()[x];
+    for(int i = 0; i < rosters.size(); i++){
+      for(int x = 0; x < rosters.get(i).getStudents().size(); x++){
+        if(rosters.get(i).getStudents().get(x).getName().equalsIgnoreCase(name)){
+          return rosters.get(i).getStudents().get(x);
         }
       }
     }

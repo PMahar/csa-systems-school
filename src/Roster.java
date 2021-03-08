@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Rosters will contain an array of Student
@@ -8,7 +9,7 @@ import java.util.Scanner;
 public class Roster {
   private int RosterSize;
   private String title;
-  private Student[] students;
+  private ArrayList<Student> students;
 
   /**
    * Constructor of Roster object
@@ -38,7 +39,7 @@ public class Roster {
    * Mutator for class student array
    * @param students Modified student array
    */
-  public void setStudents(Student[] students) {
+  public void setStudents(ArrayList<Student> students) {
     this.students = students;
   }
 
@@ -54,7 +55,7 @@ public class Roster {
    * Accessor for students array
    * @return Array of students within roster
    */
-  public Student[] getStudents() {
+  public ArrayList<Student> getStudents() {
     return students;
   }
 

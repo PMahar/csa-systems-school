@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * Student objects represent students within a school, with names, numerical IDs,
@@ -7,10 +8,10 @@ public class Student implements SchoolMember{
   // Every Student object will require an individual name,
   // ID, and list of enrolled courses
   // (as well as any other objects like lunch requirement)
-  private final int id;
-  private final String name;
-  private Course[] courses;
-  private MPGrade[] mPGrade;
+  private int id;
+  private String name;
+  private ArrayList<Course> courses;
+  private ArrayList<MPGrade> mPGrade;
   //student will require both mpgrade and course objects
 
   // Add an element to the student array
@@ -33,20 +34,7 @@ public class Student implements SchoolMember{
    */
   @Override
   public void addCourses(String courseName) {
-    if (courses == null) {
-      courses = new Course[1];
-      courses[0] = new Course(courseName);
-      return;
-    }
-    Course[] coursesBak = new Course[courses.length + 1];
-    for (int i = 0; i < courses.length; i++) {
-      coursesBak[i] = courses[i];
-    }
-    courses = new Course[coursesBak.length];
-    for (int i = 0; i < coursesBak.length; i++) {
-      courses[i] = coursesBak[i];
-    }
-    courses[courses.length - 1] = new Course(courseName);
+    courses.add(new Course(courseName));
   }
 
   /**
@@ -54,7 +42,7 @@ public class Student implements SchoolMember{
    * @return Integer representing number of enlisted courses
    */
   public int getCourseCount() {
-    return this.courses.length;
+    return this.courses.size();
   }
 
   /**
@@ -77,10 +65,10 @@ public class Student implements SchoolMember{
       courseConcat = "(None)";
       return courseConcat;
     }
-    for (int i = 0; i < courses.length - 1; i++) {
-      courseConcat += (courses[i].getCourseName() + ", ");
+    for (int i = 0; i < courses.size() - 1; i++) {
+      courseConcat += (courses.get(i).getCourseName() + ", ");
     }
-    courseConcat += courses[courses.length - 1].getCourseName();
+    courseConcat += courses.get(courses.size() - 1).getCourseName();
     return courseConcat;
   }
 
@@ -104,7 +92,7 @@ public class Student implements SchoolMember{
    * Accessor for selected student's enrollment array
    * @return Student's course array
    */
-  public Course[] getCourses(){
+  public ArrayList<Course> getCourses(){
     return courses;
   }
 
@@ -114,18 +102,6 @@ public class Student implements SchoolMember{
    * @param grade Numerical marking period grade
    */
   public void addMPGrade(Course course, int grade){
-    if(mPGrade == null){
-      mPGrade = new MPGrade[1];
-      mPGrade[0] = new MPGrade(course, this, grade);
-    }
-    MPGrade[] mPGradeBack = new MPGrade[mPGrade.length + 1];
-    for (int i = 0; i < mPGrade.length; i++) {
-      mPGradeBack[i] = mPGrade[i];
-    }
-    mPGrade = new MPGrade[mPGradeBack.length];
-    for (int i = 0; i < mPGradeBack.length; i++) {
-      mPGrade[i] = mPGradeBack[i];
-    }
-    mPGrade[mPGrade.length - 1] = new MPGrade(course, this, grade);
+    mPGrade.add(new MPGrade(course, this, grade));
   }
 }

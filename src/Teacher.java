@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * Teacher objects will represent faculty members within the school, with fields for their name,
@@ -6,7 +7,7 @@
 public class Teacher implements SchoolMember {
 private String teacherName;
 private int teacherID;
-private Course[] courses;
+private ArrayList<Course> courses;
 // teacher requires course objects
 
   /**
@@ -24,20 +25,7 @@ private Course[] courses;
    * @param courseName The courses to add
    */
   public void addCourses(String courseName) {
-    if (courses == null) {
-      courses = new Course[1];
-      courses[0] = new Course(courseName);
-      return;
-    }
-    Course[] coursesBak = new Course[courses.length + 1];
-    for (int i = 0; i < courses.length; i++) {
-      coursesBak[i] = courses[i];
-    }
-    courses = new Course[coursesBak.length];
-    for (int i = 0; i < coursesBak.length; i++) {
-      courses[i] = coursesBak[i];
-    }
-    courses[courses.length - 1] = new Course(courseName);
+    courses.add(new Course(courseName));
   }
 
   /**
@@ -48,12 +36,13 @@ private Course[] courses;
     String courseConcat = "";
     if (courses == null) {
       courseConcat = "(None)";
+      courses = new ArrayList<>();
       return courseConcat;
     }
-    for (int i = 0; i < courses.length - 1; i++) {
-      courseConcat += (courses[i].getCourseName() + ", ");
+    for (int i = 0; i < courses.size() - 1; i++) {
+      courseConcat += (courses.get(i).getCourseName() + ", ");
     }
-    courseConcat += courses[courses.length - 1].getCourseName();
+    courseConcat += courses.get(courses.size() - 1).getCourseName();
     return courseConcat;
   }
 
@@ -80,7 +69,7 @@ private Course[] courses;
   }
 
   @Override
-  public Course[] getCourses() {
+  public ArrayList<Course> getCourses() {
     return courses;
   }
 }

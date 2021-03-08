@@ -1,4 +1,7 @@
+import javax.lang.model.type.ArrayType;
+import java.lang.reflect.Array;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Entry class, allows mutation of data fields through modifying 'school' objects
@@ -6,7 +9,7 @@ import java.util.Scanner;
  */
 public class UI {
   private String district;
-  private static School[] schools;
+  private static ArrayList<School> schools;
 
   /**
    * Entry point method, constructs all necessary objects on startup as well
@@ -21,12 +24,12 @@ public class UI {
     if (schools == null) {
       run.setup();
     }
-    for (int i = 0; i < schools.length; i++) {
+    for (int i = 0; i < schools.size(); i++) {
       System.out.println("Schools:");
-      System.out.println("[" + (i + 1) + "] " + schools[i].getSchoolTitle() +
-              " - " + schools[i].getRosters().length +
-              " attendance rosters with " + schools[i].totalStudents() +
-              " students and " + schools[i].getTeachers().length +
+      System.out.println("[" + (i + 1) + "] " + schools.get(i).getSchoolTitle() +
+              " - " + schools.get(i).getRosters().size() +
+              " attendance rosters with " + schools.get(i).totalStudents() +
+              " students and " + schools.get(i).getTeachers().size() +
               " faculty members");
     }
     System.out.print("Select a school to modify (Add school - a | Quit - 0): ");
@@ -41,14 +44,14 @@ public class UI {
         String rosterTitle = scl.nextLine();
         System.out.print("Roster size: ");
         int rosterSize = sct.nextInt();
-        Roster[] addRoster = new Roster[1];
-        addRoster[0] = new Roster(rosterTitle, rosterSize);
-        Teacher[] addTeacher = new Teacher[1];
+        ArrayList<Roster> addRoster = new ArrayList<>();
+        addRoster.add(new Roster(rosterTitle, rosterSize));
+        ArrayList<Teacher> addTeacher = new ArrayList<>();
         run.addSchool(addRoster, addTeacher, schoolTitle);
         main(args);
       default:
         int schoolSelect = Integer.parseInt(uiSelect);
-        schools[schoolSelect - 1].editSchool();
+        schools.get(schoolSelect - 1).editSchool();
         main(args);
     }
   }
@@ -69,13 +72,13 @@ public class UI {
     String rosterTitle = scl.nextLine();
     System.out.print("                Enter roster size: ");
     int rSize = sct.nextInt();
-    Roster[] initRosters = new Roster[1];
+    ArrayList<Roster> initRosters = new ArrayList<>();
     // Assign the first index in array rosters to a new roster with
     // given title and size
-    initRosters[0] = new Roster(rosterTitle, rSize);
-    Teacher[] initTeachers = new Teacher[1];
-    schools = new School[1];
-    schools[0] = new School(initRosters, initTeachers, initSchool);
+    initRosters.add(new Roster(rosterTitle, rSize));
+    ArrayList<Teacher> initTeachers = new ArrayList<>();
+    schools = new ArrayList<>();
+    schools.add(new School(initRosters, initTeachers, initSchool));
   }
 
   /**
@@ -89,20 +92,14 @@ public class UI {
   /**
    * Constructs a new 'school' object, expanding current school array
    * 'rosters' and 'teachers' will be null on setup construction
+   *
+   *
    * @param rosters Attendance rosters
    * @param teachers Teachers
    * @param schoolTitle Title of school
    */
-  public void addSchool(Roster[] rosters, Teacher[] teachers, String schoolTitle) {
-    School[] schoolsBak = new School[UI.schools.length + 1];
-    for (int i = 0; i < schools.length; i++) {
-      schoolsBak[i] = schools[i];
-    }
-    schools = new School[schoolsBak.length];
-    for (int i = 0; i < schoolsBak.length; i++) {
-      schools[i] = schoolsBak[i];
-    }
-    schools[schools.length - 1] = new School(rosters, teachers, schoolTitle);
+  public void addSchool(ArrayList<Roster> rosters, ArrayList<Teacher> teachers, String schoolTitle) {
+    schools.add(new School(rosters, teachers, schoolTitle));
   }
 
 }
