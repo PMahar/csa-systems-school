@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -74,7 +73,7 @@ public class School {
         }
         System.out.println("Teacher ID: ");
         int teacherID = sct.nextInt();
-        addTeacher(teacherName, teacherID);
+        teachers.add(new Teacher(teacherName, teacherID));
         editSchool();
       case "3":
         // Edit/ add mpGrades
@@ -182,7 +181,7 @@ public class School {
         String rosterTitle = scl.nextLine();
         System.out.print("Enter roster size: ");
         int rSize = sct.nextInt();
-        addRoster(rosterTitle, rSize);
+        rosters.add(new Roster(rosterTitle, rSize));
         editSchool();
         break;
       case "7":
@@ -212,23 +211,6 @@ public class School {
     }
   }
 
-  /**
-   * Creates a new teacher in an expanding array
-   * @param name Name of teacher
-   * @param id Numerical teacher ID
-   */
-  public void addTeacher(String name, int id) {
-    teachers.add(new Teacher(name, id));
-  }
-
-  /**
-   * Creates a new attenance roster in an expanding array
-   * @param title Title of roster (E.g. grade, 12th grade, seniors)
-   * @param rosterSize Number of students in roster
-   */
-  public void addRoster(String title, int rosterSize) {
-    rosters.add(new Roster(title, rosterSize));
-  }
 
   /**
    * Accessor for school rosters

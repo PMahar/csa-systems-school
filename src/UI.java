@@ -1,5 +1,3 @@
-import javax.lang.model.type.ArrayType;
-import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -47,7 +45,7 @@ public class UI {
         ArrayList<Roster> addRoster = new ArrayList<>();
         addRoster.add(new Roster(rosterTitle, rosterSize));
         ArrayList<Teacher> addTeacher = new ArrayList<>();
-        run.addSchool(addRoster, addTeacher, schoolTitle);
+        schools.add(new School(addRoster, addTeacher, schoolTitle));
         main(args);
       default:
         int schoolSelect = Integer.parseInt(uiSelect);
@@ -88,18 +86,4 @@ public class UI {
   public void setDistrict(String district) {
     this.district = district;
   }
-
-  /**
-   * Constructs a new 'school' object, expanding current school array
-   * 'rosters' and 'teachers' will be null on setup construction
-   *
-   *
-   * @param rosters Attendance rosters
-   * @param teachers Teachers
-   * @param schoolTitle Title of school
-   */
-  public void addSchool(ArrayList<Roster> rosters, ArrayList<Teacher> teachers, String schoolTitle) {
-    schools.add(new School(rosters, teachers, schoolTitle));
-  }
-
 }
