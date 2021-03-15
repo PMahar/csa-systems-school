@@ -221,10 +221,17 @@ public class School {
         for(int j = 0; j < rosters.size(); j++){
           if(j == rostNum){
             // Print the students
-            System.out.println(rosters.get(j).getStudents());
+//            System.out.println(rosters.get(j).getStudents().);
+            for(int l = 0; l < rosters.get(j).getStudents().size(); l++){
+              System.out.println((l + 1) + " - " + rosters.get(j).getStudents().get(l).getName());
+            }
             System.out.println("Please choose a student");
             // Get the student chosen
-            Student stud = rosters.get(j).getStudents().get(scan.nextInt());
+            Student stud = rosters.get(j).getStudents().get(scan.nextInt() - 1);
+            if(stud.getCourseCount() < 1){
+              System.out.println("Please enter courses for the student");
+              editSchool();
+            }
             System.out.println(stud.catCourses());
             System.out.println("Choose course");
             // Catch the course
