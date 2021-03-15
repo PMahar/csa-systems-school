@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Student objects represent students within a school, with names, numerical IDs,
@@ -11,7 +12,7 @@ public class Student implements SchoolMember{
   private int id;
   private String name;
   private ArrayList<Course> courses;
-  private ArrayList<MPGrade> mPGrade;
+  private HashMap<Course, MPGrade> mpGrades = new HashMap<>();
   //student will require both mpgrade and course objects
 
   // Add an element to the student array
@@ -102,6 +103,19 @@ public class Student implements SchoolMember{
    * @param grade Numerical marking period grade
    */
   public void addMPGrade(Course course, int grade){
-    mPGrade.add(new MPGrade(course, this, grade));
+    mpGrades.put(course,new MPGrade(course, this, grade));
+  }
+
+
+  /**
+   * Gets the mpGrade object of a specified course from the student
+   * @param course This is the course to get the marking period object of
+   * @return the MPGrade object
+   */
+  public MPGrade getMPGrade(Course course){
+    if(mpGrades.containsKey(course)){
+      return mpGrades.get(course);
+    }
+    return null;
   }
 }

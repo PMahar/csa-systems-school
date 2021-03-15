@@ -33,7 +33,8 @@ public class School {
             "\n|4 - Edit student course enrollments" +
             "\n|5 - Edit teacher's courses" +
             "\n|6 - Add attendance rosters" +
-            "\n|7 - View roster");
+            "\n|7 - View roster" +
+            "\n|8 - View marking period grades");
 
     System.out.print("Please select an option: ");
     switch (sct.next()) {
@@ -205,6 +206,39 @@ public class School {
           }
         }
         editSchool();
+        break;
+      case "8": // This is viewing a students mpGrade
+        Scanner scan = new Scanner(System.in);
+        // Give the user a list of students to choose from
+        for(int i = 0; i < rosters.size(); i++){
+          System.out.print((i + 1) + " - " );
+          rosters.get(i).printRoster();
+        }
+        System.out.println("Please choose the roster of the student");
+        // Get the user-chosen roster
+        int rostNum = scan.nextInt() - 1;
+        // Associate the num with a roster
+        for(int j = 0; j < rosters.size(); j++){
+          if(j == rostNum){
+            // Print the students
+            System.out.println(rosters.get(j).getStudents());
+            System.out.println("Please choose a student");
+            // Get the student chosen
+            Student stud = rosters.get(j).getStudents().get(scan.nextInt());
+            System.out.println(stud.catCourses());
+            System.out.println("Choose course");
+            // Catch the course
+            int courseNum = scan.nextInt();
+            // Get the course from the int
+            for(int k = 0; k < stud.getCourseCount(); k++){
+              // When we get to the right course
+              if(k == courseNum){
+                stud.getMPGrade(stud.getCourses().get(k)).printGrade();
+              }
+            }
+          }
+        }
+        break;
       default:
         System.out.println();
         editSchool();
