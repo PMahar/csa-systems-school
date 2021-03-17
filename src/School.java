@@ -27,7 +27,7 @@ public class School {
     Scanner scl = new Scanner(System.in);
     System.out.println("\nSchool: " + schoolTitle);
     System.out.println("\n|0 - Back" +
-            "\n|1 - Edit student information" +
+            "\n|1 - Add student information" +
             "\n|2 - Edit staff information" +
             "\n|3 - Edit marking period grades" +
             "\n|4 - Edit student course enrollments" +
@@ -131,23 +131,24 @@ public class School {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
           editSchool();
+        } else {
+          for (int i = 0; i < studentsCourse.size(); i++) {
+            System.out.println(i + 1 + " - [" + studentsCourse.get(i).getId()
+                    + "]" + "  " + studentsCourse.get(i).getName());
+          }
+          int studentChoice = sct.nextInt();
+          System.out.println("Enter enrollments for " +
+                  studentsCourse.get(studentChoice - 1).getName()
+                  + ", " + studentsCourse.get(studentChoice - 1).getId());
+          System.out.print("Number of enrollments: ");
+          int courseCountStudent = sct.nextInt();
+          System.out.println("Press enter after each course to add it to " +
+                  "the enrollment list.");
+          for (int i = 0; i < courseCountStudent; i++) {
+            studentsCourse.get(studentChoice - 1).addCourses(scl.nextLine());
+          }
+          studentsCourse.get(studentChoice - 1).listCourses();
         }
-        for (int i = 0; i < studentsCourse.size(); i++) {
-          System.out.println(i + 1 + " - [" + studentsCourse.get(i).getId()
-                  + "]" + "  " + studentsCourse.get(i).getName());
-        }
-        int studentChoice = sct.nextInt();
-        System.out.println("Enter enrollments for " +
-                studentsCourse.get(studentChoice - 1).getName()
-                +", " + studentsCourse.get(studentChoice - 1).getId());
-        System.out.print("Number of enrollments: ");
-        int courseCountStudent = sct.nextInt();
-        System.out.println("Press enter after each course to add it to " +
-                "the enrollment list.");
-        for (int i = 0; i < courseCountStudent; i++) {
-          studentsCourse.get(studentChoice - 1).addCourses(scl.nextLine());
-        }
-        studentsCourse.get(studentChoice - 1).listCourses();
         editSchool();
       case "5":
         if (teachers.get(teachers.size() - 1) == null) {
@@ -156,7 +157,8 @@ public class School {
           editSchool();
         }
         for (int i = 0; i < teachers.size(); i++) {
-          System.out.println("[" + (i + 1) + "] " + teachers.get(i).getTeacherName() + ": " +
+          System.out.println("[" + (i + 1) + "] " +
+                  teachers.get(i).getTeacherName() + ": " +
                               teachers.get(i).catCourses());
         }
         System.out.print("Please select a teacher (Back - 0): ");
@@ -221,7 +223,6 @@ public class School {
         for(int j = 0; j < rosters.size(); j++){
           if(j == rostNum){
             // Print the students
-//            System.out.println(rosters.get(j).getStudents().);
             for(int l = 0; l < rosters.get(j).getStudents().size(); l++){
               System.out.println((l + 1) + " - " + rosters.get(j).getStudents().get(l).getName());
             }
