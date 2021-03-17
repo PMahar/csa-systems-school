@@ -80,8 +80,8 @@ public class School {
         // Edit/ add mpGrades
         System.out.println("Choose a roster to grade in:");
         // Print roster
-        for(int i = 0; i < rosters.size(); i++){
-          System.out.print((i+1) + " - ");
+        for (int i = 0; i < rosters.size(); i++) {
+          System.out.print((i + 1) + " - ");
           rosters.get(i).printRoster();
         }
         int rostChoice = sct.nextInt(); // Roster to grade from
@@ -92,8 +92,8 @@ public class School {
         }
         System.out.println("Choose a student to grade: ");
         // Print students
-        for(int k = 0; k < rosters.get(rostChoice - 1).getStudents().size(); k++){
-          System.out.println((k+1) + " - " +
+        for (int k = 0; k < rosters.get(rostChoice - 1).getStudents().size(); k++) {
+          System.out.println((k + 1) + " - " +
                   rosters.get(rostChoice - 1).getStudents().get(k).getName());
         }
         int studIndex = sct.nextInt(); // Student to grade
@@ -101,37 +101,41 @@ public class School {
         Student courseFind = findStudent(rosters.get(rostChoice - 1).
                 getStudents().get(studIndex - 1).getName());
         Course studCourse = null;
-        if(courseFind.getCourses() != null) { // If course is valid find the matching roster
-          for (int i = 0; i < courseFind.getCourseCount(); i++) {
-            if (courseFind.getCourses().get(i).getCourseName().
-                    equalsIgnoreCase(rosters.get(rostChoice - 1).getTitle())) {
-              studCourse = courseFind.getCourses().get(i);
-            }
-          }
-          System.out.println("Please enter marking period grade for " +
-                  rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).getName());
-          int grade = sct.nextInt();
-          MPGrade mpGrade = new MPGrade(studCourse,
-                  rosters.get(rostChoice - 1).getStudents().get(studIndex - 1), grade);
-          rosters.get(rostChoice-1).getStudents().get(studIndex-1).addMPGrade(studCourse,grade);
-          mpGrade.printGrade();
-        } else {
-          System.out.println("Please enroll student in course first");
+
+        // Get all of the courses from the student
+        for (int x = 0; x < courseFind.getCourseCount(); x++) {
+          System.out.println((x + 1) + " - " +
+                  courseFind.getCourses().get(x).getCourseName());
         }
+        System.out.println("Choose a course to get the marking period grade of:");
+        int courseIndex = sct.nextInt() - 1;
+        // Get the actual course
+        Course chosenCourse = courseFind.getCourses().get(courseIndex);
+        System.out.println("Please enter " + courseFind.getName() +
+                "'s marking period grade for " +
+                chosenCourse.getCourseName() + ":");
+        int grade = sct.nextInt();
+        MPGrade mpGrade = new MPGrade(chosenCourse,
+                rosters.get(rostChoice - 1).getStudents().get(studIndex - 1), grade);
+        rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).addMPGrade(studCourse, grade);
+        mpGrade.printGrade();
         editSchool();
       case "4":
         System.out.println("Please select a student (Back - 0): ");
+        // Print the student options
         for (int i = 0; i < rosters.size(); i++) {
           System.out.print((i + 1) + " - ");
           rosters.get(i).printRoster();
         }
         int rosterCourse = sct.nextInt();
         ArrayList<Student> studentsCourse = rosters.get(rosterCourse - 1).getStudents();
+        // If there are no students then ask for the user to add students
         if (studentsCourse == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
           editSchool();
         } else {
+          // Print the students
           for (int i = 0; i < studentsCourse.size(); i++) {
             System.out.println(i + 1 + " - [" + studentsCourse.get(i).getId()
                     + "]" + "  " + studentsCourse.get(i).getName());
@@ -144,8 +148,10 @@ public class School {
           int courseCountStudent = sct.nextInt();
           System.out.println("Press enter after each course to add it to " +
                   "the enrollment list.");
+          // Add course
           for (int i = 0; i < courseCountStudent; i++) {
-            studentsCourse.get(studentChoice - 1).addCourses(scl.nextLine());
+            String courseName = scl.nextLine();
+            studentsCourse.get(studentChoice - 1).addCourses(courseName);
           }
           studentsCourse.get(studentChoice - 1).listCourses();
         }
@@ -229,19 +235,25 @@ public class School {
             System.out.println("Please choose a student");
             // Get the student chosen
             Student stud = rosters.get(j).getStudents().get(scan.nextInt() - 1);
+            // If there isn't any courses...
             if(stud.getCourseCount() < 1){
+              // Let them know and return them to the menu list
               System.out.println("Please enter courses for the student");
               editSchool();
-            }
-            System.out.println(stud.catCourses());
-            System.out.println("Choose course");
-            // Catch the course
-            int courseNum = scan.nextInt();
-            // Get the course from the int
-            for(int k = 0; k < stud.getCourseCount(); k++){
-              // When we get to the right course
-              if(k == courseNum){
-                stud.getMPGrade(stud.getCourses().get(k)).printGrade();
+            } else {
+              // Print the course options
+              for(int k = 0; k < stud.getCourseCount(); k++){
+                System.out.println((k + 1)+ " - " + stud.getCourses().get(k).getCourseName());
+              }
+              System.out.println("Choose course");
+              // Catch the course
+              int courseNum = scan.nextInt() - 1;
+              // Get the course from the int
+              for (int k = 0; k < stud.getCourseCount(); k++) {
+                // When we get to the right course
+                if (k == courseNum) {
+                  stud.getMPGrade(stud.getCourses().get(k)).printGrade();
+                }
               }
             }
           }

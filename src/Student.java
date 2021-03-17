@@ -11,7 +11,7 @@ public class Student implements SchoolMember{
   // (as well as any other objects like lunch requirement)
   private int id;
   private String name;
-  private ArrayList<Course> courses;
+  private ArrayList<Course> courses = new ArrayList<>();
   private HashMap<Course, MPGrade> mpGrades = new HashMap<>();
   //student will require both mpgrade and course objects
 
@@ -113,8 +113,10 @@ public class Student implements SchoolMember{
    * @return the MPGrade object
    */
   public MPGrade getMPGrade(Course course){
-    if(mpGrades.containsKey(course)){
+    if(mpGrades != null && mpGrades.containsKey(course)){
       return mpGrades.get(course);
+    } else if(mpGrades == null){
+      System.out.println("You need to add marking period grades");
     }
     return null;
   }
