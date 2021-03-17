@@ -16,6 +16,6 @@ public class MPGrade {
 
   public void printGrade(){
     System.out.println(student.getName() + "'s grade in " + course.getCourseName()
-            + " is now " + grade + "%");
+            + " is currently " + grade + "%");
   }
 }

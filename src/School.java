@@ -78,7 +78,7 @@ public class School {
         editSchool();
       case "3":
         // Edit/ add mpGrades
-        System.out.println("Choose a roster to grade in:");
+        System.out.println("\nChoose a roster to grade in:");
         // Print roster
         for (int i = 0; i < rosters.size(); i++) {
           System.out.print((i + 1) + " - ");
@@ -86,11 +86,11 @@ public class School {
         }
         int rostChoice = sct.nextInt(); // Roster to grade from
         if (rosters.get(rostChoice - 1).getStudents() == null) {
-          System.out.println("Please add the contents of this roster " +
+          System.out.println("\nPlease add the contents of this roster " +
                   "under 'Edit student information.'");
           editSchool();
         }
-        System.out.println("Choose a student to grade: ");
+        System.out.println("\nChoose a student to grade: ");
         // Print students
         for (int k = 0; k < rosters.get(rostChoice - 1).getStudents().size(); k++) {
           System.out.println((k + 1) + " - " +
@@ -101,24 +101,23 @@ public class School {
         Student courseFind = findStudent(rosters.get(rostChoice - 1).
                 getStudents().get(studIndex - 1).getName());
         Course studCourse = null;
-
+        System.out.println("\nChoose a course to get the marking period grade of:");
         // Get all of the courses from the student
         for (int x = 0; x < courseFind.getCourseCount(); x++) {
           System.out.println((x + 1) + " - " +
                   courseFind.getCourses().get(x).getCourseName());
         }
-        System.out.println("Choose a course to get the marking period grade of:");
         int courseIndex = sct.nextInt() - 1;
         // Get the actual course
         Course chosenCourse = courseFind.getCourses().get(courseIndex);
-        System.out.println("Please enter " + courseFind.getName() +
+        System.out.println("\nPlease enter " + courseFind.getName() +
                 "'s marking period grade for " +
                 chosenCourse.getCourseName() + ":");
         int grade = sct.nextInt();
-        MPGrade mpGrade = new MPGrade(chosenCourse,
-                rosters.get(rostChoice - 1).getStudents().get(studIndex - 1), grade);
-        rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).addMPGrade(studCourse, grade);
-        mpGrade.printGrade();
+        rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).addMPGrade(chosenCourse, grade);
+        // Print the marking period grade
+        System.out.println();
+        rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).getMPGrade(chosenCourse).printGrade();
         editSchool();
       case "4":
         System.out.println("Please select a student (Back - 0): ");
@@ -217,35 +216,35 @@ public class School {
         break;
       case "8": // This is viewing a students mpGrade
         Scanner scan = new Scanner(System.in);
+        System.out.println("Please choose the roster of the student:");
         // Give the user a list of students to choose from
         for(int i = 0; i < rosters.size(); i++){
           System.out.print((i + 1) + " - " );
           rosters.get(i).printRoster();
         }
-        System.out.println("Please choose the roster of the student");
         // Get the user-chosen roster
         int rostNum = scan.nextInt() - 1;
         // Associate the num with a roster
         for(int j = 0; j < rosters.size(); j++){
           if(j == rostNum){
+            System.out.println("\nPlease choose a student");
             // Print the students
             for(int l = 0; l < rosters.get(j).getStudents().size(); l++){
               System.out.println((l + 1) + " - " + rosters.get(j).getStudents().get(l).getName());
             }
-            System.out.println("Please choose a student");
             // Get the student chosen
             Student stud = rosters.get(j).getStudents().get(scan.nextInt() - 1);
             // If there isn't any courses...
             if(stud.getCourseCount() < 1){
               // Let them know and return them to the menu list
-              System.out.println("Please enter courses for the student");
+              System.out.println("\nPlease enter courses for the student");
               editSchool();
             } else {
+              System.out.println("\nChoose course to view grade:");
               // Print the course options
               for(int k = 0; k < stud.getCourseCount(); k++){
                 System.out.println((k + 1)+ " - " + stud.getCourses().get(k).getCourseName());
               }
-              System.out.println("Choose course");
               // Catch the course
               int courseNum = scan.nextInt() - 1;
               // Get the course from the int
@@ -258,6 +257,7 @@ public class School {
             }
           }
         }
+        editSchool();
         break;
       default:
         System.out.println();
