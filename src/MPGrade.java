@@ -5,10 +5,10 @@
  */
 public class MPGrade {
   private Course course;
-  private Student student;
+  private MemberSuper student;
   private int grade;
 
-  public MPGrade(Course course, Student student, int grade) {
+  public MPGrade(Course course, MemberSuper student, int grade) {
     this.course = course;
     this.student = student;
     this.grade = grade;
@@ -18,4 +18,5 @@ public class MPGrade {
     System.out.println(student.getName() + "'s grade in " + course.getCourseName()
             + " is currently " + grade + "%");
   }
+
 }

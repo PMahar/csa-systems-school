@@ -33,7 +33,7 @@ public class UI {
     System.out.print("Select a school to modify (Add school - a | Quit - 0): ");
     String uiSelect = scl.nextLine();
     switch(uiSelect.charAt(0)) {
-      case 0:
+      case '0':
         System.exit(0);
       case 'a':
         System.out.print("School title: ");
@@ -62,8 +62,7 @@ public class UI {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
     System.out.print("Initial setup - Enter district name: ");
-    String districtName = scl.nextLine();
-    setDistrict(districtName);
+    setDistrict(scl.nextLine());
     System.out.print("                Enter initial school name: ");
     String initSchool = scl.nextLine();
     System.out.print("                Enter roster title: ");
