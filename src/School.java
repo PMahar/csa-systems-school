@@ -297,6 +297,14 @@ public class School {
   }
 
   /**
+   * Loads information from file
+   */
+  public void fileLoad(){
+    FileHandling fh = new FileHandling();
+    fh.getDistrictName();
+  }
+
+  /**
    * Finds a student from a string of their name
    * @param name The name of the student to search for
    * @return The student looked for, if not found returns null

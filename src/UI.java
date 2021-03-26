@@ -61,12 +61,22 @@ public class UI {
   public void setup() {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
-    System.out.print("Initial setup - Enter district name: ");
-    setDistrict(scl.nextLine());
-    System.out.print("                Enter initial school name: ");
-    String initSchool = scl.nextLine();
-    System.out.print("                Enter roster title: ");
-    String rosterTitle = scl.nextLine();
+    String initSchool = "";
+    String rosterTitle = "";
+    FileHandling fh = new FileHandling();
+    fh.init();
+    if(!fh.hasSchoolInfo()) {
+      System.out.print("Initial setup - Enter district name: ");
+      setDistrict(scl.nextLine());
+      System.out.print("                Enter initial school name: ");
+      initSchool = scl.nextLine();
+      System.out.print("                Enter roster title: ");
+      rosterTitle = scl.nextLine();
+    } else {
+      setDistrict(fh.getDistrictName());
+      initSchool = fh.getSchoolName();
+      rosterTitle = fh.getRostName();
+    }
     System.out.print("                Enter roster size: ");
     int rSize = sct.nextInt();
     ArrayList<Roster> initRosters = new ArrayList<>();
