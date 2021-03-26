@@ -96,8 +96,16 @@ public class MemberSuper implements SchoolMember{
     return null;
   }
 
+  /**
+   * Adds MPGrade object to the student
+   * @param course Course to add marking period grade for
+   * @param grade Grade of the marking period
+   */
   public void addMPGrade(Course course, int grade){
-    mpGrades.put(course,new MPGrade(course, this, grade));
+    if(course != null && grade >= 0) {
+      mpGrades.put(course, new MPGrade(course, this, grade));
+      mpGrades.get(course).printGrade();
+    }
   }
 
 }

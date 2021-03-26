@@ -78,7 +78,7 @@ public class School {
         int teacherID = sct.nextInt();
         teachers.add(new Teacher(teacherName, teacherID));
         editSchool();
-        /*
+
       case "3":
         // Edit/ add mpGrades
         System.out.println("\nChoose a roster to grade in:");
@@ -93,36 +93,31 @@ public class School {
                   "under 'Edit student information.'");
           editSchool();
         }
+        Roster rost = rosters.get(rostChoice - 1);
         System.out.println("\nChoose a student to grade: ");
         // Print students
-        for (int k = 0; k < rosters.get(rostChoice - 1).getStudents().size(); k++) {
-          System.out.println((k + 1) + " - " +
-                  rosters.get(rostChoice - 1).getStudents().get(k).getName());
+        for (int j = 0; j < rost.getStudents().size(); j++) {
+          System.out.println((j + 1) + " - " +
+                  rost.getStudents().get(j).getName());
         }
         int studIndex = sct.nextInt(); // Student to grade
-        // Find the course that is related to said roster
-        Student courseFind = findStudent(rosters.get(rostChoice - 1).
-                getStudents().get(studIndex - 1).getName());
-        System.out.println("\nChoose a course to get the marking period grade of:");
-        // Get all of the courses from the student
-        for (int x = 0; x < courseFind.getCourseCount(); x++) {
-          System.out.println((x + 1) + " - " +
-                  courseFind.getCourses().get(x).getCourseName());
+        // Find the actual student object
+        Student student = rost.getStudents().get(studIndex - 1);
+        System.out.println("Please enter course to add marking period grade to");
+        // Print the courses
+        for(int k = 0; k < student.getCourses().size(); k++){
+          System.out.println((k + 1) + " - " +
+                  student.getCourses().get(k).getCourseName());
         }
-        int courseIndex = sct.nextInt() - 1;
-        // Get the actual course
-        Course chosenCourse = courseFind.getCourses().get(courseIndex);
-        System.out.println("\nPlease enter " + courseFind.getName() +
-                "'s marking period grade for " +
-                chosenCourse.getCourseName() + ":");
-        int grade = sct.nextInt();
-        rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).addMPGrade(chosenCourse, grade);
-        // Print the marking period grade
-        System.out.println();
-        rosters.get(rostChoice - 1).getStudents().get(studIndex - 1).getMPGrade(chosenCourse).printGrade();
-        editSchool();
-
-         */
+        Course course = student.getCourses().get(sct.nextInt() - 1);
+        if(course == null){
+          System.out.println("Please add courses enrollments for the student");
+        } else {
+          System.out.println("Please enter grade for student:");
+          int grade = sct.nextInt();
+          student.addMPGrade(course,grade);
+        }
+        break;
       case "4":
         System.out.println("Please select a student (Back - 0): ");
         // Print the student options
@@ -257,7 +252,11 @@ public class School {
               for (int k = 0; k < stud.courses.size(); k++) {
                 // When we get to the right course
                 if (k == courseNum) {
-                  stud.getMPGrade(stud.getCourses().get(k)).printGrade();
+                  try{
+                    stud.getMPGrade(stud.getCourses().get(k)).printGrade();
+                  } catch (NullPointerException exception){
+                    System.err.println("Null pointer caught");
+                  }
                 }
               }
             }

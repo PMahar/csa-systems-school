@@ -29,9 +29,8 @@ public class Student extends MemberSuper {
   public MPGrade getMPGrade(Course course){
     if(mpGrades != null && mpGrades.containsKey(course)){
       return mpGrades.get(course);
-    } else if(mpGrades == null){
-      System.out.println("You need to add marking period grades");
     }
+    System.out.println("You need to add marking period grades");
     return null;
   }
 }

@@ -15,8 +15,12 @@ public class MPGrade {
   }
 
   public void printGrade(){
-    System.out.println(student.getName() + "'s grade in " + course.getCourseName()
-            + " is currently " + grade + "%");
+    if(course != null && student != null && grade >= 0){
+      System.out.println(student.getName() + "'s grade in " + course.getCourseName()
+              + " is currently " + grade + "%");
+    } else {
+      System.out.println("Error occurred, please advise administrator");
+    }
   }
 
 }
