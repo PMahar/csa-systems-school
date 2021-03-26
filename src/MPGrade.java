@@ -8,6 +8,18 @@ public class MPGrade {
   private MemberSuper student;
   private int grade;
 
+  public Course getCourse() {
+    return course;
+  }
+
+  public MemberSuper getStudent() {
+    return student;
+  }
+
+  public int getGrade() {
+    return grade;
+  }
+
   public MPGrade(Course course, MemberSuper student, int grade) {
     this.course = course;
     this.student = student;

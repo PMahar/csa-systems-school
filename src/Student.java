@@ -5,7 +5,6 @@ import java.util.HashMap;
  * attended courses, and marking period grades
  */
 public class Student extends MemberSuper {
-  private HashMap<Course, MPGrade> mpGrades = new HashMap<>();
   //student will require both mpgrade and course objects
 
   // Add an element to the student array

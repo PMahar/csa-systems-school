@@ -1,4 +1,3 @@
-import javax.crypto.Cipher;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -249,16 +248,7 @@ public class School {
               // Catch the course
               int courseNum = scan.nextInt() - 1;
               // Get the course from the int
-              for (int k = 0; k < stud.courses.size(); k++) {
-                // When we get to the right course
-                if (k == courseNum) {
-                  try{
-                    stud.getMPGrade(stud.getCourses().get(k)).printGrade();
-                  } catch (NullPointerException exception){
-                    System.err.println("Null pointer caught");
-                  }
-                }
-              }
+              stud.getMPGrade(stud.getCourses().get(courseNum)).printGrade();
             }
           }
         }
