@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -26,15 +25,16 @@ public class FileHandling {
     //TODO: Change this extension!!!
     file = new File(fileName);
     try {
-      Scanner scan = new Scanner(file);
-      // TODO: Find a good delimiter to use
-      scan.useDelimiter(",");
-      districtName = scan.next();
-      schoolName = scan.next();
-      rostName = scan.next();
-      rostSize = scan.next() + "";
       if (file.createNewFile()) {
         System.out.println("File not found, creating new file");
+      } else {
+        Scanner scan = new Scanner(file);
+        // TODO: Find a good delimiter to use
+        scan.useDelimiter(",");
+        districtName = scan.next();
+        schoolName = scan.next();
+        rostName = scan.next();
+        rostSize = scan.next() + "";
       }
     } catch (IOException e) {
       System.err.println("IOException caught, advise administrator");
