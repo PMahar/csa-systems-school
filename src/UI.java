@@ -1,3 +1,5 @@
+
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
  */
 public class UI {
   private String district;
-  private static ArrayList<School> schools;
+  private static ArrayList<School> schools = new ArrayList<>();
 
   /**
    * Entry point method, constructs all necessary objects on startup as well
@@ -18,6 +20,7 @@ public class UI {
     UI run = new UI();
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
+    saveInfo();
     // Initialize the program for first-time use
     if (schools == null) {
       run.setup();
@@ -76,14 +79,7 @@ public class UI {
     ArrayList<Teacher> initTeachers = new ArrayList<>();
     schools = new ArrayList<>();
     schools.add(new School(initRosters, initTeachers, initSchool));
-  }
-
-  /**
-   * This handles all the interaction with files
-   * between
-   */
-  public void dealFile(){
-
+    saveInfo();
   }
 
   /**
@@ -92,5 +88,23 @@ public class UI {
    */
   public void setDistrict(String district) {
     this.district = district;
+  }
+
+  /**
+   * Saves the info from a file and starts a FileHandling constructor
+   */
+  public static void saveInfo(){
+    // Initialize FileHandling
+    FileHandling fh = new FileHandling("src\\information.txt");
+    ArrayList<Roster> rosters = new ArrayList<>(Arrays.asList(new Roster(fh.getRostName(), 3)));
+    // TODO: Add district
+    School school = new School(rosters, new ArrayList<Teacher>(),
+            fh.getSchoolName());
+    for(int i = 0; i < fh.getStudents().size(); i++){
+      if(!fh.getStudents().get(i).getName().contains(" ")) {
+        school.addStudent(fh.getStudents().get(i));
+      }
+    }
+    schools.add(school);
   }
 }

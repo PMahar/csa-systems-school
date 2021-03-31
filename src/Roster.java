@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Roster {
   private int RosterSize;
   private String title;
-  private ArrayList<Student> students;
+  private ArrayList<Student> students = new ArrayList<>();
 
   /**
    * Constructor of Roster object
@@ -33,6 +33,14 @@ public class Roster {
     System.out.println("Student Id:");
     int id = sct.nextInt();
     return new Student(name, id); // Construct a new student
+  }
+
+  /**
+   * Adds student from a created Student object
+   * @param student The student to add
+   */
+  public void addStudent(Student student){
+      students.add(student);
   }
 
   /**

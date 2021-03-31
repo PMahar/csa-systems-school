@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -10,31 +11,62 @@ import java.util.Scanner;
  * server/ network somewhere
  */
 public class FileHandling {
-  private final String fileName = "src\\information.txt";
-
   private File file = null;
+  private Scanner fileScan;
   private String districtName = "";
   private String schoolName = "";
   private String rostName = "";
-  private String rostSize = "";
+  private int rostSize;
+  private ArrayList<Student> students = new ArrayList<>();
+
+  public FileHandling(String filePath) {
+    this.file = new File(filePath);
+    init();
+  }
+
   /**
    * Used at the start of the program or if loading
    * new information from separate file
    */
-  public void init() {
+  private void init() {
     //TODO: Change this extension!!!
-    file = new File(fileName);
     try {
       if (file.createNewFile()) {
         System.out.println("File not found, creating new file");
       } else {
         Scanner scan = new Scanner(file);
         // TODO: Find a good delimiter to use
-        scan.useDelimiter(",");
-        districtName = scan.next();
-        schoolName = scan.next();
-        rostName = scan.next();
-        rostSize = scan.next() + "";
+        scan.useDelimiter("\\*");
+        // Set up the given variables
+        for(int i = 0; i < file.length(); i++){
+          switch(i){
+            case 0:
+              districtName = scan.next();
+              break;
+            case 1:
+              schoolName = scan.next();
+              break;
+            case 2:
+              rostName = scan.next();
+              break;
+            case 3:
+              scan.next();
+              // TODO: Figure out how to do rostSize
+              break;
+            default:
+              String name = " ";
+              int id = 0;
+              while(scan.hasNext()){
+                name = scan.next();
+                id = scan.nextInt();
+                if(!name.isBlank()){
+                  students.add(new Student(name, id));
+                  name = " ";
+                }
+              }
+              break;
+          }
+        }
       }
     } catch (IOException e) {
       System.err.println("IOException caught, advise administrator");
@@ -56,19 +88,11 @@ public class FileHandling {
     return rostName;
   }
 
-  public String getRostSize() {
+  public int getRostSize() {
     return rostSize;
   }
 
-  public boolean hasSchoolInfo(){
-    if(getDistrictName() != null && getSchoolName() != null
-            && getRostName() != null && getRostSize() != null){
-      return true;
-    }
-    return false;
-  }
-
-  public File getFile() {
-    return file;
+  public ArrayList<Student> getStudents() {
+    return students;
   }
 }

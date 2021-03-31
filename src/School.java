@@ -296,12 +296,24 @@ public class School {
     return studentCount;
   }
 
-  /**
-   * Loads information from file
-   */
-  public void fileLoad(){
-    FileHandling fh = new FileHandling();
-    fh.getDistrictName();
+  public void addStudent(Student stud){
+    Scanner scan = new Scanner(System.in);
+    System.out.println("Please choose roster to add " + stud.getName() + " to");
+    for (int i = 0; i < rosters.size(); i++) { // Print the roster
+      System.out.print((i + 1) + " - ");
+      rosters.get(i).printRoster();
+    }
+    int select = scan.nextInt(); // Populate a roster object with students
+    if (select == 0) { // Send the user back to the main prompt
+      editSchool();
+    }
+    // for i < rosterSize increase i, execute code
+    for (int i = 0; i < (rosters.get(select - 1).getRosterSize()); i++) {
+      // Set index i of populateStudents to what the user gives in addStudent()
+      if(!rosters.get(select - 1).getStudents().contains(stud)) {
+        rosters.get(select - 1).addStudent(stud); // Add students to roster
+      }
+    }
   }
 
   /**
