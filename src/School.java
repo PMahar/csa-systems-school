@@ -22,11 +22,13 @@ public class School {
   /**
    * User interface for modifying 'school' objects within a district
    */
-  public void editSchool() {
+  public int editSchool() {
+    //Return an int to get a status of termination, and so that
+    //the method always completes (or crashes)
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
     System.out.println("\nSchool: " + schoolTitle);
-    System.out.println("\n|0 - Back" +
+    System.out.println("\n|0 - Save and exit" +
             "\n|1 - Edit student information" +
             "\n|2 - Edit staff information" +
             "\n|3 - Edit marking period grades" +
@@ -40,7 +42,7 @@ public class School {
     switch (sct.next()) {
       case "0":
         System.out.println();
-        break;
+        return 0; //If 0, save and quit
       case "1":
         System.out.println("School - " + schoolTitle);
         System.out.println("\nSelect an attendance roster to edit (Back - 0):");
@@ -50,7 +52,7 @@ public class School {
         }
         int select = sct.nextInt(); // Populate a roster object with students
         if (select == 0) { // Send the user back to the main prompt
-          editSchool();
+          return 1; //Return 1 to go back
         }
         ArrayList<Student> populateStudents = new ArrayList<>();
         // for i < rosterSize increase i, execute code
@@ -59,7 +61,7 @@ public class School {
           populateStudents.add(rosters.get(select - 1).addStudent());
           rosters.get(select - 1).setStudents(populateStudents); // Add students to roster
         }
-        editSchool();
+        return 1;
       case "2":
         if (teachers != null) {
           for (int i = 0; i < teachers.size(); i++) {
@@ -71,12 +73,12 @@ public class School {
         System.out.println("Teacher Name (Back - 0): ");
         String teacherName = scl.next();
         if (teacherName.equals("0")) {
-          editSchool();
+          return 1;
         }
         System.out.println("Teacher ID: ");
         int teacherID = sct.nextInt();
         teachers.add(new Teacher(teacherName, teacherID));
-        editSchool();
+        return 1;
 
       case "3":
         // Edit/ add mpGrades
@@ -90,7 +92,7 @@ public class School {
         if (rosters.get(rostChoice - 1).getStudents() == null) {
           System.out.println("\nPlease add the contents of this roster " +
                   "under 'Edit student information.'");
-          editSchool();
+          return 1;
         }
         Roster rost = rosters.get(rostChoice - 1);
         System.out.println("\nChoose a student to grade: ");
@@ -126,14 +128,14 @@ public class School {
         }
         int rosterCourse = sct.nextInt();
         if (rosterCourse == 0) {
-          editSchool();
+          return 1;
         }
         ArrayList<Student> studentsCourse = rosters.get(rosterCourse - 1).getStudents();
         // If there are no students then ask for the user to add students
         if (studentsCourse == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
-          editSchool();
+          return 1;
         } else {
           // Print the students
           for (int i = 0; i < studentsCourse.size(); i++) {
@@ -155,12 +157,12 @@ public class School {
           }
           studentsCourse.get(studentChoice - 1).listCourses();
         }
-        editSchool();
+        return 1;
       case "5":
         if (teachers.size() == 0) {
           System.out.println("Please add teachers under 'Edit staff " +
                   "information.'");
-          editSchool();
+          return 1;
         }
         for (int i = 0; i < teachers.size(); i++) {
           System.out.println("[" + (i + 1) + "] " +
@@ -170,7 +172,7 @@ public class School {
         System.out.print("Please select a teacher (Back - 0): ");
         int teacherChoice = sct.nextInt();
         if (teacherChoice == 0) {
-          editSchool();
+          return 1;
         }
         System.out.print("Number of enrollments: ");
         int courseCountTeacher = sct.nextInt();
@@ -179,7 +181,7 @@ public class School {
         for (int i = 0; i < courseCountTeacher; i++) {
           teachers.get(teacherChoice - 1).courses.add(new Course(scl.nextLine()));
         }
-        editSchool();
+        return 1;
       case "6":
         System.out.println("\nCurrent Rosters for " + schoolTitle + ": ");
         for (int i = 0; i < rosters.size(); i++) {
@@ -191,8 +193,7 @@ public class School {
         System.out.print("Enter roster size: ");
         int rSize = sct.nextInt();
         rosters.add(new Roster(rosterTitle, rSize));
-        editSchool();
-        break;
+        return 1;
       case "7":
         System.out.println("\nSelect an attendance roster:");
         for (int i = 0; i < rosters.size(); i++) {
@@ -204,7 +205,7 @@ public class School {
         if (studentsView == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
-          editSchool();
+          return 1;
         }
         if (studentsView != null) {
           for (int i = 0; i < studentsView.size(); i++) {
@@ -213,7 +214,7 @@ public class School {
                     ": " + studentsView.get(i).toString());
           }
         }
-        editSchool();
+        return 1;
       case "8": // This is viewing a students mpGrade
         Scanner scan = new Scanner(System.in);
         System.out.println("Please choose the roster of the student:");
@@ -238,7 +239,7 @@ public class School {
             if(stud.courses.size() < 1){
               // Let them know and return them to the menu list
               System.out.println("\nPlease enter courses for the student");
-              editSchool();
+              return 1;
             } else {
               System.out.println("\nChoose course to view grade:");
               // Print the course options
@@ -252,11 +253,12 @@ public class School {
             }
           }
         }
-        editSchool();
+        return 1;
       default:
         System.out.println();
-        editSchool();
+        return 1;
     }
+    return -1; //This shouldn't happen
   }
 
 

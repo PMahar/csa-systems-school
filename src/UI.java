@@ -1,5 +1,3 @@
-
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -9,7 +7,7 @@ import java.util.ArrayList;
  */
 public class UI {
   private String district;
-  private static ArrayList<School> schools = new ArrayList<>();
+  private static ArrayList<School> schools;
 
   /**
    * Entry point method, constructs all necessary objects on startup as well
@@ -20,7 +18,8 @@ public class UI {
     UI run = new UI();
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
-    saveInfo();
+    FileHandling write = new FileHandling();
+    //saveInfo();
     // Initialize the program for first-time use
     if (schools == null) {
       run.setup();
@@ -52,7 +51,13 @@ public class UI {
         main(args);
       default:
         int schoolSelect = Integer.parseInt(uiSelect);
-        schools.get(schoolSelect - 1).editSchool();
+        int runtime = schools.get(schoolSelect - 1).editSchool();
+        while (runtime == 1) {
+          //Check status and keep running until it returns 0 (save and exit)
+          runtime = schools.get(schoolSelect - 1).editSchool();
+        }
+        write.save(run.district, schools);
+        System.out.println("saved");
         main(args);
     }
   }
@@ -65,7 +70,7 @@ public class UI {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
     System.out.print("Initial setup - Enter district name: ");
-    setDistrict(scl.nextLine());
+    this.district = scl.nextLine();
     System.out.print("                Enter initial school name: ");
     String initSchool = scl.nextLine();
     System.out.print("                Enter roster title: ");
@@ -79,23 +84,16 @@ public class UI {
     ArrayList<Teacher> initTeachers = new ArrayList<>();
     schools = new ArrayList<>();
     schools.add(new School(initRosters, initTeachers, initSchool));
-    saveInfo();
-  }
-
-  /**
-   * Mutator for district field
-   * @param district Title of school district
-   */
-  public void setDistrict(String district) {
-    this.district = district;
+    //saveInfo();
   }
 
   /**
    * Saves the info from a file and starts a FileHandling constructor
    */
+  /*
   public static void saveInfo(){
     // Initialize FileHandling
-    FileHandling fh = new FileHandling("src\\information.txt");
+    FileHandling fh = new FileHandling(".\\information.txt"); //Use . so the class can be run from anywhere
     ArrayList<Roster> rosters = new ArrayList<>(Arrays.asList(new Roster(fh.getRostName(), 3)));
     // TODO: Add district
     School school = new School(rosters, new ArrayList<Teacher>(),
@@ -107,4 +105,6 @@ public class UI {
     }
     schools.add(school);
   }
+
+   */
 }

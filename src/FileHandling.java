@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,15 +20,18 @@ public class FileHandling {
   private int rostSize;
   private ArrayList<Student> students = new ArrayList<>();
 
+  /*
   public FileHandling(String filePath) {
     this.file = new File(filePath);
     init();
   }
+   */
 
   /**
    * Used at the start of the program or if loading
    * new information from separate file
    */
+  /*
   private void init() {
     //TODO: Change this extension!!!
     try {
@@ -69,10 +73,58 @@ public class FileHandling {
         }
       }
     } catch (IOException e) {
-      System.err.println("IOException caught, advise administrator");
+      System.err.println("IOException caught, advise administrator" + "\n" + e);
     }
     if(!file.canRead()){
-      System.out.println("Can not read the file. Please advise administrator");
+      System.err.println("Can not read the file. Please advise administrator");
+    }
+  }
+
+   */
+
+  public void save(String filename, ArrayList<School> schools) {
+    /*
+    A standard file will look like this:
+    {
+      property{
+        attribute
+        attribute
+        attribute
+      }
+    }
+     */
+    this.file = new File(".\\" + filename + ".sch");
+    //Use our own extension so it doesn't mess with the user's defaults
+    try(PrintWriter pw = new PrintWriter(this.file)) {
+      pw.print("{\n" + //Header
+               " schools{\n");
+      //Open brackets
+      for (int s = 0; s < schools.size(); s++) { //Open schools
+        pw.println("  " + schools.get(s).getSchoolTitle() + "{");
+        //        schoolName{
+        for (int r = 0; r < schools.get(s).getRosters().size(); r++) { //Open rosters
+         pw.println("   " + schools.get(s).getRosters().get(r).getTitle() + "{");
+        //         rosterName{
+          for (int st = 0; st < schools.get(s).getRosters().get(r).getStudents().size(); st++) { //Open students
+            pw.println("    " + schools.get(s).getRosters().get(r).getStudents().get(st).getName() + "," +
+                    schools.get(s).getRosters().get(r).getStudents().get(st).getId());
+        //          studentName{
+          }
+
+
+
+          //Close brackets (if they exist)
+          if (schools.get(s).getRosters().get(r).getStudents().size() != 0)
+          pw.println("   }"); //Close students
+        }
+        if (schools.get(s).getRosters().size() != 0)
+        pw.println("  }"); //Close rosters
+      }
+      pw.println(" }"); //Close schools
+      pw.print("}"); //Footer
+    } catch (IOException e) {
+      System.out.println("Couldn't write file. Maybe access is denied?");
+      System.err.println(e);
     }
   }
 
