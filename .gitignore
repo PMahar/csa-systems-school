@@ -2,6 +2,7 @@
 *.java~
 *.class
 *.save
+*.sch
 *.iml
 .idea/*
 out/*
