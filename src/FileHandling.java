@@ -67,7 +67,7 @@ public class FileHandling {
       students.add(s);
     }
     // Repeat the process done above with students but instead with
-    // Rosters, Teachers, Schools, and possibly eventually districts
+    // Rosters, Teachers, Schools, and possibly eventually district's
     ArrayList<Roster> rosters = new ArrayList<>();
     for(String rost : info.get("Roster")){
       values = rost.split(",");
