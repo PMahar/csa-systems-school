@@ -36,7 +36,8 @@ public class School {
             "\n|5 - Edit teacher's courses" +
             "\n|6 - Add attendance rosters" +
             "\n|7 - View roster" +
-            "\n|8 - View marking period grades");
+            "\n|8 - View marking period grades" +
+            "\n|9 - View teachers");
 
     System.out.print("Please select an option: ");
     switch (sct.next()) {
@@ -255,6 +256,11 @@ public class School {
           }
         }
         return 1;
+      case "9":
+        System.out.println();
+        for(Teacher t : teachers){
+          System.out.println("[" + t.id + "]  " + t.name);
+        }
       default:
         System.out.println();
         return 1;

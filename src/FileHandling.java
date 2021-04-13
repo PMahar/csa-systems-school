@@ -48,7 +48,6 @@ public class FileHandling {
             info.get(key).add(value);
           }
         }
-        System.out.println(info);
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -72,6 +71,18 @@ public class FileHandling {
     for(String rost : info.get("Roster")){
       values = rost.split(",");
       Roster r = new Roster(values[0],Integer.valueOf(values[1]));
+      // Compare the student id's to the id's that the roster has
+      // of students in said roster
+      for(Student s : students){
+        for(int i = 0; i < values.length; i ++){
+          // Make sure we are comparing by id's not size
+          if(i > 1){
+            if(Integer.valueOf(values[i]) == s.id){
+              r.addStudent(s);
+            }
+          }
+        }
+      }
       rosters.add(r);
     }
     ArrayList<Teacher> teachers = new ArrayList<>();
