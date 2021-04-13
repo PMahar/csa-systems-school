@@ -81,5 +81,4 @@ public class Roster {
   public void printRoster() {
     System.out.println(this.title + ": " + (RosterSize) + " students");
   }
-
 }

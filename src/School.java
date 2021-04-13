@@ -42,6 +42,7 @@ public class School {
     switch (sct.next()) {
       case "0":
         System.out.println();
+
         return 0; //If 0, save and quit
       case "1":
         System.out.println("School - " + schoolTitle);
@@ -135,7 +136,7 @@ public class School {
         if (studentsCourse == null) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
-          return 1;
+          editSchool();
         } else {
           // Print the students
           for (int i = 0; i < studentsCourse.size(); i++) {
@@ -181,7 +182,7 @@ public class School {
         for (int i = 0; i < courseCountTeacher; i++) {
           teachers.get(teacherChoice - 1).courses.add(new Course(scl.nextLine()));
         }
-        return 1;
+        editSchool();
       case "6":
         System.out.println("\nCurrent Rosters for " + schoolTitle + ": ");
         for (int i = 0; i < rosters.size(); i++) {

@@ -19,6 +19,7 @@ public class UI {
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
     FileHandling write = new FileHandling();
+    schools = write.load("information");
     //saveInfo();
     // Initialize the program for first-time use
     if (schools == null) {
@@ -86,25 +87,4 @@ public class UI {
     schools.add(new School(initRosters, initTeachers, initSchool));
     //saveInfo();
   }
-
-  /**
-   * Saves the info from a file and starts a FileHandling constructor
-   */
-  /*
-  public static void saveInfo(){
-    // Initialize FileHandling
-    FileHandling fh = new FileHandling(".\\information.txt"); //Use . so the class can be run from anywhere
-    ArrayList<Roster> rosters = new ArrayList<>(Arrays.asList(new Roster(fh.getRostName(), 3)));
-    // TODO: Add district
-    School school = new School(rosters, new ArrayList<Teacher>(),
-            fh.getSchoolName());
-    for(int i = 0; i < fh.getStudents().size(); i++){
-      if(!fh.getStudents().get(i).getName().contains(" ")) {
-        school.addStudent(fh.getStudents().get(i));
-      }
-    }
-    schools.add(school);
-  }
-
-   */
 }

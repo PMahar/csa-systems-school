@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,83 +14,86 @@ import java.util.Scanner;
  */
 public class FileHandling {
   private File file = null;
-  private Scanner fileScan;
-  private String districtName = "";
-  private String schoolName = "";
-  private String rostName = "";
-  private int rostSize;
-  private ArrayList<Student> students = new ArrayList<>();
 
-  /*
-  public FileHandling(String filePath) {
-    this.file = new File(filePath);
-    init();
-  }
-   */
-
-  /**
-   * Used at the start of the program or if loading
-   * new information from separate file
-   */
-  /*
-  private void init() {
-    //TODO: Change this extension!!!
-    try {
-      if (file.createNewFile()) {
-        System.out.println("File not found, creating new file");
-      } else {
-        Scanner scan = new Scanner(file);
-        // TODO: Find a good delimiter to use
-        scan.useDelimiter("\\*");
-        // Set up the given variables
-        for(int i = 0; i < file.length(); i++){
-          switch(i){
-            case 0:
-              districtName = scan.next();
-              break;
-            case 1:
-              schoolName = scan.next();
-              break;
-            case 2:
-              rostName = scan.next();
-              break;
-            case 3:
-              scan.next();
-              // TODO: Figure out how to do rostSize
-              break;
-            default:
-              String name = " ";
-              int id = 0;
-              while(scan.hasNext()){
-                name = scan.next();
-                id = scan.nextInt();
-                if(!name.isBlank()){
-                  students.add(new Student(name, id));
-                  name = " ";
-                }
-              }
-              break;
+  public ArrayList<School> load(String fileName){
+    // Use a hashmap so we can have one big dump of info
+    HashMap<String, ArrayList<String>> info = new HashMap<>();
+    // "Find" the file
+    File file = new File("src\\" +fileName + ".sch");
+    // Try this and catch the exceptions
+    try(Scanner in = new Scanner(file)){
+      // If the file exists...
+      if(file.exists()) {
+        // For every line in the file
+        for (int i = 0; i < file.length(); i++) {
+          // While we have a next line
+          if(in.hasNextLine()) {
+            // Save the line
+            String line = in.nextLine();
+            // Split up the line so we can get what kind of object we need to make
+            String[] lineSplit = line.split(",");
+            // Get the length of the object name
+            // So we can cut it out in the future
+            int len = lineSplit[0].length();
+            // Get the object name
+            String key = line.substring(0, len);
+            // Get everything after the key name
+            String value = line.substring(len + 1);
+            // If the HashMap doesn't have the object we have
+            if (!info.containsKey(key)) {
+              // Then add it to the HashMap
+              info.put(key, new ArrayList<String>());
+            }
+            // Then get the ArrayList and add the values we just got to it
+            info.get(key).add(value);
           }
         }
+        System.out.println(info);
       }
-    } catch (IOException e) {
-      System.err.println("IOException caught, advise administrator" + "\n" + e);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
     }
-    if(!file.canRead()){
-      System.err.println("Can not read the file. Please advise administrator");
+    String[] values;
+    // Make an ArrayList where we can save
+    // Students to add to a roster
+    ArrayList<Student> students = new ArrayList<>();
+    // For every bit of student information we get
+    for(String stud : info.get("Student")) {
+      // Split up the String by commas
+      values = stud.split(",");
+      // Create a new Student using the values given
+      Student s = new Student(values[0],Integer.valueOf(values[1]));
+      // Add the Student to the ArrayList of Students
+      students.add(s);
     }
+    // Repeat the process done above with students but instead with
+    // Rosters, Teachers, Schools, and possibly eventually districts
+    ArrayList<Roster> rosters = new ArrayList<>();
+    for(String rost : info.get("Roster")){
+      values = rost.split(",");
+      Roster r = new Roster(values[0],Integer.valueOf(values[1]));
+      rosters.add(r);
+    }
+    ArrayList<Teacher> teachers = new ArrayList<>();
+    for(String teach : info.get("Teacher")){
+      values = teach.split(",");
+      Teacher t = new Teacher(values[0],Integer.valueOf(values[1]));
+      teachers.add(t);
+    }
+    ArrayList<School> schools = new ArrayList<>();
+    for(String school : info.get("School")){
+      values = school.split(",");
+      School s = new School(rosters,teachers,values[0]);
+      schools.add(s);
+    }
+    return schools;
   }
-
-   */
 
   public void save(String filename, ArrayList<School> schools) {
     /*
     A standard file will look like this:
     {
-      property{
-        attribute
-        attribute
-        attribute
+      ClassType,attribute,attribute
       }
     }
      */
@@ -126,25 +130,5 @@ public class FileHandling {
       System.out.println("Couldn't write file. Maybe access is denied?");
       System.err.println(e);
     }
-  }
-
-  public String getDistrictName(){
-    return districtName;
-  }
-
-  public String getSchoolName() {
-    return schoolName;
-  }
-
-  public String getRostName() {
-    return rostName;
-  }
-
-  public int getRostSize() {
-    return rostSize;
-  }
-
-  public ArrayList<Student> getStudents() {
-    return students;
   }
 }
