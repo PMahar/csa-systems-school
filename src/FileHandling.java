@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class FileHandling {
           }
         }
       }
-    } catch (FileNotFoundException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
     String[] values;
@@ -102,13 +101,6 @@ public class FileHandling {
   }
 
   public void save(String filename, ArrayList<School> schools) {
-    /*
-    A standard file will look like this:
-    {
-      ClassType,attribute,attribute
-      }
-    }
-     */
     this.file = new File(".\\" + filename + ".sch");
     //Use our own extension so it doesn't mess with the user's defaults
     try(PrintWriter pw = new PrintWriter(this.file)) {
@@ -142,5 +134,22 @@ public class FileHandling {
       System.out.println("Couldn't write file. Maybe access is denied?");
       System.err.println(e);
     }
+  }
+
+  /**
+   * List all files in the current working directory of type .sch
+   * @return *.sch files
+   */
+  public ArrayList<String> dirContent() {
+    File dir = new File(".");
+    ArrayList<String> dirContent = new ArrayList<>();
+    File[] files = dir.listFiles();
+    for (int i = 0; i < files.length; i++) {
+      if(files[i].isFile()) {
+        if(files[i].toString().endsWith(".sch"))
+          dirContent.add(files[i].toString());
+      }
+    }
+    return dirContent;
   }
 }

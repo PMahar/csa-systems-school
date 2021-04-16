@@ -6,8 +6,7 @@ import java.util.ArrayList;
  * and their associated properties
  */
 public class UI {
-  private String district;
-  private static ArrayList<School> schools;
+  private District district = new District();
 
   /**
    * Entry point method, constructs all necessary objects on startup as well
@@ -19,23 +18,39 @@ public class UI {
     Scanner sct = new Scanner(System.in);
     Scanner scl = new Scanner(System.in);
     FileHandling write = new FileHandling();
-    schools = write.load("information");
-    //saveInfo();
+    ArrayList<String> dirContents = write.dirContent();
     // Initialize the program for first-time use
-    if (schools == null) {
+    if (dirContents.size() == 0) {
       run.setup();
+    } else {
+      System.out.println("Found " + dirContents.size() + " district files in application directory:");
+      for (int i = 0; i < dirContents.size(); i++) {
+        System.out.println("[" + (i + 1) + "] " + dirContents.get(i));
+      }
+      System.out.print("Choose file to load | Make new (n) | Quit (0): ");
+      String setupDialog = scl.nextLine();
+      if (setupDialog.toLowerCase().charAt(0) == 'n') {
+        run.setup();
+      } else if (setupDialog.toLowerCase().charAt(0) == '0') {
+        System.exit(0);
+      } else {
+        char setupChar = setupDialog.charAt(0);
+        write.load(dirContents.get(Character.getNumericValue(setupChar) - 1));
+      }
+
     }
-    for (int i = 0; i < schools.size(); i++) {
+
+    for (int i = 0; i < run.district.getSchools().size(); i++) {
       System.out.println("Schools:");
-      System.out.println("[" + (i + 1) + "] " + schools.get(i).getSchoolTitle() +
-              " - " + schools.get(i).getRosters().size() +
-              " attendance rosters with " + schools.get(i).totalStudents() +
-              " students and " + schools.get(i).getTeachers().size() +
-              " faculty members");
+      System.out.println("[" + (i + 1) + "] " + run.district.getSchools().get(i).getSchoolTitle() +
+          " - " + run.district.getSchools().get(i).getRosters().size() +
+          " attendance rosters with " + run.district.getSchools().get(i).totalStudents() +
+          " students and " + run.district.getSchools().get(i).getTeachers().size() +
+          " faculty members");
     }
     System.out.print("Select a school to modify (Add school - a | Quit - 0): ");
     String uiSelect = scl.nextLine();
-    switch(uiSelect.charAt(0)) {
+    switch (uiSelect.charAt(0)) {
       case '0':
         System.exit(0);
       case 'a':
@@ -48,16 +63,16 @@ public class UI {
         ArrayList<Roster> addRoster = new ArrayList<>();
         addRoster.add(new Roster(rosterTitle, rosterSize));
         ArrayList<Teacher> addTeacher = new ArrayList<>();
-        schools.add(new School(addRoster, addTeacher, schoolTitle));
+        run.district.getSchools().add(new School(addRoster, addTeacher, schoolTitle));
         main(args);
       default:
         int schoolSelect = Integer.parseInt(uiSelect);
-        int runtime = schools.get(schoolSelect - 1).editSchool();
-        while (runtime == 1) {
+        int edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
+        while (edit == 1) {
           //Check status and keep running until it returns 0 (save and exit)
-          runtime = schools.get(schoolSelect - 1).editSchool();
+          edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
         }
-        write.save(run.district, schools);
+        write.save(run.district.getDistrictTitle(), run.district.getSchools());
         System.out.println("saved");
         main(args);
     }
@@ -71,7 +86,7 @@ public class UI {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
     System.out.print("Initial setup - Enter district name: ");
-    this.district = scl.nextLine();
+    this.district = new District(scl.nextLine());
     System.out.print("                Enter initial school name: ");
     String initSchool = scl.nextLine();
     System.out.print("                Enter roster title: ");
@@ -83,8 +98,7 @@ public class UI {
     // given title and size
     initRosters.add(new Roster(rosterTitle, rSize));
     ArrayList<Teacher> initTeachers = new ArrayList<>();
-    schools = new ArrayList<>();
-    schools.add(new School(initRosters, initTeachers, initSchool));
-    //saveInfo();
+    ArrayList<School> distSchools = district.getSchools();
+    distSchools.add(new School(initRosters, initTeachers, initSchool));
   }
 }
