@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Rosters will contain an array of Student
@@ -8,7 +9,8 @@ import java.util.ArrayList;
  */
 public class Roster {
   private int RosterSize;
-  private String title;
+  private String rosterTitle;
+  private String rosterUUID;
   private ArrayList<Student> students = new ArrayList<>();
 
   /**
@@ -17,8 +19,13 @@ public class Roster {
    * @param RosterSize Integer representing student count
    */
   public Roster(String title, int RosterSize) {
-    this.title = title;
+    this.rosterTitle = title;
     this.RosterSize = RosterSize;
+    this.rosterUUID = UUID.randomUUID().toString();
+  }
+
+  public String getRosterUUID() {
+    return rosterUUID;
   }
 
   /**
@@ -55,8 +62,8 @@ public class Roster {
    * Accessor for title field
    * @return Title of roster
    */
-  public String getTitle(){
-    return title;
+  public String getRosterTitle(){
+    return rosterTitle;
   }
 
   /**
@@ -75,10 +82,11 @@ public class Roster {
     return RosterSize;
   }
 
+
   /**
    * Utility method for printing roster information to the console
    */
   public void printRoster() {
-    System.out.println(this.title + ": " + (RosterSize) + " students");
+    System.out.println(this.rosterTitle + ": " + (RosterSize) + " students");
   }
 }

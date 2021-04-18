@@ -13,7 +13,49 @@ import java.util.Scanner;
  * server/ network somewhere
  */
 public class FileHandling {
-  private File file = null;
+  private File file;
+  private District userDistrict;
+  private HashMap<School, ArrayList<Roster>> userSchools = new HashMap<>();
+  private HashMap<Roster, ArrayList<Student>> userRosters = new HashMap<>();
+  private HashMap<Teacher, ArrayList<Course>> userTeachers = new HashMap<>();
+  private HashMap<Student, ArrayList<Course>> userStudents = new HashMap<>();
+
+  /**
+   * Populate a hashmap of all user data in memory
+   * @param userDistrict Current user district
+   */
+  public void setUserData(District userDistrict) {
+    int schoolCount = userDistrict.getSchools().size();
+
+    this.userDistrict = userDistrict;
+    for (int sc = 0; sc < schoolCount; sc++) {
+      School currentSc = userDistrict.getSchools().get(sc);
+      ArrayList<Roster> rList = userDistrict.getSchools().get(sc).getRosters();
+      ArrayList<Teacher> tList = userDistrict.getSchools().get(sc).getTeachers();
+      userSchools.put(currentSc, rList);
+      int rosterCount = userDistrict.getSchools().get(sc).getRosters().size();
+      int teacherCount = userDistrict.getSchools().get(sc).getTeachers().size();
+
+      for (int r = 0; r < rosterCount; r++) {
+        Roster currentR = rList.get(r);
+        ArrayList<Student> sList = currentR.getStudents();
+        userRosters.put(currentR, sList);
+        int studentCount = sList.size();
+
+        for (int s = 0; s < studentCount; s++) {
+          Student currentS = sList.get(s);
+          ArrayList<Course> cList = currentS.getCourses();
+          userStudents.put(currentS, cList);
+        }
+      }
+
+      for (int t = 0; t < teacherCount; t++) {
+        Teacher currentT = tList.get(t);
+        ArrayList<Course> cList = currentT.getCourses();
+        userTeachers.put(currentT, cList);
+      }
+    }
+  }
 
   public ArrayList<School> load(String fileName){
     // Use a hashmap so we can have one big dump of info
@@ -100,36 +142,36 @@ public class FileHandling {
     return schools;
   }
 
-  public void save(String filename, ArrayList<School> schools) {
+  public void save(String filename, District userDistrict) {
+    this.userDistrict = userDistrict;
     this.file = new File(".\\" + filename + ".sch");
+    setUserData(userDistrict);
     //Use our own extension so it doesn't mess with the user's defaults
     try(PrintWriter pw = new PrintWriter(this.file)) {
-      pw.print("{\n" + //Header
-               " schools{\n");
-      //Open brackets
-      for (int s = 0; s < schools.size(); s++) { //Open schools
-        pw.println("  " + schools.get(s).getSchoolTitle() + "{");
-        //        schoolName{
-        for (int r = 0; r < schools.get(s).getRosters().size(); r++) { //Open rosters
-         pw.println("   " + schools.get(s).getRosters().get(r).getTitle() + "{");
-        //         rosterName{
-          for (int st = 0; st < schools.get(s).getRosters().get(r).getStudents().size(); st++) { //Open students
-            pw.println("    " + schools.get(s).getRosters().get(r).getStudents().get(st).getName() + "," +
-                    schools.get(s).getRosters().get(r).getStudents().get(st).getId());
-        //          studentName{
+      pw.println(userDistrict.getDistrictTitle() + "," + userDistrict.getDistrictUUID());
+      for (School scKey: userSchools.keySet()) {
+        pw.println(scKey.getSchoolTitle() + "," + scKey.getSchoolUUID());
+
+        for (Roster rKey : userRosters.keySet()) {
+          pw.println(rKey.getRosterTitle() + "," + rKey.getRosterUUID());
+
+          for (Student stKey : userStudents.keySet()) {
+            pw.println(stKey.getName() + "," + stKey.getId() + "," + stKey.getMemberUUID());
+
+            for (Course courses : stKey.getCourses()) {
+              pw.println(courses.getCourseName());
+            }
           }
-
-
-
-          //Close brackets (if they exist)
-          if (schools.get(s).getRosters().get(r).getStudents().size() != 0)
-          pw.println("   }"); //Close students
         }
-        if (schools.get(s).getRosters().size() != 0)
-        pw.println("  }"); //Close rosters
+        for (Teacher tKey: userTeachers.keySet()) {
+          pw.println(tKey.getName() + "," + tKey.getId() + "," + tKey.getMemberUUID());
+
+          for (Course courses : tKey.getCourses()) {
+            pw.println(courses.getCourseName());
+          }
+        }
+
       }
-      pw.println(" }"); //Close schools
-      pw.print("}"); //Footer
     } catch (IOException e) {
       System.out.println("Couldn't write file. Maybe access is denied?");
       System.err.println(e);

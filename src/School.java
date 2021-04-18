@@ -1,10 +1,13 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class School {
   private ArrayList<Roster> rosters;
   private ArrayList<Teacher> teachers;
   private String schoolTitle;
+  private String schoolUUID;
 
   /**
    * Constructor of 'school' object, which contains attendance rosters, teachers, and all
@@ -17,6 +20,7 @@ public class School {
     this.rosters = rosters;
     this.teachers = teachers;
     this.schoolTitle = schoolTitle;
+    this.schoolUUID = UUID.randomUUID().toString();
   }
 
   /**
@@ -91,7 +95,7 @@ public class School {
           rosters.get(i).printRoster();
         }
         int rostChoice = sct.nextInt(); // Roster to grade from
-        if (rosters.get(rostChoice - 1).getStudents() == null) {
+        if (rosters.get(rostChoice - 1).getStudents().size() == 0) {
           System.out.println("\nPlease add the contents of this roster " +
                   "under 'Edit student information.'");
           return 1;
@@ -113,7 +117,7 @@ public class School {
                   student.getCourses().get(k).getCourseName());
         }
         Course course = student.getCourses().get(sct.nextInt() - 1);
-        if(course == null){
+        if (course == null){
           System.out.println("Please add courses enrollments for the student");
         } else {
           System.out.println("Please enter grade for student:");
@@ -134,10 +138,10 @@ public class School {
         }
         ArrayList<Student> studentsCourse = rosters.get(rosterCourse - 1).getStudents();
         // If there are no students then ask for the user to add students
-        if (studentsCourse == null) {
+        if (studentsCourse.size() == 0) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
-          editSchool();
+          return 1;
         } else {
           // Print the students
           for (int i = 0; i < studentsCourse.size(); i++) {
@@ -148,16 +152,21 @@ public class School {
           System.out.println("Enter enrollments for " +
                   studentsCourse.get(studentChoice - 1).getName()
                   + ", " + studentsCourse.get(studentChoice - 1).getId());
-          System.out.print("Number of enrollments: ");
-          int courseCountStudent = sct.nextInt();
-          System.out.println("Press enter after each course to add it to " +
-                  "the enrollment list.");
-          // Add course
-          for (int i = 0; i < courseCountStudent; i++) {
-            String courseName = scl.nextLine();
-            studentsCourse.get(studentChoice - 1).courses.add(new Course(courseName));
+          try {
+            System.out.print("Number of enrollments: ");
+            int courseCountStudent = sct.nextInt();
+            System.out.println("Press enter after each course to add it to " +
+                "the enrollment list.");
+            // Add course
+            for (int i = 0; i < courseCountStudent; i++) {
+              String courseName = scl.nextLine();
+              studentsCourse.get(studentChoice - 1).courses.add(new Course(courseName));
+            }
+            studentsCourse.get(studentChoice - 1).listCourses();
+          } catch (InputMismatchException e) {
+            System.out.println("Please provide an integer count of enrolled courses"); //This was a common enough error
+            sct.next();                                                                // to try/catch it
           }
-          studentsCourse.get(studentChoice - 1).listCourses();
         }
         return 1;
       case "5":
@@ -183,7 +192,7 @@ public class School {
         for (int i = 0; i < courseCountTeacher; i++) {
           teachers.get(teacherChoice - 1).courses.add(new Course(scl.nextLine()));
         }
-        editSchool();
+        return 1;
       case "6":
         System.out.println("\nCurrent Rosters for " + schoolTitle + ": ");
         for (int i = 0; i < rosters.size(); i++) {
@@ -204,7 +213,7 @@ public class School {
         }
         int rosterView = sct.nextInt();
         ArrayList<Student> studentsView = rosters.get(rosterView - 1).getStudents();
-        if (studentsView == null) {
+        if (studentsView.size() == 0) {
           System.out.println("Please add the contents of this roster " +
                   "under 'Edit student information.'");
           return 1;
@@ -291,6 +300,10 @@ public class School {
    */
   public String getSchoolTitle() {
     return schoolTitle;
+  }
+
+  public String getSchoolUUID() {
+    return schoolUUID;
   }
 
   /**

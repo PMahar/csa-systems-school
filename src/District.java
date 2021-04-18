@@ -1,19 +1,22 @@
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class District {
   private String districtTitle;
   private ArrayList<School> schools = new ArrayList<>();
-
-  public District() {
-
-  }
+  private String districtUUID;
 
   public District(String districtTitle) {
     this.districtTitle = districtTitle;
+    this.districtUUID = UUID.randomUUID().toString();
   }
 
   public String getDistrictTitle() {
     return this.districtTitle;
+  }
+
+  public String getDistrictUUID() {
+    return this.districtUUID;
   }
 
   public ArrayList<School> getSchools() {

@@ -5,6 +5,8 @@ public interface SchoolMember {
 
   String name();
 
+  String memberUUID();
+
   ArrayList<Course> courses();
 
   String toString();

@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class MemberSuper implements SchoolMember{
   int id;
   String name;
+  String memberUUID;
 
   ArrayList<Course> courses = new ArrayList<>();
   HashMap<Course, MPGrade> mpGrades = new HashMap<>();
@@ -16,6 +18,11 @@ public class MemberSuper implements SchoolMember{
   @Override
   public String name() {
     return this.name;
+  }
+
+  @Override
+  public String memberUUID() {
+    return this.memberUUID();
   }
 
   @Override
@@ -40,6 +47,7 @@ public class MemberSuper implements SchoolMember{
   MemberSuper(String name, int id) {
     this.name = name;
     this.id = id;
+    this.memberUUID = UUID.randomUUID().toString();
   }
 
   /**
@@ -56,6 +64,14 @@ public class MemberSuper implements SchoolMember{
    */
   public String getName() {
     return name;
+  }
+
+  /**
+   * Accessor for a unique identifier for internal file handling
+   * @return Namespace UUID
+   */
+  public String getMemberUUID() {
+    return memberUUID;
   }
 
   /**

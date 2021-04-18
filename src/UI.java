@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * and their associated properties
  */
 public class UI {
-  private District district = new District();
+  private District district;
 
   /**
    * Entry point method, constructs all necessary objects on startup as well
@@ -27,7 +27,7 @@ public class UI {
       for (int i = 0; i < dirContents.size(); i++) {
         System.out.println("[" + (i + 1) + "] " + dirContents.get(i));
       }
-      System.out.print("Choose file to load | Make new (n) | Quit (0): ");
+      System.out.print("Choose file to load ([#]) | Make new (n) | Quit (0): ");
       String setupDialog = scl.nextLine();
       if (setupDialog.toLowerCase().charAt(0) == 'n') {
         run.setup();
@@ -35,6 +35,7 @@ public class UI {
         System.exit(0);
       } else {
         char setupChar = setupDialog.charAt(0);
+        System.out.println("load ");
         write.load(dirContents.get(Character.getNumericValue(setupChar) - 1));
       }
 
@@ -64,6 +65,7 @@ public class UI {
         addRoster.add(new Roster(rosterTitle, rosterSize));
         ArrayList<Teacher> addTeacher = new ArrayList<>();
         run.district.getSchools().add(new School(addRoster, addTeacher, schoolTitle));
+        write.save(run.district.getDistrictTitle(), run.district);
         main(args);
       default:
         int schoolSelect = Integer.parseInt(uiSelect);
@@ -71,9 +73,9 @@ public class UI {
         while (edit == 1) {
           //Check status and keep running until it returns 0 (save and exit)
           edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
-        }
-        write.save(run.district.getDistrictTitle(), run.district.getSchools());
-        System.out.println("saved");
+          write.save(run.district.getDistrictTitle(), run.district); //Auto-save so the user (or developer)
+        }                                                            //doesn't rage quit when there's an error
+        write.save(run.district.getDistrictTitle(), run.district);
         main(args);
     }
   }
@@ -98,7 +100,6 @@ public class UI {
     // given title and size
     initRosters.add(new Roster(rosterTitle, rSize));
     ArrayList<Teacher> initTeachers = new ArrayList<>();
-    ArrayList<School> distSchools = district.getSchools();
-    distSchools.add(new School(initRosters, initTeachers, initSchool));
+    district.getSchools().add(new School(initRosters, initTeachers, initSchool));
   }
 }
