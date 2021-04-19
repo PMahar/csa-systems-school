@@ -20,13 +20,132 @@ public class FileHandling {
   private HashMap<Teacher, ArrayList<Course>> userTeachers = new HashMap<>();
   private HashMap<Student, ArrayList<Course>> userStudents = new HashMap<>();
 
+  public void load(String fileName){
+    // "Find" the file
+    File data = new File(fileName);
+    // Try this and catch the exceptions
+    try(Scanner readLine = new Scanner(data)){
+      readLine.useDelimiter(",|\\r|\\n"); //Ignore commas, carriage returns, and newline tokens in a file1
+      // If the file exists...
+      if(data.exists()) {
+        // For every line in the file
+        for (int i = 0; i < data.length(); i++) {
+          // While we have a next line
+          String readData = "";
+          if (readLine.hasNext()) //Wrap all hasNexts in a check or suffer
+            readData = readLine.next();
+          if (!(readData.equals(""))) {
+            switch (readData) { //Read the first string before a "," in a line
+              case "district":
+                userDistrict = new District(readLine.next(), readLine.next()); //Get the next two, the name and the UUID
+                break;
+
+              case "school":
+                ArrayList<Roster> schoolRosters = new ArrayList<>();
+                String userSchoolTitle = readLine.next();
+                String userSchoolUUID = readLine.next();
+                if (readLine.hasNext()) {  String ignore = readLine.next();  } //Absorb the "" at the end of a line
+                while (readLine.hasNext() && readLine.next().equals("roster")) { //(but only if it exists first)
+                  Roster userRoster = new Roster(readLine.next(), Integer.parseInt(readLine.next()), readLine.next());
+                  schoolRosters.add(userRoster); //Populate an arraylist to use for the hashmap later
+                  ArrayList<Student> rosterStudents = new ArrayList<>();
+
+                  //while loops are used to load by hierarchy, so that empty parents (like a student without courses)
+                  //don't make the next student get constructed as a course
+                  if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                  while (readLine.hasNext() && readLine.next().equals("student")) {
+                    Student userStudent = new Student(readLine.next(), Integer.parseInt(readLine.next()),
+                        readLine.next());
+                    rosterStudents.add(userStudent);
+                    ArrayList<Course> studentCourses = new ArrayList<>();
+
+                    if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                    while (readLine.hasNext() && readLine.next().equals("course")) {
+                      studentCourses.add(new Course(readLine.next()));
+                    }
+                    userStudents.put(userStudent, studentCourses);
+                  }
+                  userRosters.put(userRoster, rosterStudents);
+                }
+
+                ArrayList<Teacher> schoolTeachers = new ArrayList<>();
+                if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                while (readLine.hasNext() && readLine.next().equals("teacher")) {
+                  Teacher schoolTeacher = new Teacher(readLine.next(), Integer.parseInt(readLine.next()),
+                      readLine.next());
+                  schoolTeachers.add(schoolTeacher);
+                  ArrayList<Course> teacherCourses = new ArrayList<>();
+
+                  if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                  while (readLine.hasNext() && readLine.next().equals("course")) {
+                    Course teacherCourse = new Course(readLine.next());
+                    teacherCourses.add(teacherCourse);
+                  }
+                  userTeachers.put(schoolTeacher, teacherCourses);
+                }
+                userSchools.put(new School(schoolRosters, schoolTeachers, userSchoolTitle, userSchoolUUID),
+                    schoolRosters);
+                break;
+
+              default:
+                System.out.println(fileName + ": Unknown type at line " + (i + 1));
+                break;
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void save(String districtTitle, District userDistrict) {
+    this.userDistrict = userDistrict;
+    ArrayList<String> dirContents = dirContent();
+    String filename = ".\\" + districtTitle + ".sch";
+    if (dirContents.contains(".\\" + districtTitle + ".sch")) {
+      filename += " - Copy.sch"; //Save as a copy if a file already exists
+    }
+    this.file = new File(filename);
+    setUserData(userDistrict);
+    //Use our own extension so it doesn't mess with the user's defaults
+    try(PrintWriter pw = new PrintWriter(this.file)) { //Avoid circular references by writing with hierarchy
+      pw.println("district," + userDistrict.getDistrictTitle() + "," + userDistrict.getDistrictUUID());
+      for (School scKey: userSchools.keySet()) {
+        pw.println("school," + scKey.getSchoolTitle() + "," + scKey.getSchoolUUID());
+
+        for (Roster rKey : userRosters.keySet()) {
+          pw.println("roster," + rKey.getRosterTitle() + "," + rKey.getRosterSize() + "," + rKey.getRosterUUID());
+
+          for (Student stKey : userStudents.keySet()) {
+            pw.println("student," + stKey.getName() + "," + stKey.getId() + "," + stKey.getMemberUUID());
+
+            for (Course courses : stKey.getCourses()) {
+              pw.println("course," + courses.getCourseName());
+            }
+          }
+        }
+        for (Teacher tKey: userTeachers.keySet()) {
+          pw.println("teacher," + tKey.getName() + "," + tKey.getId() + "," + tKey.getMemberUUID());
+
+          for (Course courses : tKey.getCourses()) {
+            pw.println("course," + courses.getCourseName());
+          }
+        }
+
+      }
+    } catch (IOException e) {
+      System.out.println("Couldn't write file. Maybe access is denied?");
+      System.err.println(e);
+    }
+  }
+
   /**
-   * Populate a hashmap of all user data in memory
+   * Populate a collection of all user data in memory
    * @param userDistrict Current user district
    */
   public void setUserData(District userDistrict) {
     int schoolCount = userDistrict.getSchools().size();
-
     this.userDistrict = userDistrict;
     for (int sc = 0; sc < schoolCount; sc++) {
       School currentSc = userDistrict.getSchools().get(sc);
@@ -57,125 +176,70 @@ public class FileHandling {
     }
   }
 
-  public ArrayList<School> load(String fileName){
-    // Use a hashmap so we can have one big dump of info
-    HashMap<String, ArrayList<String>> info = new HashMap<>();
-    // "Find" the file
-    File file = new File("src\\" +fileName + ".sch");
-    // Try this and catch the exceptions
-    try(Scanner in = new Scanner(file)){
-      // If the file exists...
-      if(file.exists()) {
-        // For every line in the file
-        for (int i = 0; i < file.length(); i++) {
-          // While we have a next line
-          if(in.hasNextLine()) {
-            // Save the line
-            String line = in.nextLine();
-            // Split up the line so we can get what kind of object we need to make
-            String[] lineSplit = line.split(",");
-            // Get the length of the object name
-            // So we can cut it out in the future
-            int len = lineSplit[0].length();
-            // Get the object name
-            String key = line.substring(0, len);
-            // Get everything after the key name
-            String value = line.substring(len + 1);
-            // If the HashMap doesn't have the object we have
-            if (!info.containsKey(key)) {
-              // Then add it to the HashMap
-              info.put(key, new ArrayList<String>());
-            }
-            // Then get the ArrayList and add the values we just got to it
-            info.get(key).add(value);
-          }
-        }
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    String[] values;
-    // Make an ArrayList where we can save
-    // Students to add to a roster
-    ArrayList<Student> students = new ArrayList<>();
-    // For every bit of student information we get
-    for(String stud : info.get("Student")) {
-      // Split up the String by commas
-      values = stud.split(",");
-      // Create a new Student using the values given
-      Student s = new Student(values[0],Integer.valueOf(values[1]));
-      // Add the Student to the ArrayList of Students
-      students.add(s);
-    }
-    // Repeat the process done above with students but instead with
-    // Rosters, Teachers, Schools, and possibly eventually district's
-    ArrayList<Roster> rosters = new ArrayList<>();
-    for(String rost : info.get("Roster")){
-      values = rost.split(",");
-      Roster r = new Roster(values[0],Integer.valueOf(values[1]));
-      // Compare the student id's to the id's that the roster has
-      // of students in said roster
-      for(Student s : students){
-        for(int i = 0; i < values.length; i ++){
-          // Make sure we are comparing by id's not size
-          if(i > 1){
-            if(Integer.valueOf(values[i]) == s.id){
-              r.addStudent(s);
-            }
-          }
-        }
-      }
-      rosters.add(r);
-    }
-    ArrayList<Teacher> teachers = new ArrayList<>();
-    for(String teach : info.get("Teacher")){
-      values = teach.split(",");
-      Teacher t = new Teacher(values[0],Integer.valueOf(values[1]));
-      teachers.add(t);
-    }
+  /**
+   * Accessor for all user data
+   * @return All district read from a file
+   */
+  public District getUserData() {
+
+    //Pull data from class collections
+    ArrayList<School> userDistrictSchools = new ArrayList<>();
     ArrayList<School> schools = new ArrayList<>();
-    for(String school : info.get("School")){
-      values = school.split(",");
-      School s = new School(rosters,teachers,values[0]);
-      schools.add(s);
+    ArrayList<Roster> schoolRosters = new ArrayList<>();
+    ArrayList<Student> schoolStudents = new ArrayList<>();
+    ArrayList<Teacher> schoolTeachers = new ArrayList<>();
+
+    for (School sc : userSchools.keySet())
+      userDistrictSchools.add(sc);
+    userDistrict.setSchools(userDistrictSchools);
+
+    for (School sc : userSchools.keySet()) {
+      schools.add(sc);
+
+      for (Roster r : userRosters.keySet()) {
+        r.setStudents(userRosters.get(r));
+        schoolRosters.add(r);
+
+        for (Student st : userStudents.keySet()) {
+          st.setCourses(userStudents.get(st));
+          schoolStudents.add(st);
+        }
+      }
+
+      schoolTeachers = new ArrayList<>();
+      for (Teacher t : userTeachers.keySet()) {
+        t.setCourses(userTeachers.get(t));
+        schoolTeachers.add(t);
+      }
     }
-    return schools;
+
+    //Store data to a returnable object
+    for (School sc : schools) {
+      sc.setRosters(schoolRosters);
+      sc.setTeachers(schoolTeachers);
+    }
+
+    userDistrict.setSchools(schools);
+
+    return new District(userDistrict.getDistrictTitle(), schools, userDistrict.getDistrictUUID());
+
+
   }
 
-  public void save(String filename, District userDistrict) {
-    this.userDistrict = userDistrict;
-    this.file = new File(".\\" + filename + ".sch");
-    setUserData(userDistrict);
-    //Use our own extension so it doesn't mess with the user's defaults
-    try(PrintWriter pw = new PrintWriter(this.file)) {
-      pw.println(userDistrict.getDistrictTitle() + "," + userDistrict.getDistrictUUID());
-      for (School scKey: userSchools.keySet()) {
-        pw.println(scKey.getSchoolTitle() + "," + scKey.getSchoolUUID());
+  public HashMap<School, ArrayList<Roster>> getUserSchools() {
+    return userSchools;
+  }
 
-        for (Roster rKey : userRosters.keySet()) {
-          pw.println(rKey.getRosterTitle() + "," + rKey.getRosterUUID());
+  public HashMap<Roster, ArrayList<Student>> getUserRosters() {
+    return userRosters;
+  }
 
-          for (Student stKey : userStudents.keySet()) {
-            pw.println(stKey.getName() + "," + stKey.getId() + "," + stKey.getMemberUUID());
+  public HashMap<Teacher, ArrayList<Course>> getUserTeachers() {
+    return userTeachers;
+  }
 
-            for (Course courses : stKey.getCourses()) {
-              pw.println(courses.getCourseName());
-            }
-          }
-        }
-        for (Teacher tKey: userTeachers.keySet()) {
-          pw.println(tKey.getName() + "," + tKey.getId() + "," + tKey.getMemberUUID());
-
-          for (Course courses : tKey.getCourses()) {
-            pw.println(courses.getCourseName());
-          }
-        }
-
-      }
-    } catch (IOException e) {
-      System.out.println("Couldn't write file. Maybe access is denied?");
-      System.err.println(e);
-    }
+  public HashMap<Student, ArrayList<Course>> getUserStudents() {
+    return userStudents;
   }
 
   /**

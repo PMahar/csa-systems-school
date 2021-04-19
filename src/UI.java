@@ -35,10 +35,10 @@ public class UI {
         System.exit(0);
       } else {
         char setupChar = setupDialog.charAt(0);
-        System.out.println("load ");
+        System.out.println("Loading " + dirContents.get(Character.getNumericValue(setupChar) - 1) + "...");
         write.load(dirContents.get(Character.getNumericValue(setupChar) - 1));
+        run.district = write.getUserData();
       }
-
     }
 
     for (int i = 0; i < run.district.getSchools().size(); i++) {
@@ -54,6 +54,7 @@ public class UI {
     switch (uiSelect.charAt(0)) {
       case '0':
         System.exit(0);
+
       case 'a':
         System.out.print("School title: ");
         String schoolTitle = scl.nextLine();
@@ -67,6 +68,7 @@ public class UI {
         run.district.getSchools().add(new School(addRoster, addTeacher, schoolTitle));
         write.save(run.district.getDistrictTitle(), run.district);
         main(args);
+
       default:
         int schoolSelect = Integer.parseInt(uiSelect);
         int edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
@@ -76,6 +78,7 @@ public class UI {
           write.save(run.district.getDistrictTitle(), run.district); //Auto-save so the user (or developer)
         }                                                            //doesn't rage quit when there's an error
         write.save(run.district.getDistrictTitle(), run.district);
+        System.out.println("Saved.");
         main(args);
     }
   }

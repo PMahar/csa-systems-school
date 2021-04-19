@@ -23,6 +23,13 @@ public class School {
     this.schoolUUID = UUID.randomUUID().toString();
   }
 
+  public School(ArrayList<Roster> rosters, ArrayList<Teacher> teachers, String schoolTitle, String schoolUUID) {
+    this.rosters = rosters;
+    this.teachers = teachers;
+    this.schoolTitle = schoolTitle;
+    this.schoolUUID = schoolUUID;
+  }
+
   /**
    * User interface for modifying 'school' objects within a district
    */
@@ -336,6 +343,22 @@ public class School {
         rosters.get(select - 1).addStudent(stud); // Add students to roster
       }
     }
+  }
+
+  public void setRosters(ArrayList<Roster> rosters) {
+    this.rosters = rosters;
+  }
+
+  public void setTeachers(ArrayList<Teacher> teachers) {
+    this.teachers = teachers;
+  }
+
+  public void setSchoolTitle(String schoolTitle) {
+    this.schoolTitle = schoolTitle;
+  }
+
+  public void setSchoolUUID(String schoolUUID) {
+    this.schoolUUID = schoolUUID;
   }
 
   /**

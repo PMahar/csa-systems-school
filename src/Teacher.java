@@ -13,4 +13,8 @@ public class Teacher extends MemberSuper {
   public Teacher(String name, int id) {
     super(name, id);
   }
+
+  public Teacher(String name, int id, String memberUUID) {
+    super(id, name, memberUUID);
+  }
 }

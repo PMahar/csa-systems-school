@@ -8,7 +8,7 @@ import java.util.UUID;
  * and a title
  */
 public class Roster {
-  private int RosterSize;
+  private int rosterSize;
   private String rosterTitle;
   private String rosterUUID;
   private ArrayList<Student> students = new ArrayList<>();
@@ -16,12 +16,18 @@ public class Roster {
   /**
    * Constructor of Roster object
    * @param title Title of Roster object (E.g. grade, 12th grade, seniors)
-   * @param RosterSize Integer representing student count
+   * @param rosterSize Integer representing student count
    */
-  public Roster(String title, int RosterSize) {
+  public Roster(String title, int rosterSize) {
     this.rosterTitle = title;
-    this.RosterSize = RosterSize;
+    this.rosterSize = rosterSize;
     this.rosterUUID = UUID.randomUUID().toString();
+  }
+
+  public Roster(String rosterTitle, int rosterSize, String rosterUUID) {
+    this.rosterTitle = rosterTitle;
+    this.rosterSize = rosterSize;
+    this.rosterUUID = rosterUUID;
   }
 
   public String getRosterUUID() {
@@ -79,7 +85,7 @@ public class Roster {
    * @return Numerical length of students array
    */
   public int getRosterSize() {
-    return RosterSize;
+    return rosterSize;
   }
 
 
@@ -87,6 +93,6 @@ public class Roster {
    * Utility method for printing roster information to the console
    */
   public void printRoster() {
-    System.out.println(this.rosterTitle + ": " + (RosterSize) + " students");
+    System.out.println(this.rosterTitle + ": " + (rosterSize) + " students");
   }
 }

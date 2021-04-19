@@ -44,10 +44,16 @@ public class MemberSuper implements SchoolMember{
     return courseConcat;
   }
 
-  MemberSuper(String name, int id) {
+  public MemberSuper(String name, int id) {
     this.name = name;
     this.id = id;
     this.memberUUID = UUID.randomUUID().toString();
+  }
+
+  public MemberSuper(int id, String name, String memberUUID) {
+    this.id = id;
+    this.name = name;
+    this.memberUUID = memberUUID;
   }
 
   /**
@@ -110,6 +116,10 @@ public class MemberSuper implements SchoolMember{
       System.out.println("You need to add marking period grades");
     }
     return null;
+  }
+
+  public void setCourses(ArrayList<Course> courses) {
+    this.courses = courses;
   }
 
   /**

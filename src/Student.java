@@ -19,6 +19,10 @@ public class Student extends MemberSuper {
     super(name, id);
   }
 
+  public Student( String name, int id, String memberUUID) {
+    super(id, name, memberUUID);
+  }
+
   /**
    * Gets the mpGrade object of a specified course from the student
    * @param course This is the course to get the marking period object of
