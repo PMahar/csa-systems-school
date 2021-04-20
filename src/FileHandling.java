@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.UUID;
 
 /**
  * This class deals with the main searching for, and
@@ -20,12 +21,18 @@ public class FileHandling {
   private HashMap<Teacher, ArrayList<Course>> userTeachers = new HashMap<>();
   private HashMap<Student, ArrayList<Course>> userStudents = new HashMap<>();
 
+  /**
+   * Reads the contents of a plain-text school data file, parses its contents, and copies over to memory
+   * @param fileName String value of file to load (".\\filename.sch")
+   */
   public void load(String fileName){
+    Roster lastRoster = new Roster("Backup", 1); //Store a previous roster in case
+    int lineNumber = 0;                                       //a student gets separated
     // "Find" the file
     File data = new File(fileName);
     // Try this and catch the exceptions
     try(Scanner readLine = new Scanner(data)){
-      readLine.useDelimiter(",|\\r|\\n"); //Ignore commas, carriage returns, and newline tokens in a file1
+      readLine.useDelimiter(",|\\r|\\n"); //Ignore commas, carriage returns, and newline tokens in a file
       // If the file exists...
       if(data.exists()) {
         // For every line in the file
@@ -38,28 +45,36 @@ public class FileHandling {
             switch (readData) { //Read the first string before a "," in a line
               case "district":
                 userDistrict = new District(readLine.next(), readLine.next()); //Get the next two, the name and the UUID
+                lineNumber ++;
                 break;
 
               case "school":
                 ArrayList<Roster> schoolRosters = new ArrayList<>();
                 String userSchoolTitle = readLine.next();
                 String userSchoolUUID = readLine.next();
-                if (readLine.hasNext()) {  String ignore = readLine.next();  } //Absorb the "" at the end of a line
+                if (readLine.hasNext()) { String ignore = readLine.next(); } //Absorb the "" at the end of a line
                 while (readLine.hasNext() && readLine.next().equals("roster")) { //(but only if it exists first)
                   Roster userRoster = new Roster(readLine.next(), Integer.parseInt(readLine.next()), readLine.next());
+                  lineNumber ++; //Done constructing, we've (hopefully) just finished a line
+                  lastRoster = userRoster;
                   schoolRosters.add(userRoster); //Populate an arraylist to use for the hashmap later
                   ArrayList<Student> rosterStudents = new ArrayList<>();
 
                   //while loops are used to load by hierarchy, so that empty parents (like a student without courses)
                   //don't make the next student get constructed as a course
-                  if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                  if (readLine.hasNext()) {
+                    String ignore = readLine.next();
+                  }
                   while (readLine.hasNext() && readLine.next().equals("student")) {
                     Student userStudent = new Student(readLine.next(), Integer.parseInt(readLine.next()),
                         readLine.next());
+                    lineNumber ++;
                     rosterStudents.add(userStudent);
                     ArrayList<Course> studentCourses = new ArrayList<>();
 
-                    if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                    if (readLine.hasNext()) {
+                      String ignore = readLine.next();
+                    }
                     while (readLine.hasNext() && readLine.next().equals("course")) {
                       studentCourses.add(new Course(readLine.next()));
                     }
@@ -69,16 +84,22 @@ public class FileHandling {
                 }
 
                 ArrayList<Teacher> schoolTeachers = new ArrayList<>();
-                if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                if (readLine.hasNext()) {
+                  String ignore = readLine.next();
+                }
                 while (readLine.hasNext() && readLine.next().equals("teacher")) {
                   Teacher schoolTeacher = new Teacher(readLine.next(), Integer.parseInt(readLine.next()),
                       readLine.next());
+                  lineNumber ++;
                   schoolTeachers.add(schoolTeacher);
                   ArrayList<Course> teacherCourses = new ArrayList<>();
 
-                  if (readLine.hasNext()) {  String ignore = readLine.next();  }
+                  if (readLine.hasNext()) {
+                    String ignore = readLine.next();
+                  }
                   while (readLine.hasNext() && readLine.next().equals("course")) {
                     Course teacherCourse = new Course(readLine.next());
+                    lineNumber ++;
                     teacherCourses.add(teacherCourse);
                   }
                   userTeachers.put(schoolTeacher, teacherCourses);
@@ -87,8 +108,17 @@ public class FileHandling {
                     schoolRosters);
                 break;
 
+              case "student":
+                System.out.println("Student got separated from roster. Adding anyway.");
+                ArrayList<Student> addBackup = userRosters.get(lastRoster);
+                addBackup.add(new Student(readLine.next(), Integer.parseInt(readLine.next()), readLine.next()));
+                userRosters.put(lastRoster, addBackup);
+                System.out.println("Added " + addBackup.get(addBackup.size() - 1).getName() + ", " +
+                    addBackup.get(addBackup.size() - 1).getMemberUUID());
+                //Let this fall through so the user can know what type got rejected anyway
+
               default:
-                System.out.println(fileName + ": Unknown type at line " + (i + 1));
+                System.out.println(fileName + ": Unknown type " + readData + " at line " + (lineNumber + 1));
                 break;
             }
           }
@@ -99,13 +129,14 @@ public class FileHandling {
     }
   }
 
-  public void save(String districtTitle, District userDistrict) {
+  /**
+   * Scans all data within a district, and systemically copies it to collections in memory with setUserData
+   * @param filename String title of the district
+   * @param userDistrict District object containing all data to write to file
+   */
+  public void save(String filename, District userDistrict) {
     this.userDistrict = userDistrict;
-    ArrayList<String> dirContents = dirContent();
-    String filename = ".\\" + districtTitle + ".sch";
-    if (dirContents.contains(".\\" + districtTitle + ".sch")) {
-      filename += " - Copy.sch"; //Save as a copy if a file already exists
-    }
+    filename += System.currentTimeMillis() +  ".sch";
     this.file = new File(filename);
     setUserData(userDistrict);
     //Use our own extension so it doesn't mess with the user's defaults
@@ -224,22 +255,6 @@ public class FileHandling {
     return new District(userDistrict.getDistrictTitle(), schools, userDistrict.getDistrictUUID());
 
 
-  }
-
-  public HashMap<School, ArrayList<Roster>> getUserSchools() {
-    return userSchools;
-  }
-
-  public HashMap<Roster, ArrayList<Student>> getUserRosters() {
-    return userRosters;
-  }
-
-  public HashMap<Teacher, ArrayList<Course>> getUserTeachers() {
-    return userTeachers;
-  }
-
-  public HashMap<Student, ArrayList<Course>> getUserStudents() {
-    return userStudents;
   }
 
   /**

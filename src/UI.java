@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -34,10 +35,16 @@ public class UI {
       } else if (setupDialog.toLowerCase().charAt(0) == '0') {
         System.exit(0);
       } else {
-        char setupChar = setupDialog.charAt(0);
-        System.out.println("Loading " + dirContents.get(Character.getNumericValue(setupChar) - 1) + "...");
-        write.load(dirContents.get(Character.getNumericValue(setupChar) - 1));
-        run.district = write.getUserData();
+        try {
+          System.out.println("Loading " + dirContents.get(Integer.parseInt(setupDialog) - 1) + "...");
+          write.load(dirContents.get(Integer.parseInt(setupDialog) - 1));
+          run.district = write.getUserData();
+        } catch (IndexOutOfBoundsException | InputMismatchException in) {
+          System.out.println("That's not a valid file number.");
+          System.err.println(in);
+          in.printStackTrace();
+          main(args);
+        }
       }
     }
 
@@ -70,16 +77,31 @@ public class UI {
         main(args);
 
       default:
-        int schoolSelect = Integer.parseInt(uiSelect);
-        int edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
-        while (edit == 1) {
-          //Check status and keep running until it returns 0 (save and exit)
-          edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
-          write.save(run.district.getDistrictTitle(), run.district); //Auto-save so the user (or developer)
-        }                                                            //doesn't rage quit when there's an error
-        write.save(run.district.getDistrictTitle(), run.district);
-        System.out.println("Saved.");
-        main(args);
+        try {
+          int schoolSelect = Integer.parseInt(uiSelect);
+          int edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
+          while (edit == 1) {
+            try {
+              //Check status and keep running until it returns 0 (save and exit)
+              edit = run.district.getSchools().get(schoolSelect - 1).editSchool();
+              write.save(".\\auto\\" + run.district.getDistrictTitle(), run.district); //Auto-save so the user (or developer)
+            } catch (InputMismatchException in) {                        //doesn't rage quit when there's an error
+              System.err.println(in);
+              in.printStackTrace();
+              System.out.println("Either that wasn't a number, the number was too big, or some other input error " +
+                  "occurred. Whoops.");
+              main(args);
+            }
+            write.save(".\\" + run.district.getDistrictTitle(), run.district);
+            System.out.println("Saved.");
+            main(args);
+          }
+        } catch (IndexOutOfBoundsException ind) {
+          System.err.println(ind);
+          ind.printStackTrace();
+          System.out.println("Wherever that number was supposed to go, it doesn't fit.");
+          main(args);
+        }
     }
   }
 
@@ -87,7 +109,7 @@ public class UI {
    * Prepares the program for first-time use, and is implemented
    * in the absence of existing data
    */
-  public void setup() {
+  public void setup () {
     Scanner scl = new Scanner(System.in); //line
     Scanner sct = new Scanner(System.in); //token
     System.out.print("Initial setup - Enter district name: ");
