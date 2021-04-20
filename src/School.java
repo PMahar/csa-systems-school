@@ -67,13 +67,8 @@ public class School {
         if (select == 0) { // Send the user back to the main prompt
           return 1; //Return 1 to go back
         }
-        ArrayList<Student> populateStudents = new ArrayList<>();
-        // for i < rosterSize increase i, execute code
-        for (int i = 0; i < (rosters.get(select - 1).getRosterSize()); i++) {
-          // Set index i of populateStudents to what the user gives in addStudent()
-          populateStudents.add(rosters.get(select - 1).addStudent());
-          rosters.get(select - 1).setStudents(populateStudents); // Add students to roster
-        }
+        Student addStudent = this.rosters.get(select - 1).addStudent();
+        this.rosters.get(select - 1).getStudents().add(addStudent);
         return 1;
       case "2":
         if (teachers != null) {
@@ -83,16 +78,9 @@ public class School {
                     + ": " + teachers.get(i).toString());
           }
         }
-        System.out.println("Teacher Name (Back - 0): ");
-        String teacherName = scl.next();
-        if (teacherName.equals("0")) {
-          return 1;
-        }
-        System.out.println("Teacher ID: ");
-        int teacherID = sct.nextInt();
-        teachers.add(new Teacher(teacherName, teacherID));
+        teachers.add(addTeacher());
+        System.out.println();
         return 1;
-
       case "3":
         // Edit/ add mpGrades
         System.out.println("\nChoose a roster to grade in:");
@@ -325,26 +313,6 @@ public class School {
     return studentCount;
   }
 
-  public void addStudent(Student stud){
-    Scanner scan = new Scanner(System.in);
-    System.out.println("Please choose roster to add " + stud.getName() + " to");
-    for (int i = 0; i < rosters.size(); i++) { // Print the roster
-      System.out.print((i + 1) + " - ");
-      rosters.get(i).printRoster();
-    }
-    int select = scan.nextInt(); // Populate a roster object with students
-    if (select == 0) { // Send the user back to the main prompt
-      editSchool();
-    }
-    // for i < rosterSize increase i, execute code
-    for (int i = 0; i < (rosters.get(select - 1).getRosterSize()); i++) {
-      // Set index i of populateStudents to what the user gives in addStudent()
-      if(!rosters.get(select - 1).getStudents().contains(stud)) {
-        rosters.get(select - 1).addStudent(stud); // Add students to roster
-      }
-    }
-  }
-
   public void setRosters(ArrayList<Roster> rosters) {
     this.rosters = rosters;
   }
@@ -353,32 +321,14 @@ public class School {
     this.teachers = teachers;
   }
 
-  public void setSchoolTitle(String schoolTitle) {
-    this.schoolTitle = schoolTitle;
+  public Teacher addTeacher() {
+    Scanner scl = new Scanner(System.in);
+    Scanner sct = new Scanner(System.in);
+    System.out.print("Teacher Name: ");
+    String teacherName = scl.nextLine();
+    System.out.print("Teacher ID: ");
+    int teacherID = sct.nextInt();
+    return new Teacher(teacherName, teacherID);
   }
 
-  public void setSchoolUUID(String schoolUUID) {
-    this.schoolUUID = schoolUUID;
-  }
-
-  /**
-   * Finds a student from a string of their name
-   * @param name The name of the student to search for
-   * @return The student looked for, if not found returns null
-   */
-
-  /*
-  public Student findStudent(String name){
-    for(int i = 0; i < rosters.size(); i++){
-      for(int x = 0; x < rosters.get(i).getStudents().size(); x++){
-        if(rosters.get(i).getStudents().get(x).getName().equalsIgnoreCase(name)){
-          return rosters.get(i).getStudents().get(x);
-        }
-      }
-    }
-    System.out.println("Student not found");
-    return null;
-  }
-
-   */
 }

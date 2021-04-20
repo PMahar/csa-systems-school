@@ -41,7 +41,7 @@ public class Roster {
   public Student addStudent() {
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
-    System.out.println("Student Name: ");
+    System.out.println("Add student - Student name: ");
     String name = scl.nextLine();
     System.out.println("Student Id:");
     int id = sct.nextInt();

@@ -38,8 +38,4 @@ public class District {
     this.schools = schools;
   }
 
-  public void addSchool(ArrayList<Roster> rosters, ArrayList<Teacher> teachers, String schoolTitle) {
-    this.schools.add(new School(rosters, teachers, schoolTitle));
-  }
-
 }
