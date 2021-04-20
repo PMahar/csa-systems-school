@@ -313,14 +313,26 @@ public class School {
     return studentCount;
   }
 
+  /**
+   * Mutator for rosters within a school
+   * @param rosters ArrayList of rosters to set
+   */
   public void setRosters(ArrayList<Roster> rosters) {
     this.rosters = rosters;
   }
 
+  /**
+   * Mutator for teachers within a school
+   * @param teachers
+   */
   public void setTeachers(ArrayList<Teacher> teachers) {
     this.teachers = teachers;
   }
 
+  /**
+   * Dialog to add a teacher to a school
+   * @return Teacher constructed from user input
+   */
   public Teacher addTeacher() {
     Scanner scl = new Scanner(System.in);
     Scanner sct = new Scanner(System.in);
@@ -330,5 +342,4 @@ public class School {
     int teacherID = sct.nextInt();
     return new Teacher(teacherName, teacherID);
   }
-
 }

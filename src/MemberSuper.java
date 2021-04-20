@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * MemberSuper is a superclass for Teacher and Student objects, which will extend it.
+ */
 public class MemberSuper implements SchoolMember{
   int id;
   String name;
@@ -10,26 +13,46 @@ public class MemberSuper implements SchoolMember{
   ArrayList<Course> courses = new ArrayList<>();
   HashMap<Course, MPGrade> mpGrades = new HashMap<>();
 
+  /**
+   * Integer ID of the member, supplied by the user
+   * @return Int ID
+   */
   @Override
   public int id() {
     return this.id();
   }
 
+  /**
+   * Name of the member as provided
+   * @return Name
+   */
   @Override
   public String name() {
     return this.name;
   }
 
+  /**
+   * Automatically-generated unique identifier of the member
+   * @return UUID
+   */
   @Override
   public String memberUUID() {
     return this.memberUUID();
   }
 
+  /**
+   * Provide all course objects supplied to the member
+   * @return Course collection
+   */
   @Override
   public ArrayList<Course> courses() {
     return this.courses;
   }
 
+  /**
+   * Concatenates current course objects to a string
+   * @return All course objects as a string
+   */
   @Override
   public String toString() {
     String courseConcat = "";
@@ -50,6 +73,12 @@ public class MemberSuper implements SchoolMember{
     this.memberUUID = UUID.randomUUID().toString();
   }
 
+  /**
+   * Overloaded constructor of a member object, which represents a person within the school system
+   * @param id User-supplied integer ID
+   * @param name Plain-text name
+   * @param memberUUID Automatically generated unique identifier, for the purpose of saving and loading files
+   */
   public MemberSuper(int id, String name, String memberUUID) {
     this.id = id;
     this.name = name;

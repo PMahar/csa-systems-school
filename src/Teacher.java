@@ -5,15 +5,16 @@
 public class Teacher extends MemberSuper {
 // teacher requires course objects
 
-  /**
-   * Constructor of teacher object
-   * @param name Name of teacher
-   * @param id Numerical ID of teacher
-   */
   public Teacher(String name, int id) {
     super(name, id);
   }
 
+  /**
+   * Overloaded constructor of a teacher object
+   * @param name Name of teacher
+   * @param id Numerical ID of teacher
+   * @param memberUUID Unique identifier of a teacher, if present in a file
+   */
   public Teacher(String name, int id, String memberUUID) {
     super(id, name, memberUUID);
   }

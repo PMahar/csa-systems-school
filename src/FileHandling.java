@@ -130,7 +130,8 @@ public class FileHandling {
   }
 
   /**
-   * Scans all data within a district, and systemically copies it to collections in memory with setUserData
+   * Scans all data within a district, and systematically copies it to collections in memory with setUserData. Files
+   * are in plain-text .sch format, and are timestamped in the filename. Autosaves are placed in the folder .\auto.
    * @param filename String title of the district
    * @param userDistrict District object containing all data to write to file
    */

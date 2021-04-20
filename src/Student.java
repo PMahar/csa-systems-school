@@ -10,15 +10,16 @@ public class Student extends MemberSuper {
 
   // Constructor to instantiate student object from psvm
 
-  /**
-   * Constructor of student object
-   * @param name Name of student
-   * @param id Numerical ID of student
-   */
   public Student(String name, int id) {
     super(name, id);
   }
 
+  /**
+   * Constructor of student object
+   * @param name Name of student
+   * @param id Numerical ID of student
+   * @param memberUUID Unique identifier of a student, if already present in a file
+   */
   public Student( String name, int id, String memberUUID) {
     super(id, name, memberUUID);
   }

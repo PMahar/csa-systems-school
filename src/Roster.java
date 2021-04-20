@@ -24,6 +24,12 @@ public class Roster {
     this.rosterUUID = UUID.randomUUID().toString();
   }
 
+  /**
+   * Overloaded constructor of a Roster object, which contains students
+   * @param rosterTitle String title of the roster (i.e. "12th grade")
+   * @param rosterSize Integer value of the size of the roster
+   * @param rosterUUID Unique identifier of roster object, if already present in a file
+   */
   public Roster(String rosterTitle, int rosterSize, String rosterUUID) {
     this.rosterTitle = rosterTitle;
     this.rosterSize = rosterSize;

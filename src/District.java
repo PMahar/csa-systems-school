@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * District objects act as a parent object to schools and maintain them in a collection
+ */
 public class District {
   private String districtTitle;
   private ArrayList<School> schools = new ArrayList<>();
@@ -16,6 +19,12 @@ public class District {
     this.districtUUID = districtUUID;
   }
 
+  /**
+   * Overloaded constructor of a District object
+   * @param districtTitle String title of the district
+   * @param schools ArrayList of existing schools
+   * @param districtUUID Unique identifier, if already present in a file
+   */
   public District(String districtTitle, ArrayList<School> schools, String districtUUID) {
     this.districtTitle = districtTitle;
     this.schools = schools;
